@@ -107,7 +107,7 @@ function App() {
           <Route
             path="/staff/new"
             element={
-              <ProtectedRoute allowedRoles={['OWNER']}>
+              <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
                 <AddStaffScreen />
               </ProtectedRoute>
             }
@@ -115,7 +115,7 @@ function App() {
           <Route
             path="/staff/edit/:id"
             element={
-              <ProtectedRoute allowedRoles={['OWNER']}>
+              <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
                 <EditStaffScreen />
               </ProtectedRoute>
             }
@@ -123,7 +123,7 @@ function App() {
           <Route
             path="/staff/report/:id"
             element={
-              <ProtectedRoute allowedRoles={['OWNER']}>
+              <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
                 <StaffReportScreen />
               </ProtectedRoute>
             }
@@ -137,9 +137,17 @@ function App() {
             }
           />
           <Route
+            path="/staff/schedule/:id"
+            element={
+              <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
+                <StaffScheduleScreen />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/staff-management"
             element={
-              <ProtectedRoute allowedRoles={['OWNER']}>
+              <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
                 <StaffManagementScreen />
               </ProtectedRoute>
             }

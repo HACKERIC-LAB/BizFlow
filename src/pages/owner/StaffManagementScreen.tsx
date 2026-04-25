@@ -31,7 +31,7 @@ const StaffManagementScreen = () => {
     <MainLayout>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl">Staff Management</h2>
+          <h2 className="text-2xl">Staff & Team Control</h2>
           <Button size="sm" leftIcon={<Plus size={18} />} onClick={() => navigate('/staff/new')}>
             Add Staff
           </Button>
