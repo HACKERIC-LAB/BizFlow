@@ -1,13 +1,15 @@
-import { Bell, User as UserIcon, LogOut } from 'lucide-react';
+import { Bell, User as UserIcon, LogOut, Users } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { useAuthStore } from '../../store/authStore';
 import { Menu as HeadlessMenu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 export const AppHeader = () => {
   const { user } = useAuth();
   const logout = useAuthStore(state => state.logout);
+  const navigate = useNavigate();
 
   return (
     <header className="sticky top-0 z-30 w-full bg-white border-b border-neutral-border h-16 flex items-center justify-between px-4">
@@ -55,6 +57,21 @@ export const AppHeader = () => {
                 </span>
               </div>
               <div className="py-1">
+                {user?.role === 'OWNER' && (
+                  <HeadlessMenu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => navigate('/staff-management')}
+                        className={`${
+                          active ? 'bg-neutral-background text-primary' : 'text-neutral-textMid'
+                        } flex w-full items-center px-4 py-2 text-sm transition-standard`}
+                      >
+                        <Users size={16} className="mr-3" />
+                        Team & Staff
+                      </button>
+                    )}
+                  </HeadlessMenu.Item>
+                )}
                 <HeadlessMenu.Item>
                   {({ active }) => (
                     <button
