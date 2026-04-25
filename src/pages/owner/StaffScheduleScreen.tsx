@@ -14,7 +14,6 @@ import {
 import toast from 'react-hot-toast';
 
 const StaffScheduleScreen = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
   const [isSaving, setIsSaving] = useState(false);
 
