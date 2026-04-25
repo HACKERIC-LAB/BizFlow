@@ -15,11 +15,20 @@ const StaffReportScreen = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // Mock staff list to get name from ID
+  const staffMembers: Record<string, string> = {
+    '1': 'Alice Wambui',
+    '2': 'David Maina',
+    '3': 'Sarah Atieno'
+  };
+
+  const staffName = id ? (staffMembers[id] || 'Team Member') : 'Team Member';
+
   // Mock staff report data
   const report = {
     id,
-    name: 'Alice Wambui',
-    role: 'MANAGER',
+    name: staffName,
+    role: id === '1' ? 'MANAGER' : 'STAFF',
     period: 'April 2024',
     stats: [
       { label: 'Revenue Generated', value: 'KSh 45,200', icon: DollarSign, color: 'primary' },

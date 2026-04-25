@@ -100,7 +100,7 @@ const StaffManagementScreen = () => {
                           {({ active }) => (
                             <button 
                               className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}
-                              onClick={() => toast('Schedule management coming soon')}
+                              onClick={() => navigate(`/staff/schedule/${member.id}`)}
                             >
                               Manage Schedule
                             </button>

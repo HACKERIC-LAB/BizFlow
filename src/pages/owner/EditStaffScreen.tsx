@@ -7,7 +7,6 @@ import { ChevronLeft, UserCircle, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const EditStaffScreen = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
   const [isSaving, setIsSaving] = useState(false);
 
