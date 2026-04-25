@@ -122,7 +122,7 @@ const OwnerDashboard = () => {
       {/* FAB */}
       <button 
         onClick={() => navigate('/transactions/new')}
-        className="absolute bottom-20 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-large flex items-center justify-center hover:bg-primary-dark hover:scale-110 active:scale-95 transition-standard z-40"
+        className="fixed md:absolute bottom-20 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-large flex items-center justify-center hover:bg-primary-dark hover:scale-110 active:scale-95 transition-standard z-40"
       >
         <Plus size={28} />
       </button>

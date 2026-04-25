@@ -147,7 +147,7 @@ const QueueManagementScreen = () => {
 
       {/* FAB */}
       <Button 
-        className="absolute bottom-20 right-6 w-14 h-14 rounded-full shadow-large z-40 flex items-center justify-center p-0"
+        className="fixed md:absolute bottom-20 right-6 w-14 h-14 rounded-full shadow-large z-40 flex items-center justify-center p-0"
         leftIcon={<Plus size={28} className="m-0" />}
         onClick={() => navigate('/transactions/new')}
       >
