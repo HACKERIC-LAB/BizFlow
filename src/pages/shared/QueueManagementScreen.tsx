@@ -88,10 +88,18 @@ const QueueManagementScreen = () => {
                 </div>
               </div>
               <div className="flex gap-3">
-                <Button variant="secondary" className="flex-1 bg-white text-primary border-none">
+                <Button 
+                  variant="secondary" 
+                  className="flex-1 bg-white text-primary border-none"
+                  onClick={() => toast.success('Service Completed!')}
+                >
                   Complete
                 </Button>
-                <Button variant="outline" className="flex-1 border-white/30 text-white hover:bg-white/10">
+                <Button 
+                  variant="outline" 
+                  className="flex-1 border-white/30 text-white hover:bg-white/10"
+                  onClick={() => toast('Service Skipped', { icon: '⏭️' })}
+                >
                   Skip
                 </Button>
               </div>

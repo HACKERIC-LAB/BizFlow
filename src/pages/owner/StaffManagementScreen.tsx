@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Menu as HeadlessMenu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import toast from 'react-hot-toast';
 
 const StaffManagementScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -87,14 +88,20 @@ const StaffManagementScreen = () => {
                       <div className="py-1">
                         <HeadlessMenu.Item>
                           {({ active }) => (
-                            <button className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}>
+                            <button 
+                              className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}
+                              onClick={() => toast('Profile editor coming soon')}
+                            >
                               Edit Profile
                             </button>
                           )}
                         </HeadlessMenu.Item>
                         <HeadlessMenu.Item>
                           {({ active }) => (
-                            <button className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}>
+                            <button 
+                              className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}
+                              onClick={() => toast('Schedule management coming soon')}
+                            >
                               Manage Schedule
                             </button>
                           )}
@@ -103,14 +110,20 @@ const StaffManagementScreen = () => {
                       <div className="py-1">
                         <HeadlessMenu.Item>
                           {({ active }) => (
-                            <button className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}>
+                            <button 
+                              className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}
+                              onClick={() => toast.success('Password reset link sent!')}
+                            >
                               <Lock size={14} className="mr-2" /> Reset Password
                             </button>
                           )}
                         </HeadlessMenu.Item>
                         <HeadlessMenu.Item>
                           {({ active }) => (
-                            <button className={`${active ? 'bg-accent-redLight text-accent-red' : 'text-accent-red'} flex w-full items-center px-4 py-2 text-sm transition-standard`}>
+                            <button 
+                              className={`${active ? 'bg-accent-redLight text-accent-red' : 'text-accent-red'} flex w-full items-center px-4 py-2 text-sm transition-standard`}
+                              onClick={() => toast.error('User deactivated')}
+                            >
                               <Trash2 size={14} className="mr-2" /> Deactivate
                             </button>
                           )}
