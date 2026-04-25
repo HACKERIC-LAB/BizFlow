@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Card } from '../../components/common/Card';
 import { Button } from '../../components/common/Button';
@@ -15,6 +16,7 @@ import { getSocket } from '../../utils/socket';
 import toast from 'react-hot-toast';
 
 const QueueManagementScreen = () => {
+  const navigate = useNavigate();
   const { queueEntries, nowServing, setQueue, setNowServing } = useQueueStore();
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
@@ -98,7 +100,14 @@ const QueueManagementScreen = () => {
             <Card className="border-dashed flex flex-col items-center justify-center py-10 bg-white/50">
               <RotateCcw size={32} className="text-neutral-border mb-3" />
               <p className="text-neutral-textLight font-medium">No one is being served</p>
-              <Button size="sm" className="mt-4" variant="outline">Call Next Customer</Button>
+              <Button 
+                size="sm" 
+                className="mt-4" 
+                variant="outline"
+                onClick={handleStartService}
+              >
+                Call Next Customer
+              </Button>
             </Card>
           )}
         </section>
@@ -140,6 +149,7 @@ const QueueManagementScreen = () => {
       <Button 
         className="fixed bottom-20 right-6 w-14 h-14 rounded-full shadow-large z-40 flex items-center justify-center p-0"
         leftIcon={<Plus size={28} className="m-0" />}
+        onClick={() => navigate('/transactions/new')}
       >
         {/* Walk-in Label would go here if not a circle */}
       </Button>

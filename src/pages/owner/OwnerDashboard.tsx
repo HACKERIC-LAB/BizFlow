@@ -44,7 +44,12 @@ const OwnerDashboard = () => {
             <h2 className="text-2xl">Good Morning!</h2>
             <p className="body-small text-neutral-textLight">Here's what's happening today.</p>
           </div>
-          <Button size="sm" leftIcon={<Zap size={16} />} variant="secondary">
+          <Button 
+            size="sm" 
+            leftIcon={<Zap size={16} />} 
+            variant="secondary"
+            onClick={() => navigate('/ai')}
+          >
             AI Insight
           </Button>
         </div>

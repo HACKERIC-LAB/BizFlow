@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Card } from '../../components/common/Card';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/common/Button';
 import { 
   Plus, 
@@ -9,6 +10,7 @@ import {
 import { format, addDays, startOfToday, isSameDay } from 'date-fns';
 
 const AppointmentCalendarScreen = () => {
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(startOfToday());
 
   const days = Array.from({ length: 7 }).map((_, i) => addDays(startOfToday(), i));
@@ -24,7 +26,13 @@ const AppointmentCalendarScreen = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl">Bookings</h2>
-          <Button size="sm" leftIcon={<Plus size={18} />}>New Booking</Button>
+          <Button 
+            size="sm" 
+            leftIcon={<Plus size={18} />}
+            onClick={() => navigate('/transactions/new')}
+          >
+            New Booking
+          </Button>
         </div>
 
         {/* Horizontal Calendar */}
