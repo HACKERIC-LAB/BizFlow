@@ -62,6 +62,24 @@ const OwnerDashboard = () => {
           <KPI label="Bookings" value="8" icon={Calendar} color="primary" />
         </div>
 
+        {/* Team Management Quick Access */}
+        <section>
+          <Card className="flex items-center justify-between p-4 bg-blue-light/30 border-blue/20">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-blue flex items-center justify-center text-white">
+                <Users size={20} />
+              </div>
+              <div>
+                <h4 className="font-bold text-neutral-darkNavy">Team & Staff</h4>
+                <p className="text-xs text-neutral-textLight">Manage roles, commission, and access</p>
+              </div>
+            </div>
+            <Button size="sm" onClick={() => navigate('/staff-management')}>
+              Manage
+            </Button>
+          </Card>
+        </section>
+
         {/* Live Queue Preview */}
         <section>
           <div className="flex items-center justify-between mb-3">
