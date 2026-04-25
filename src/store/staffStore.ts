@@ -3,12 +3,19 @@ import { persist } from 'zustand/middleware';
 
 export type StaffRole = 'MANAGER' | 'STAFF';
 
+export interface StaffSchedule {
+  day: string;
+  off: boolean;
+  shifts: { start: string; end: string }[];
+}
+
 export interface StaffMember {
   id: string;
   name: string;
   role: StaffRole;
   phone: string;
   status: 'Active' | 'Offline';
+  schedule?: StaffSchedule[];
 }
 
 interface StaffState {

@@ -1,25 +1,31 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useStaffStore } from '../../store/staffStore';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Card } from '../../components/common/Card';
 import { Button } from '../../components/common/Button';
 import { 
   ChevronLeft, 
   Save, 
-  Trash2,
-  Plus
+  Trash2, 
+  Plus 
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const StaffScheduleScreen = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const { staff, updateStaff } = useStaffStore();
   const [isSaving, setIsSaving] = useState(false);
 
-  // Mock schedule data
+  // Find the staff member
+  const member = staff.find(s => s.id === id);
+
+  // Mock schedule data if not exists
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   
   const [schedule, setSchedule] = useState(
-    days.map(day => ({
+    member?.schedule || days.map(day => ({
       day,
       off: day === 'Sunday',
       shifts: day === 'Sunday' ? [] : [{ start: '09:00', end: '18:00' }]
@@ -42,8 +48,20 @@ const StaffScheduleScreen = () => {
   };
 
   const handleSave = async () => {
+    if (!id) return;
     setIsSaving(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Determine if they are off today
+    const todayIndex = (new Date().getDay() + 6) % 7; // Monday=0, Sunday=6
+    const isOffToday = schedule[todayIndex].off;
+    
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    updateStaff(id, {
+      schedule,
+      status: isOffToday ? 'Offline' : 'Active'
+    });
+    
     toast.success('Schedule updated successfully!');
     setIsSaving(false);
     navigate(-1);
