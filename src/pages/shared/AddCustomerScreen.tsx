@@ -23,7 +23,7 @@ const AddCustomerScreen = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout hideBottomNav>
       <div className="space-y-6">
         <div className="flex items-center gap-4">
           <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-neutral-textMid">

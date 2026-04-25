@@ -4,9 +4,10 @@ import { BottomNavigation } from './BottomNavigation';
 
 interface MainLayoutProps {
   children: ReactNode;
+  hideBottomNav?: boolean;
 }
 
-export const MainLayout = ({ children }: MainLayoutProps) => {
+export const MainLayout = ({ children, hideBottomNav }: MainLayoutProps) => {
   return (
     <div className="min-h-screen bg-neutral-background md:bg-neutral-darkNavy flex justify-center items-center md:p-4 lg:p-8">
       {/* Phone Frame for Desktop */}
@@ -26,7 +27,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
           <main className="flex-1 overflow-y-auto pb-20 pt-4 px-4 w-full">
             {children}
           </main>
-          <BottomNavigation />
+          {!hideBottomNav && <BottomNavigation />}
         </div>
         
         {/* Home Indicator - Only on Desktop */}

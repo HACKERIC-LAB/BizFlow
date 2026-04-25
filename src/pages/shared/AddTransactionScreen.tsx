@@ -42,7 +42,7 @@ const AddTransactionScreen = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout hideBottomNav>
       <div className="space-y-6">
         <div className="flex items-center gap-4">
           <button onClick={() => window.history.back()} className="p-2 -ml-2 text-neutral-textMid">
