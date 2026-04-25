@@ -3,6 +3,7 @@ import { MainLayout } from '../../components/layout/MainLayout';
 import { Card } from '../../components/common/Card';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
+import { useNavigate } from 'react-router-dom';
 import { 
   Plus, 
   Search, 
@@ -19,6 +20,7 @@ import toast from 'react-hot-toast';
 
 const StaffManagementScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   const staff = [
     { id: '1', name: 'Alice Wambui', role: 'MANAGER', phone: '0712345678', commission: '20%', status: 'Active' },
@@ -31,7 +33,9 @@ const StaffManagementScreen = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl">Staff Management</h2>
-          <Button size="sm" leftIcon={<Plus size={18} />}>Add Staff</Button>
+          <Button size="sm" leftIcon={<Plus size={18} />} onClick={() => navigate('/staff/new')}>
+            Add Staff
+          </Button>
         </div>
 
         <div className="relative">
