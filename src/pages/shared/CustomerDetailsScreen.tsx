@@ -52,8 +52,22 @@ const CustomerDetailsScreen = () => {
           <p className="text-neutral-textLight text-sm mb-4">Customer since {customer.joinDate}</p>
           
           <div className="flex gap-2 w-full">
-            <Button className="flex-1" leftIcon={<MessageSquare size={18} />} variant="mpesa">WhatsApp</Button>
-            <Button className="flex-1" leftIcon={<Phone size={18} />} variant="outline">Call</Button>
+            <Button 
+              className="flex-1" 
+              leftIcon={<MessageSquare size={18} />} 
+              variant="mpesa"
+              onClick={() => window.open(`https://wa.me/${customer.phone.replace(/[^0-9]/g, '')}`, '_blank')}
+            >
+              WhatsApp
+            </Button>
+            <Button 
+              className="flex-1" 
+              leftIcon={<Phone size={18} />} 
+              variant="outline"
+              onClick={() => window.location.href = `tel:${customer.phone}`}
+            >
+              Call
+            </Button>
           </div>
         </div>
 
@@ -79,14 +93,20 @@ const CustomerDetailsScreen = () => {
         <section className="space-y-3">
           <h4 className="text-xs uppercase font-bold text-neutral-textLight tracking-wider">Contact Details</h4>
           <Card className="divide-y divide-neutral-border">
-            <div className="p-4 flex items-center gap-4">
+            <div 
+              className="p-4 flex items-center gap-4 cursor-pointer hover:bg-neutral-background transition-standard"
+              onClick={() => window.location.href = `tel:${customer.phone}`}
+            >
               <div className="text-primary"><Phone size={18} /></div>
               <div>
                 <p className="text-xs text-neutral-textLight">Phone Number</p>
                 <p className="text-sm font-bold text-neutral-darkNavy">{customer.phone}</p>
               </div>
             </div>
-            <div className="p-4 flex items-center gap-4">
+            <div 
+              className="p-4 flex items-center gap-4 cursor-pointer hover:bg-neutral-background transition-standard"
+              onClick={() => window.location.href = `mailto:${customer.email}`}
+            >
               <div className="text-primary"><Mail size={18} /></div>
               <div>
                 <p className="text-xs text-neutral-textLight">Email Address</p>

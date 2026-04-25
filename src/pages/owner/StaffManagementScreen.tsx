@@ -65,7 +65,10 @@ const StaffManagementScreen = () => {
                       </span>
                     </div>
                     <div className="flex items-center gap-3 mt-1">
-                      <p className="flex items-center text-xs text-neutral-textLight">
+                      <p 
+                        className="flex items-center text-xs text-neutral-textLight cursor-pointer hover:text-primary transition-standard"
+                        onClick={() => window.location.href = `tel:${member.phone}`}
+                      >
                         <Phone size={12} className="mr-1" /> {member.phone}
                       </p>
                     </div>
