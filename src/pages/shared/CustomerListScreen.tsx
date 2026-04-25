@@ -33,7 +33,7 @@ const CustomerListScreen = () => {
           <Button 
             size="sm" 
             leftIcon={<UserPlus size={18} />}
-            onClick={() => navigate('/transactions/new')}
+            onClick={() => navigate('/customers/new')}
           >
             New
           </Button>

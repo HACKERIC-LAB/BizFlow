@@ -16,6 +16,7 @@ const AppointmentCalendarScreen = lazy(() => import('./pages/shared/AppointmentC
 const AIAssistantScreen = lazy(() => import('./pages/shared/AIAssistantScreen.tsx'));
 const StaffManagementScreen = lazy(() => import('./pages/owner/StaffManagementScreen.tsx'));
 const AddTransactionScreen = lazy(() => import('./pages/shared/AddTransactionScreen.tsx'));
+const AddCustomerScreen = lazy(() => import('./pages/shared/AddCustomerScreen.tsx'));
 
 const Loading = () => (
   <div className="flex h-screen w-full items-center justify-center">
@@ -63,6 +64,14 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={['OWNER', 'MANAGER', 'STAFF', 'VIEWER']}>
                 <CustomerListScreen />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/customers/new"
+            element={
+              <ProtectedRoute allowedRoles={['OWNER', 'MANAGER', 'STAFF']}>
+                <AddCustomerScreen />
               </ProtectedRoute>
             }
           />

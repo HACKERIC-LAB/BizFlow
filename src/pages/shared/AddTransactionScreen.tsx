@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Card } from '../../components/common/Card';
 import { Button } from '../../components/common/Button';
@@ -15,6 +16,7 @@ import {
 import toast from 'react-hot-toast';
 
 const AddTransactionScreen = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState<'MPESA' | 'CASH' | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -63,7 +65,12 @@ const AddTransactionScreen = () => {
               placeholder="Search by name or phone..." 
               leftIcon={<Search size={18} />}
             />
-            <Button variant="outline" className="w-full border-dashed" leftIcon={<UserPlus size={18} />}>
+            <Button 
+              variant="outline" 
+              className="w-full border-dashed" 
+              leftIcon={<UserPlus size={18} />}
+              onClick={() => navigate('/customers/new')}
+            >
               Add New Customer
             </Button>
             <div className="space-y-2 mt-4">
