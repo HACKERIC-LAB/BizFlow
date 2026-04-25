@@ -105,6 +105,11 @@ const RegisterScreen = () => {
     }
   };
 
+  const onErrors = (errs: any) => {
+    console.error('Validation Errors:', errs);
+    toast.error('Please fix the errors in the form.');
+  };
+
   return (
     <div className="min-h-screen bg-neutral-background md:bg-neutral-darkNavy flex justify-center items-center md:p-4 lg:p-8">
       <div className="w-full h-screen md:h-auto md:max-w-[414px] md:aspect-[9/19.5] md:max-h-[896px] bg-white flex flex-col relative md:shadow-2xl md:rounded-[3rem] overflow-hidden md:border-[8px] md:border-neutral-darkNavy">
@@ -138,7 +143,7 @@ const RegisterScreen = () => {
         </div>
 
         <div className="flex-1">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit, onErrors)}>
             {step === 1 && (
               <div className="space-y-4">
                 <h2 className="mb-4">Business Information</h2>
@@ -238,6 +243,7 @@ const RegisterScreen = () => {
                           placeholder="Service Name"
                           {...register(`services.${index}.name` as const)}
                           className="bg-white"
+                          error={errors.services?.[index]?.name?.message}
                         />
                         <div className="flex gap-2">
                           <Input
@@ -246,6 +252,7 @@ const RegisterScreen = () => {
                             {...register(`services.${index}.price` as const, { valueAsNumber: true })}
                             className="bg-white"
                             prefix="KSh"
+                            error={errors.services?.[index]?.price?.message}
                           />
                           <Input
                             type="number"
@@ -253,6 +260,7 @@ const RegisterScreen = () => {
                             {...register(`services.${index}.duration` as const, { valueAsNumber: true })}
                             className="bg-white"
                             rightIcon={<span className="text-xs">min</span>}
+                            error={errors.services?.[index]?.duration?.message}
                           />
                         </div>
                       </div>

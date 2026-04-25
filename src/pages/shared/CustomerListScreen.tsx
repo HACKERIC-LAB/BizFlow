@@ -55,7 +55,12 @@ const CustomerListScreen = () => {
 
         <div className="space-y-3">
           {customers.map((customer) => (
-            <Card key={customer.id} hover className="flex items-center justify-between group">
+            <Card 
+              key={customer.id} 
+              hover 
+              className="flex items-center justify-between group cursor-pointer"
+              onClick={() => navigate(`/customers/${customer.id}`)}
+            >
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-neutral-background rounded-full flex items-center justify-center text-neutral-textMid font-bold text-lg">
                   {customer.name[0]}
