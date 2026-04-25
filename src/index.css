@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&family=IBM+Plex+Mono&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-neutral-background text-neutral-darkNavy font-sans antialiased;
+  }
+
+  h1 {
+    @apply text-2xl font-bold font-heading;
+  }
+
+  h2 {
+    @apply text-xl font-semibold font-heading;
+  }
+
+  h3 {
+    @apply text-lg font-semibold font-heading;
+  }
+
+  p {
+    @apply text-base font-normal;
+  }
+}
+
+@layer components {
+  .body-small {
+    @apply text-sm font-normal;
+  }
+
+  .label-text {
+    @apply text-sm font-medium;
+  }
+
+  .caption-text {
+    @apply text-xs font-normal;
+  }
+}
+
+/* Custom transitions and utility classes */
+.transition-standard {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.glass-morphism {
+  @apply bg-white/70 backdrop-blur-md border border-white/20;
+}
