@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Card } from '../../components/common/Card';
 import { Input } from '../../components/common/Input';
@@ -14,6 +15,7 @@ import {
 } from 'lucide-react';
 
 const CustomerListScreen = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
 
   const customers = [
@@ -28,7 +30,13 @@ const CustomerListScreen = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl">Customers</h2>
-          <Button size="sm" leftIcon={<UserPlus size={18} />}>New</Button>
+          <Button 
+            size="sm" 
+            leftIcon={<UserPlus size={18} />}
+            onClick={() => navigate('/transactions/new')}
+          >
+            New
+          </Button>
         </div>
 
         <div className="flex gap-2">

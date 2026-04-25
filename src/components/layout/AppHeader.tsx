@@ -3,6 +3,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useAuthStore } from '../../store/authStore';
 import { Menu as HeadlessMenu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import toast from 'react-hot-toast';
 
 export const AppHeader = () => {
   const { user } = useAuth();
@@ -24,7 +25,10 @@ export const AppHeader = () => {
       </div>
 
       <div className="flex items-center gap-2">
-        <button className="relative p-2 text-neutral-textMid hover:bg-neutral-background rounded-full transition-standard">
+        <button 
+          onClick={() => toast('No new notifications', { icon: '🔔' })}
+          className="relative p-2 text-neutral-textMid hover:bg-neutral-background rounded-full transition-standard"
+        >
           <Bell size={22} />
           <span className="absolute top-2 right-2 w-2 h-2 bg-accent-red rounded-full border-2 border-white" />
         </button>
