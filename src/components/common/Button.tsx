@@ -7,7 +7,7 @@ function cn(...inputs: ClassValue[]) {
 }
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'mpesa';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'mpesa' | 'link';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
   leftIcon?: ReactNode;
@@ -32,6 +32,7 @@ export const Button = ({
     ghost: 'text-neutral-textMid hover:bg-neutral-background',
     danger: 'bg-accent-red text-white hover:bg-accent-red/90 shadow-subtle',
     mpesa: 'bg-mpesa-green text-white hover:bg-mpesa-green/90 shadow-subtle',
+    link: 'text-primary hover:underline p-0 h-auto',
   };
 
   const sizes = {
