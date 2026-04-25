@@ -41,6 +41,7 @@ const LoginScreen = () => {
         role: mockRole,
         businessId: 'b1',
         businessName: 'My Business',
+        businessType: 'BARBERSHOP' as const,
       };
 
       login(mockUser, 'fake-jwt-token');

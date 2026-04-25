@@ -12,6 +12,9 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+import { useAuthStore } from '../../store/authStore';
+import { getBusinessContent } from '../../utils/businessUtils';
+
 const KPI = ({ label, value, icon: Icon, trend, color }: any) => (
   <Card className="flex flex-col justify-between h-32 relative overflow-hidden group">
     <div className="absolute -right-4 -top-4 w-16 h-16 bg-neutral-background rounded-full opacity-50 group-hover:scale-150 transition-standard" />
@@ -34,6 +37,8 @@ const KPI = ({ label, value, icon: Icon, trend, color }: any) => (
 
 const OwnerDashboard = () => {
   const navigate = useNavigate();
+  const user = useAuthStore(state => state.user);
+  const content = getBusinessContent(user?.businessType);
 
   return (
     <MainLayout>
@@ -57,7 +62,7 @@ const OwnerDashboard = () => {
         {/* KPIs */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <KPI label="Revenue" value="KSh 12,450" icon={TrendingUp} trend="+12%" color="primary" />
-          <KPI label="Served" value="24" icon={Users} trend="+5" color="blue" />
+          <KPI label={content.customersLabel} value="24" icon={Users} trend="+5" color="blue" />
           <KPI label="Queue" value="6" icon={UsersRound} color="gold" />
           <KPI label="Bookings" value="8" icon={Calendar} color="primary" />
         </div>
@@ -96,8 +101,8 @@ const OwnerDashboard = () => {
                     #{i}
                   </div>
                   <div>
-                    <p className="text-sm font-bold">Client Name {i}</p>
-                    <p className="text-[10px] text-neutral-textLight">Haircut • 15 mins left</p>
+                    <p className="text-sm font-bold">{content.customersLabel.slice(0, -1)} Name {i}</p>
+                    <p className="text-[10px] text-neutral-textLight">{content.defaultServices[0]} • 15 mins left</p>
                   </div>
                 </div>
                 <div className="text-right">

@@ -1,3 +1,5 @@
+import { BusinessType } from './business';
+
 export type UserRole = 'OWNER' | 'MANAGER' | 'STAFF' | 'VIEWER';
 
 export interface WorkingHour {
@@ -13,6 +15,7 @@ export interface User {
   role: UserRole;
   businessId: string;
   businessName: string;
+  businessType: BusinessType;
   commission?: number;
   workingHours?: WorkingHour[];
 }

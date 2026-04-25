@@ -7,6 +7,7 @@ import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 import type { BusinessType } from '../../types/business';
 import { Check, ChevronRight, ChevronLeft, Plus, Trash2 } from 'lucide-react';
+import { useAuthStore } from '../../store/authStore';
 import toast from 'react-hot-toast';
 
 const SERVICE_PREFILL: Record<BusinessType, { name: string; price: number; duration: number }[]> = {
@@ -95,7 +96,18 @@ const RegisterScreen = () => {
     try {
       // Simulate API call
       console.log('Registering...', data);
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const mockUser = {
+        id: '1',
+        phone: data.ownerPhone,
+        name: data.fullName,
+        role: 'OWNER' as const,
+        businessId: 'b1',
+        businessName: data.businessName,
+        businessType: data.businessType,
+      };
+
+      // @ts-ignore - for mock purposes
+      useAuthStore.getState().login(mockUser, 'fake-jwt-token');
       toast.success('Registration successful!');
       navigate('/dashboard');
     } catch (error) {

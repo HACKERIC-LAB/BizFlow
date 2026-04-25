@@ -10,10 +10,14 @@ import {
   Calendar,
   BarChart3
 } from 'lucide-react';
+import { useAuthStore } from '../../store/authStore';
+import { getBusinessContent } from '../../utils/businessUtils';
 
 const StaffReportScreen = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const user = useAuthStore(state => state.user);
+  const content = getBusinessContent(user?.businessType);
 
   // Mock staff list to get name from ID
   const staffMembers: Record<string, string> = {
@@ -32,7 +36,7 @@ const StaffReportScreen = () => {
     period: 'April 2024',
     stats: [
       { label: 'Revenue Generated', value: 'KSh 45,200', icon: DollarSign, color: 'primary' },
-      { label: 'Customers Served', value: '124', icon: Users, color: 'blue' },
+      { label: `${content.customersLabel} Served`, value: '124', icon: Users, color: 'blue' },
       { label: 'Avg. Service Time', value: '25 min', icon: Clock, color: 'gold' },
     ],
     dailyPerformance: [
@@ -96,15 +100,15 @@ const StaffReportScreen = () => {
           <h4 className="text-xs uppercase font-bold text-neutral-textLight tracking-wider">Top Services</h4>
           <Card className="divide-y divide-neutral-border">
             <div className="p-4 flex justify-between items-center">
-              <span className="text-sm font-medium">Haircut & Styling</span>
+              <span className="text-sm font-medium">{content.defaultServices[0]}</span>
               <span className="text-sm font-bold">52 times</span>
             </div>
             <div className="p-4 flex justify-between items-center">
-              <span className="text-sm font-medium">Beard Trim</span>
+              <span className="text-sm font-medium">{content.defaultServices[1]}</span>
               <span className="text-sm font-bold">38 times</span>
             </div>
             <div className="p-4 flex justify-between items-center">
-              <span className="text-sm font-medium">Head Massage</span>
+              <span className="text-sm font-medium">{content.defaultServices[2] || 'Other'}</span>
               <span className="text-sm font-bold">24 times</span>
             </div>
           </Card>

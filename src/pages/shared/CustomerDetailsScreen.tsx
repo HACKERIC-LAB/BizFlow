@@ -11,10 +11,14 @@ import {
   MessageSquare,
   TrendingUp
 } from 'lucide-react';
+import { useAuthStore } from '../../store/authStore';
+import { getBusinessContent } from '../../utils/businessUtils';
 
 const CustomerDetailsScreen = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const user = useAuthStore(state => state.user);
+  const content = getBusinessContent(user?.businessType);
 
   // Mock customer data - in a real app, you'd fetch this by ID
   const customer = {
@@ -27,9 +31,9 @@ const CustomerDetailsScreen = () => {
     points: 150,
     joinDate: 'Jan 15, 2024',
     recentTransactions: [
-      { id: 't1', date: '2024-04-10', service: 'Haircut', amount: 800, staff: 'Alice' },
-      { id: 't2', date: '2024-03-25', service: 'Full Grooming', amount: 2500, staff: 'Alice' },
-      { id: 't3', date: '2024-03-05', service: 'Haircut', amount: 800, staff: 'Alice' },
+      { id: 't1', date: '2024-04-10', service: content.defaultServices[0], amount: 800, staff: 'Alice' },
+      { id: 't2', date: '2024-03-25', service: content.defaultServices[1], amount: 2500, staff: 'Alice' },
+      { id: 't3', date: '2024-03-05', service: content.defaultServices[0], amount: 800, staff: 'Alice' },
     ]
   };
 

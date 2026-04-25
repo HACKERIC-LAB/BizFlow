@@ -16,12 +16,16 @@ import {
 import { Menu as HeadlessMenu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import toast from 'react-hot-toast';
+import { useAuthStore } from '../../store/authStore';
 import { useStaffStore } from '../../store/staffStore';
+import { getBusinessContent } from '../../utils/businessUtils';
 
 const StaffManagementScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const user = useAuthStore(state => state.user);
   const { staff } = useStaffStore();
+  const content = getBusinessContent(user?.businessType);
 
   const filteredStaff = staff.filter(member => 
     member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -32,15 +36,15 @@ const StaffManagementScreen = () => {
     <MainLayout>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl">Staff & Team Control</h2>
+          <h2 className="text-2xl">{content.staffLabel} & Team Control</h2>
           <Button size="sm" leftIcon={<Plus size={18} />} onClick={() => navigate('/staff/new')}>
-            Add Staff
+            Add {content.staffLabel.slice(0, -1)}
           </Button>
         </div>
 
         <div className="relative">
           <Input 
-            placeholder="Search staff by name or role..." 
+            placeholder={`Search ${content.staffLabel.toLowerCase()} by name or role...`} 
             leftIcon={<Search size={18} />}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
