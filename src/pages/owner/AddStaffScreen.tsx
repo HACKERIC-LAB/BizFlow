@@ -65,12 +65,6 @@ const AddStaffScreen = () => {
             </div>
 
             <Input 
-              label="Commission Percentage (%)" 
-              type="number"
-              placeholder="e.g. 15" 
-            />
-
-            <Input 
               label="Temporary Password" 
               type="password"
               placeholder="Set initial password" 

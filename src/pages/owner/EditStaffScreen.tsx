@@ -15,8 +15,7 @@ const EditStaffScreen = () => {
   const [formData, setFormData] = useState({
     name: 'Alice Wambui',
     phone: '0712345678',
-    role: 'MANAGER',
-    commission: '20'
+    role: 'MANAGER'
   });
 
   const handleSave = async (e: React.FormEvent) => {
@@ -79,13 +78,6 @@ const EditStaffScreen = () => {
                 <option value="MANAGER">Manager</option>
               </select>
             </div>
-
-            <Input 
-              label="Commission Percentage (%)" 
-              type="number"
-              value={formData.commission}
-              onChange={(e) => setFormData({...formData, commission: e.target.value})}
-            />
 
             <div className="pt-4">
               <Button 

@@ -26,7 +26,6 @@ const StaffReportScreen = () => {
       { label: 'Revenue Generated', value: 'KSh 45,200', icon: DollarSign, color: 'primary' },
       { label: 'Customers Served', value: '124', icon: Users, color: 'blue' },
       { label: 'Avg. Service Time', value: '25 min', icon: Clock, color: 'gold' },
-      { label: 'Commission Earned', value: 'KSh 9,040', icon: TrendingUp, color: 'mpesa-green' },
     ],
     dailyPerformance: [
       { day: 'Mon', revenue: 5200 },

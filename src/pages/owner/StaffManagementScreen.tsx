@@ -23,9 +23,9 @@ const StaffManagementScreen = () => {
   const navigate = useNavigate();
 
   const staff = [
-    { id: '1', name: 'Alice Wambui', role: 'MANAGER', phone: '0712345678', commission: '20%', status: 'Active' },
-    { id: '2', name: 'David Maina', role: 'STAFF', phone: '0722334455', commission: '15%', status: 'Active' },
-    { id: '3', name: 'Sarah Atieno', role: 'STAFF', phone: '0733445566', commission: '15%', status: 'Offline' },
+    { id: '1', name: 'Alice Wambui', role: 'MANAGER', phone: '0712345678', status: 'Active' },
+    { id: '2', name: 'David Maina', role: 'STAFF', phone: '0722334455', status: 'Active' },
+    { id: '3', name: 'Sarah Atieno', role: 'STAFF', phone: '0733445566', status: 'Offline' },
   ];
 
   return (
@@ -67,9 +67,6 @@ const StaffManagementScreen = () => {
                     <div className="flex items-center gap-3 mt-1">
                       <p className="flex items-center text-xs text-neutral-textLight">
                         <Phone size={12} className="mr-1" /> {member.phone}
-                      </p>
-                      <p className="flex items-center text-xs text-neutral-textLight">
-                        <ShieldCheck size={12} className="mr-1" /> {member.commission} Comm.
                       </p>
                     </div>
                   </div>
