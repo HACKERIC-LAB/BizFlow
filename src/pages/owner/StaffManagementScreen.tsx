@@ -15,17 +15,17 @@ import {
 } from 'lucide-react';
 import { Menu as HeadlessMenu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import toast from 'react-hot-toast';
+import { useStaffStore } from '../../store/staffStore';
 
 const StaffManagementScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const { staff } = useStaffStore();
 
-  const staff = [
-    { id: '1', name: 'Alice Wambui', role: 'MANAGER', phone: '0712345678', status: 'Active' },
-    { id: '2', name: 'David Maina', role: 'STAFF', phone: '0722334455', status: 'Active' },
-    { id: '3', name: 'Sarah Atieno', role: 'STAFF', phone: '0733445566', status: 'Offline' },
-  ];
+  const filteredStaff = staff.filter(member => 
+    member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    member.role.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <MainLayout>
@@ -47,7 +47,7 @@ const StaffManagementScreen = () => {
         </div>
 
         <div className="space-y-4">
-          {staff.map((member) => (
+          {filteredStaff.map((member) => (
             <Card key={member.id} className="relative group">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-4">

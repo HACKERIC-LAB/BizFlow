@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useStaffStore, StaffRole } from '../../store/staffStore';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
@@ -7,22 +8,33 @@ import { ChevronLeft, UserCircle, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const EditStaffScreen = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const { staff, updateStaff } = useStaffStore();
   const [isSaving, setIsSaving] = useState(false);
 
-  // Mock initial data
+  // Find the staff member
+  const member = staff.find(s => s.id === id);
+
+  // Form state
   const [formData, setFormData] = useState({
-    name: 'Alice Wambui',
-    phone: '0712345678',
-    role: 'MANAGER'
+    name: member?.name || '',
+    phone: member?.phone || '',
+    role: member?.role || 'STAFF' as StaffRole
   });
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSaving(true);
+    if (!id) return;
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    setIsSaving(true);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    updateStaff(id, {
+      name: formData.name,
+      phone: formData.phone,
+      role: formData.role as StaffRole
+    });
     
     toast.success('Staff profile updated!');
     setIsSaving(false);
