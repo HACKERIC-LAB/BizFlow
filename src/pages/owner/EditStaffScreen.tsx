@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useStaffStore, StaffRole } from '../../store/staffStore';
+import { useStaffStore } from '../../store/staffStore';
+import type { StaffRole } from '../../store/staffStore';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
@@ -82,7 +83,7 @@ const EditStaffScreen = () => {
               <select
                 className="w-full bg-white border border-neutral-border rounded-input px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-standard"
                 value={formData.role}
-                onChange={(e) => setFormData({...formData, role: e.target.value})}
+                onChange={(e) => setFormData({...formData, role: e.target.value as StaffRole})}
                 required
               >
                 <option value="STAFF">Standard Staff</option>

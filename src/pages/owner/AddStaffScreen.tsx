@@ -6,7 +6,8 @@ import { ChevronLeft, UserPlus, Save } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
-import { useStaffStore, StaffRole } from '../../store/staffStore';
+import { useStaffStore } from '../../store/staffStore';
+import type { StaffRole } from '../../store/staffStore';
 
 const AddStaffScreen = () => {
   const navigate = useNavigate();
