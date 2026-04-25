@@ -1,0 +1,335 @@
+// This is your Prisma schema file for BizFlow (MySQL)
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  OWNER
+  MANAGER
+  STAFF
+  VIEWER
+}
+
+enum BusinessType {
+  BARBERSHOP
+  SALON
+  GYM
+  SPA
+  OTHER
+}
+
+enum PaymentMethod {
+  MPESA
+  CASH
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum QueueStatus {
+  WAITING
+  SERVING
+  COMPLETED
+  SKIPPED
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model Business {
+  id        String       @id @default(cuid())
+  name      String       @db.VarChar(255)
+  type      BusinessType @default(BARBERSHOP)
+  phone     String       @db.VarChar(20)
+  email     String?      @db.VarChar(255)
+  address   String?      @db.VarChar(500)
+  logoUrl   String?      @db.VarChar(500)
+  mpesaTill String?      @db.VarChar(20)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  users            User[]
+  customers        Customer[]
+  services         Service[]
+  transactions     Transaction[]
+  queueEntries     QueueEntry[]
+  appointments     Appointment[]
+  aiInteractions   AIInteraction[]
+  auditLogs        AuditLog[]
+  whatsAppMessages WhatsAppMessage[]
+
+  @@index([id])
+}
+
+model User {
+  id           String    @id @default(cuid())
+  businessId   String
+  name         String    @db.VarChar(255)
+  phone        String    @db.VarChar(20)
+  email        String?   @db.VarChar(255)
+  passwordHash String    @db.VarChar(255)
+  role         UserRole  @default(STAFF)
+  isActive     Boolean   @default(true)
+  refreshToken String?   @db.Text
+  resetOtp     String?   @db.VarChar(10)
+  resetOtpExp  DateTime?
+  commission   Float     @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  business     Business        @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  schedules    StaffSchedule[]
+  transactions Transaction[]
+  appointments Appointment[]
+
+  @@unique([phone, businessId])
+  @@index([businessId])
+  @@index([phone])
+}
+
+model Customer {
+  id          String    @id @default(cuid())
+  businessId  String
+  name        String    @db.VarChar(255)
+  phone       String    @db.VarChar(20)
+  email       String?   @db.VarChar(255)
+  notes       String?   @db.Text
+  totalVisits Int       @default(0)
+  lastVisit   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  business     Business      @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+  queueEntries QueueEntry[]
+  appointments Appointment[]
+
+  @@unique([phone, businessId])
+  @@index([businessId])
+  @@index([phone])
+}
+
+model Service {
+  id         String   @id @default(cuid())
+  businessId String
+  name       String   @db.VarChar(255)
+  price      Float
+  duration   Int // minutes
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  business            Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  transactionServices TransactionService[]
+  appointmentServices AppointmentService[]
+  queueServices       QueueService[]
+
+  @@index([businessId])
+}
+
+model Transaction {
+  id            String            @id @default(cuid())
+  businessId    String
+  customerId    String?
+  staffId       String?
+  paymentMethod PaymentMethod
+  status        TransactionStatus @default(PENDING)
+  totalAmount   Float
+  mpesaRef      String?           @db.VarChar(50)
+  mpesaPhone    String?           @db.VarChar(20)
+  receiptNumber String            @unique @db.VarChar(50)
+  notes         String?           @db.Text
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  business      Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer      Customer?            @relation(fields: [customerId], references: [id])
+  staff         User?                @relation(fields: [staffId], references: [id])
+  services      TransactionService[]
+  mpesaCallback MpesaCallback?
+
+  @@index([businessId])
+  @@index([createdAt])
+  @@index([customerId])
+}
+
+model TransactionService {
+  id            String @id @default(cuid())
+  transactionId String
+  serviceId     String
+  price         Float
+
+  transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  service     Service     @relation(fields: [serviceId], references: [id])
+
+  @@index([transactionId])
+}
+
+model QueueEntry {
+  id            String      @id @default(cuid())
+  businessId    String
+  customerId    String?
+  customerName  String      @db.VarChar(255)
+  customerPhone String      @db.VarChar(20)
+  position      Int
+  status        QueueStatus @default(WAITING)
+  notes         String?     @db.Text
+  startedAt     DateTime?
+  completedAt   DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  business Business      @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer Customer?     @relation(fields: [customerId], references: [id])
+  services QueueService[]
+
+  @@index([businessId, status])
+  @@index([customerPhone])
+}
+
+model QueueService {
+  id           String @id @default(cuid())
+  queueEntryId String
+  serviceId    String
+
+  queueEntry QueueEntry @relation(fields: [queueEntryId], references: [id], onDelete: Cascade)
+  service    Service    @relation(fields: [serviceId], references: [id])
+
+  @@index([queueEntryId])
+}
+
+model Appointment {
+  id            String            @id @default(cuid())
+  businessId    String
+  customerId    String?
+  staffId       String?
+  customerName  String            @db.VarChar(255)
+  customerPhone String            @db.VarChar(20)
+  scheduledAt   DateTime
+  duration      Int // minutes
+  status        AppointmentStatus @default(SCHEDULED)
+  notes         String?           @db.Text
+  reminderSent  Boolean           @default(false)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  business Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer Customer?            @relation(fields: [customerId], references: [id])
+  staff    User?                @relation(fields: [staffId], references: [id])
+  services AppointmentService[]
+
+  @@index([businessId, scheduledAt])
+  @@index([staffId, scheduledAt])
+}
+
+model AppointmentService {
+  id            String @id @default(cuid())
+  appointmentId String
+  serviceId     String
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  service     Service     @relation(fields: [serviceId], references: [id])
+
+  @@index([appointmentId])
+}
+
+model MpesaCallback {
+  id                String   @id @default(cuid())
+  transactionId     String?  @unique
+  merchantRequestId String   @db.VarChar(100)
+  checkoutRequestId String   @db.VarChar(100)
+  resultCode        Int
+  resultDesc        String   @db.VarChar(255)
+  mpesaRef          String?  @db.VarChar(50)
+  amount            Float?
+  phoneNumber       String?  @db.VarChar(20)
+  rawPayload        Json
+  createdAt         DateTime @default(now())
+
+  transaction Transaction? @relation(fields: [transactionId], references: [id])
+
+  @@index([checkoutRequestId])
+  @@index([createdAt])
+}
+
+model AIInteraction {
+  id         String   @id @default(cuid())
+  businessId String
+  prompt     String   @db.Text
+  response   String   @db.Text
+  feedback   Int? // 1 = thumbs up, -1 = thumbs down
+  model      String   @default("gpt-3.5-turbo") @db.VarChar(50)
+  createdAt  DateTime @default(now())
+
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, createdAt])
+}
+
+model StaffSchedule {
+  id        String   @id @default(cuid())
+  userId    String
+  dayOfWeek Int // 0=Sun, 1=Mon, ..., 6=Sat
+  isOff     Boolean  @default(false)
+  startTime String?  @db.VarChar(5) // HH:MM
+  endTime   String?  @db.VarChar(5) // HH:MM
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, dayOfWeek])
+  @@index([userId])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  businessId String
+  userId     String?
+  action     String   @db.VarChar(100)
+  entity     String   @db.VarChar(50)
+  entityId   String?  @db.VarChar(50)
+  details    Json?
+  ipAddress  String?  @db.VarChar(45)
+  createdAt  DateTime @default(now())
+
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, createdAt])
+}
+
+model WhatsAppMessage {
+  id         String   @id @default(cuid())
+  businessId String
+  phone      String   @db.VarChar(20)
+  messageId  String?  @db.VarChar(100)
+  direction  String   @db.VarChar(10) // "in" | "out"
+  content    String   @db.Text
+  status     String?  @db.VarChar(20)
+  createdAt  DateTime @default(now())
+
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, createdAt])
+  @@index([phone])
+}
