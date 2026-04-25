@@ -45,7 +45,7 @@ export const BottomNavigation = () => {
   const items = ROLE_NAV[user.role] || [];
 
   return (
-    <nav className="fixed bottom-0 left-0 z-30 w-full bg-white border-t border-neutral-border h-16 flex items-center justify-around px-2 pb-safe shadow-[0_-1px_3px_rgba(0,0,0,0.05)]">
+    <nav className="absolute bottom-0 left-0 z-30 w-full bg-white border-t border-neutral-border h-16 flex items-center justify-around px-2 pb-safe shadow-[0_-1px_3px_rgba(0,0,0,0.05)]">
       {items.map((item) => (
         <NavLink
           key={item.path}
