@@ -6,7 +6,6 @@ import {
   ChevronLeft, 
   Phone, 
   Mail, 
-  Calendar, 
   History, 
   Star, 
   MessageSquare,
