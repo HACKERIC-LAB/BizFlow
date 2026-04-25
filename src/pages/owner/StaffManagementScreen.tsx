@@ -94,7 +94,7 @@ const StaffManagementScreen = () => {
                           {({ active }) => (
                             <button 
                               className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}
-                              onClick={() => toast('Profile editor coming soon')}
+                              onClick={() => navigate(`/staff/edit/${member.id}`)}
                             >
                               Edit Profile
                             </button>
@@ -144,7 +144,14 @@ const StaffManagementScreen = () => {
                   <span className="text-[10px] font-bold text-neutral-textLight uppercase tracking-widest">{member.status}</span>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline" className="h-8 text-xs">View Report</Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="h-8 text-xs"
+                    onClick={() => navigate(`/staff/report/${member.id}`)}
+                  >
+                    View Report
+                  </Button>
                 </div>
               </div>
             </Card>

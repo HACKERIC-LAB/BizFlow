@@ -16,6 +16,8 @@ const AppointmentCalendarScreen = lazy(() => import('./pages/shared/AppointmentC
 const AIAssistantScreen = lazy(() => import('./pages/shared/AIAssistantScreen.tsx'));
 const StaffManagementScreen = lazy(() => import('./pages/owner/StaffManagementScreen.tsx'));
 const AddStaffScreen = lazy(() => import('./pages/owner/AddStaffScreen.tsx'));
+const EditStaffScreen = lazy(() => import('./pages/owner/EditStaffScreen.tsx'));
+const StaffReportScreen = lazy(() => import('./pages/owner/StaffReportScreen.tsx'));
 const AddTransactionScreen = lazy(() => import('./pages/shared/AddTransactionScreen.tsx'));
 const AddCustomerScreen = lazy(() => import('./pages/shared/AddCustomerScreen.tsx'));
 const CustomerDetailsScreen = lazy(() => import('./pages/shared/CustomerDetailsScreen.tsx'));
@@ -106,6 +108,22 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={['OWNER']}>
                 <AddStaffScreen />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/staff/edit/:id"
+            element={
+              <ProtectedRoute allowedRoles={['OWNER']}>
+                <EditStaffScreen />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/staff/report/:id"
+            element={
+              <ProtectedRoute allowedRoles={['OWNER']}>
+                <StaffReportScreen />
               </ProtectedRoute>
             }
           />
