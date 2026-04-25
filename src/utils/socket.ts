@@ -6,10 +6,12 @@ const WS_URL = import.meta.env.VITE_WS_URL || 'wss://api.bizflow.co.ke';
 let socket: Socket | null = null;
 
 export const getSocket = () => {
+  // Disabled real socket connection for frontend-only demo
+  return null;
+
+  /*
   if (socket) return socket;
-
   const { accessToken, user } = useAuthStore.getState();
-
   if (!accessToken || !user?.businessId) return null;
 
   socket = io(`${WS_URL}/queue`, {
@@ -23,6 +25,7 @@ export const getSocket = () => {
   });
 
   return socket;
+  */
 };
 
 export const disconnectSocket = () => {
