@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Card } from '../../components/common/Card';
 import { Button } from '../../components/common/Button';
 import { 
   ChevronLeft, 
-  Clock, 
   Save, 
-  Calendar as CalendarIcon,
   Trash2,
   Plus
 } from 'lucide-react';
