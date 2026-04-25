@@ -4,7 +4,6 @@ import { Card } from '../../components/common/Card';
 import { Button } from '../../components/common/Button';
 import { 
   ChevronLeft, 
-  TrendingUp, 
   Users, 
   Clock, 
   DollarSign,

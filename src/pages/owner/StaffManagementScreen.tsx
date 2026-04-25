@@ -8,7 +8,6 @@ import {
   Plus, 
   Search, 
   MoreVertical, 
-  ShieldCheck, 
   UserCircle,
   Phone,
   Trash2,
