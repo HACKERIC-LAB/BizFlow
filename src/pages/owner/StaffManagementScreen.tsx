@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Menu as HeadlessMenu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import toast from 'react-hot-toast';
 import { useStaffStore } from '../../store/staffStore';
 
 const StaffManagementScreen = () => {
