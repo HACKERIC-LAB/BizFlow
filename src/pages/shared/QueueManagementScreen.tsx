@@ -30,8 +30,8 @@ const QueueManagementScreen = () => {
     // Socket listeners
     const socket = getSocket();
     if (socket) {
-      socket.on('queue-updated', (data) => setQueue(data));
-      socket.on('now-serving', (data) => {
+      socket.on('queue-updated', (data: any) => setQueue(data));
+      socket.on('now-serving', (data: any) => {
         setNowServing(data);
         toast(`Now Serving: ${data.customerName}`, { icon: '💇‍♂️' });
       });
