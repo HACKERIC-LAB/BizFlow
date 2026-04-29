@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Card } from '../../components/common/Card';
@@ -9,8 +9,11 @@ import {
   Clock, 
   DollarSign,
   Calendar,
-  BarChart3
+  BarChart3,
+  X,
+  Phone
 } from 'lucide-react';
+import { Dialog, Transition } from '@headlessui/react';
 import { useAuthStore } from '../../store/authStore';
 import { getBusinessContent } from '../../utils/businessUtils';
 import { staffApi } from '../../services/staffApi';
@@ -23,6 +26,7 @@ const StaffReportScreen = () => {
   const content = getBusinessContent(user?.businessType);
   const [report, setReport] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showClientsModal, setShowClientsModal] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -37,10 +41,10 @@ const StaffReportScreen = () => {
   if (!report) return <MainLayout>Report not found</MainLayout>;
 
   const stats = [
-    { label: 'Revenue Generated', value: `KSh ${report.revenue.toLocaleString()}`, icon: DollarSign, color: 'primary' },
-    { label: `${content.customersLabel} Served`, value: report.customerCount, icon: Users, color: 'blue' },
-    { label: 'Working Days', value: report.activeDaysCount, icon: Calendar, color: 'primary' },
-    { label: 'Off Days', value: report.offDaysCount, icon: Clock, color: 'gold' },
+    { id: 'revenue', label: 'Revenue Generated', value: `KSh ${report.revenue.toLocaleString()}`, icon: DollarSign, color: 'primary' },
+    { id: 'clients', label: `${content.customersLabel} Served`, value: report.customerCount, icon: Users, color: 'blue', clickable: true },
+    { id: 'working', label: 'Working Days', value: report.activeDaysCount, icon: Calendar, color: 'primary' },
+    { id: 'off', label: 'Off Days', value: report.offDaysCount, icon: Clock, color: 'gold' },
   ];
 
   return (
@@ -58,13 +62,20 @@ const StaffReportScreen = () => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-4">
-          {stats.map((stat, i) => (
-            <Card key={i} className="p-4 flex flex-col items-center justify-center text-center">
+          {stats.map((stat) => (
+            <Card 
+              key={stat.id} 
+              className={`p-4 flex flex-col items-center justify-center text-center transition-standard ${stat.clickable ? 'cursor-pointer hover:border-primary/40 hover:shadow-subtle' : ''}`}
+              onClick={stat.clickable ? () => setShowClientsModal(true) : undefined}
+            >
               <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-${stat.color}-light text-${stat.color}`}>
                 <stat.icon size={20} />
               </div>
               <p className="text-lg font-bold text-neutral-darkNavy">{stat.value}</p>
-              <p className="text-[10px] uppercase font-bold text-neutral-textLight tracking-wider">{stat.label}</p>
+              <p className="text-[10px] uppercase font-bold text-neutral-textLight tracking-wider">
+                {stat.label}
+                {stat.clickable && <span className="block text-[8px] text-primary lowercase font-normal">(View List)</span>}
+              </p>
             </Card>
           ))}
         </div>
@@ -105,6 +116,80 @@ const StaffReportScreen = () => {
           View Another Month
         </Button>
       </div>
+
+      {/* Clients Modal */}
+      <Transition appear show={showClientsModal} as={Fragment}>
+        <Dialog as="div" className="relative z-50" onClose={() => setShowClientsModal(false)}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 shadow-xl transition-all">
+                  <div className="flex items-center justify-between mb-6">
+                    <Dialog.Title as="h3" className="text-lg font-bold text-neutral-darkNavy">
+                      Served Clients
+                    </Dialog.Title>
+                    <button onClick={() => setShowClientsModal(false)} className="p-2 -mr-2 text-neutral-textLight">
+                      <X size={20} />
+                    </button>
+                  </div>
+
+                  <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2 no-scrollbar">
+                    {report.servedCustomers && report.servedCustomers.length > 0 ? (
+                      report.servedCustomers.map((client: any) => (
+                        <div key={client.id} className="flex items-center justify-between p-3 rounded-card bg-neutral-background border border-neutral-border">
+                          <div>
+                            <p className="font-bold text-neutral-darkNavy text-sm">{client.name}</p>
+                            <p className="text-xs text-neutral-textMid flex items-center gap-1 mt-0.5">
+                              <Phone size={10} /> {client.phone}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-[10px] text-neutral-textLight uppercase font-bold tracking-wider">Last Served</p>
+                            <p className="text-[10px] font-bold text-primary">
+                              {new Date(client.lastVisit).toLocaleDateString()}
+                            </p>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-10 text-neutral-textLight">
+                        <Users size={32} className="mx-auto mb-2 opacity-20" />
+                        <p className="text-sm italic">No clients served this month yet.</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="mt-8">
+                    <Button variant="outline" className="w-full" onClick={() => setShowClientsModal(false)}>
+                      Close
+                    </Button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
     </MainLayout>
   );
 };

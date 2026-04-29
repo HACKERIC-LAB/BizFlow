@@ -38,10 +38,56 @@ KISWAHILI: [reply in Kiswahili]`;
   return result;
 }
 
+async function getBusinessContext(businessId: string) {
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  const [monthTransactions, todayTransactions, customers, staff, appointments] = await Promise.all([
+    prisma.transaction.findMany({
+      where: { businessId, status: 'COMPLETED', createdAt: { gte: startOfMonth } },
+    }),
+    prisma.transaction.findMany({
+      where: { businessId, status: 'COMPLETED', createdAt: { gte: startOfToday } },
+    }),
+    prisma.customer.count({ where: { businessId } }),
+    prisma.user.findMany({ where: { businessId, role: { not: 'OWNER' } }, select: { name: true, role: true } }),
+    prisma.appointment.findMany({
+      where: { businessId, scheduledAt: { gte: startOfToday }, status: 'SCHEDULED' },
+      include: { staff: { select: { name: true } } }
+    })
+  ]);
+
+  const monthRevenue = monthTransactions.reduce((s, t) => s + t.totalAmount, 0);
+  const todayRevenue = todayTransactions.reduce((s, t) => s + t.totalAmount, 0);
+
+  return `
+BUSINESS CONTEXT FOR AI:
+- Current Month Revenue: KSh ${monthRevenue.toLocaleString()}
+- Total Transactions this month: ${monthTransactions.length}
+- Today's Revenue: KSh ${todayRevenue.toLocaleString()}
+- Total Registered Customers: ${customers}
+- Staff Members: ${staff.map(s => `${s.name} (${s.role})`).join(', ')}
+- Today's Upcoming Appointments: ${appointments.length}
+- Current Date: ${now.toDateString()}
+  `.trim();
+}
+
 export async function chat(businessId: string, userMessage: string): Promise<string> {
-  const prompt = `User message: "${userMessage}"
+  const context = await getBusinessContext(businessId);
   
-You are an AI assistant for a Kenyan small business. Provide a helpful, concise answer.`;
+  const prompt = `
+${context}
+
+User Question: "${userMessage}"
+
+You are BizFlow AI, the business brain for this company. 
+1. Use the data provided above to answer precisely.
+2. If the user asks for calculations (e.g. revenue per staff), perform them.
+3. If they ask about trends, compare today's data to the month.
+4. Use Markdown formatting (bold, tables, lists) to make data easy to read.
+5. Be bilingual (English & Kiswahili) as per your system prompt.
+`.trim();
 
   const response = await chatCompletion(SYSTEM_PROMPT, prompt);
 

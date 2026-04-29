@@ -113,17 +113,31 @@ export async function getStaffReport(businessId: string, staffId: string) {
 
   if (!user) throw new AppError('Staff member not found', 404);
 
-  // Get transactions for this staff member (Completed only)
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const monthName = now.toLocaleString('default', { month: 'long' });
+
+  // Get transactions for this staff member (Completed only) for this month
+  const startOfMonth = new Date(year, month, 1);
+  const endOfMonth = new Date(year, month + 1, 0, 23, 59, 59);
+
   const transactions = await prisma.transaction.findMany({
     where: { 
       staffId, 
       businessId,
-      status: 'COMPLETED'
+      status: 'COMPLETED',
+      createdAt: {
+        gte: startOfMonth,
+        lte: endOfMonth
+      }
     },
     include: {
       services: {
         include: { service: true }
-      }
+      },
+      customer: true
     },
     orderBy: { createdAt: 'desc' }
   });
@@ -131,20 +145,32 @@ export async function getStaffReport(businessId: string, staffId: string) {
   const revenue = transactions.reduce((sum, t) => sum + t.totalAmount, 0);
   const customerCount = new Set(transactions.filter(t => t.customerId).map(t => t.customerId)).size;
   
-  // Calculate Off Days vs Active Days (for last 30 days)
+  // Served Customers List
+  const servedCustomersMap = new Map();
+  transactions.forEach(t => {
+    if (t.customer && !servedCustomersMap.has(t.customer.id)) {
+      servedCustomersMap.set(t.customer.id, {
+        id: t.customer.id,
+        name: t.customer.name,
+        phone: t.customer.phone,
+        lastVisit: t.createdAt
+      });
+    }
+  });
+  const servedCustomers = Array.from(servedCustomersMap.values());
+
+  // Calculate Off Days vs Active Days (for CURRENT calendar month)
   let offDaysCount = 0;
-  let activeDaysCount = 0;
-  for (let i = 0; i < 30; i++) {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
+  for (let i = 1; i <= daysInMonth; i++) {
+    const d = new Date(year, month, i);
     const dayOfWeek = d.getDay();
     const sch = user.schedules.find(s => s.dayOfWeek === dayOfWeek);
     if (sch && sch.isOff) {
       offDaysCount++;
-    } else {
-      activeDaysCount++;
     }
   }
+  
+  const activeDaysCount = daysInMonth - offDaysCount;
 
   // Top Services
   const serviceCounts: Record<string, number> = {};
@@ -159,7 +185,7 @@ export async function getStaffReport(businessId: string, staffId: string) {
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);
 
-  // Daily Performance (Last 7 days)
+  // Daily Performance (Last 7 days of activity)
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const dailyPerformance = Array.from({ length: 7 }).map((_, i) => {
     const d = new Date();
@@ -174,13 +200,14 @@ export async function getStaffReport(businessId: string, staffId: string) {
 
   return {
     name: user.name,
-    period: 'Last 30 Days',
+    period: `${monthName} ${year}`,
     revenue,
     customerCount,
     offDaysCount,
     activeDaysCount,
     avgServiceTime: 45,
     topServices,
-    dailyPerformance
+    dailyPerformance,
+    servedCustomers
   };
 }
