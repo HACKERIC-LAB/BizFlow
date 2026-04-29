@@ -49,3 +49,10 @@ export async function updateSchedule(req: Request, res: Response, next: NextFunc
     res.json({ success: true, data });
   } catch (error) { next(error); }
 }
+
+export async function listStaffReport(req: Request, res: Response, next: NextFunction) {
+  try {
+    const data = await staffService.getStaffReport((req as any).businessId!, req.params.id);
+    res.json({ success: true, data });
+  } catch (error) { next(error); }
+}

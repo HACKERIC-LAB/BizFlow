@@ -67,114 +67,139 @@ const StaffManagementScreen = () => {
         </div>
 
         <div className="space-y-4">
-          {filteredStaff.map((member) => (
-            <Card key={member.id} variant="secondaryTeal" className="relative group">
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-white/20 rounded-card flex items-center justify-center text-white">
-                    <UserCircle size={28} />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h4 className="font-bold text-white">{member.name}</h4>
-                      <span className={`px-2 py-0.5 rounded-badge text-[10px] font-bold uppercase ${
-                        member.role === 'MANAGER' ? 'bg-primary text-white' : 'bg-white/10 text-white/80'
-                      }`}>
-                        {member.role}
-                      </span>
+          {filteredStaff.length > 0 ? (
+            filteredStaff.map((member) => (
+              <Card key={member.id} variant="default" className="relative group border-l-4 border-l-primary">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-primary/10 rounded-card flex items-center justify-center text-primary">
+                      <UserCircle size={28} />
                     </div>
-                    <div className="flex items-center gap-3 mt-1">
-                      <p 
-                        className="flex items-center text-xs text-white/70 cursor-pointer hover:text-white transition-standard"
-                        onClick={() => window.location.href = `tel:${member.phone}`}
-                      >
-                        <Phone size={12} className="mr-1" /> {member.phone}
-                      </p>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-bold text-neutral-darkNavy">{member.name}</h4>
+                        <span className={`px-2 py-0.5 rounded-badge text-[10px] font-bold uppercase ${
+                          member.role === 'MANAGER' ? 'bg-primary text-white' : 'bg-neutral-background text-neutral-textMid'
+                        }`}>
+                          {member.role}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3 mt-1">
+                        <p 
+                          className="flex items-center text-xs text-neutral-textMid cursor-pointer hover:text-primary transition-standard"
+                          onClick={() => window.location.href = `tel:${member.phone}`}
+                        >
+                          <Phone size={12} className="mr-1" /> {member.phone}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <HeadlessMenu as="div" className="relative">
-                  <HeadlessMenu.Button className="p-2 text-white/60 hover:bg-white/10 rounded-button transition-standard">
-                    <MoreVertical size={20} />
-                  </HeadlessMenu.Button>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <HeadlessMenu.Items className="absolute right-0 mt-2 w-48 origin-top-right divide-y divide-neutral-border rounded-card bg-white shadow-large ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
-                      <div className="py-1">
-                        <HeadlessMenu.Item>
-                          {({ active }) => (
-                            <button 
-                              className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}
-                              onClick={() => navigate(`/staff/edit/${member.id}`)}
-                            >
-                              Edit Profile
-                            </button>
-                          )}
-                        </HeadlessMenu.Item>
-                        <HeadlessMenu.Item>
-                          {({ active }) => (
-                            <button 
-                              className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}
-                              onClick={() => navigate(`/staff/schedule/${member.id}`)}
-                            >
-                              Manage Schedule
-                            </button>
-                          )}
-                        </HeadlessMenu.Item>
-                      </div>
-                      <div className="py-1">
-                        <HeadlessMenu.Item>
-                          {({ active }) => (
-                            <button 
-                              className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}
-                              onClick={() => toast.success('Password reset link sent!')}
-                            >
-                              <Lock size={14} className="mr-2" /> Reset Password
-                            </button>
-                          )}
-                        </HeadlessMenu.Item>
-                        <HeadlessMenu.Item>
-                          {({ active }) => (
-                            <button 
-                              className={`${active ? 'bg-accent-redLight text-accent-red' : 'text-accent-red'} flex w-full items-center px-4 py-2 text-sm transition-standard`}
-                              onClick={() => handleDelete(member.id)}
-                            >
-                              <Trash2 size={14} className="mr-2" /> Deactivate
-                            </button>
-                          )}
-                        </HeadlessMenu.Item>
-                      </div>
-                    </HeadlessMenu.Items>
-                  </Transition>
-                </HeadlessMenu>
-              </div>
-              
-              <div className="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
-                <div className="flex items-center gap-1">
-                  <div className={`w-2 h-2 rounded-full ${member.status === 'ACTIVE' ? 'bg-mpesa-green' : 'bg-white/20'}`} />
-                  <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest">{member.status}</span>
+                  <HeadlessMenu as="div" className="relative">
+                    <HeadlessMenu.Button className="p-2 text-neutral-textLight hover:bg-neutral-background rounded-button transition-standard">
+                      <MoreVertical size={20} />
+                    </HeadlessMenu.Button>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <HeadlessMenu.Items className="absolute right-0 mt-2 w-48 origin-top-right divide-y divide-neutral-border rounded-card bg-white shadow-large ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                        <div className="py-1">
+                          <HeadlessMenu.Item>
+                            {({ active }) => (
+                              <button 
+                                className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}
+                                onClick={() => navigate(`/staff/edit/${member.id}`)}
+                              >
+                                Edit Profile
+                              </button>
+                            )}
+                          </HeadlessMenu.Item>
+                          <HeadlessMenu.Item>
+                            {({ active }) => (
+                              <button 
+                                className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}
+                                onClick={() => navigate(`/staff/schedule/${member.id}`)}
+                              >
+                                Manage Schedule
+                              </button>
+                            )}
+                          </HeadlessMenu.Item>
+                        </div>
+                        <div className="py-1">
+                          <HeadlessMenu.Item>
+                            {({ active }) => (
+                              <button 
+                                className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}
+                                onClick={() => toast.success('Password reset link sent!')}
+                              >
+                                <Lock size={14} className="mr-2" /> Reset Password
+                              </button>
+                            )}
+                          </HeadlessMenu.Item>
+                          <HeadlessMenu.Item>
+                            {({ active }) => (
+                              <button 
+                                className={`${active ? 'bg-accent-redLight text-accent-red' : 'text-accent-red'} flex w-full items-center px-4 py-2 text-sm transition-standard`}
+                                onClick={() => handleDelete(member.id)}
+                              >
+                                <Trash2 size={14} className="mr-2" /> Deactivate
+                              </button>
+                            )}
+                          </HeadlessMenu.Item>
+                        </div>
+                      </HeadlessMenu.Items>
+                    </Transition>
+                  </HeadlessMenu>
                 </div>
-                <div className="flex gap-2">
-                  <Button 
-                    size="sm" 
-                    variant="outline" 
-                    className="h-8 text-xs border-white/20 text-white hover:bg-white/10"
-                    onClick={() => navigate(`/staff/report/${member.id}`)}
-                  >
-                    View Report
-                  </Button>
+                
+                <div className="mt-4 pt-4 border-t border-neutral-border flex justify-between items-center">
+                  <div className="flex items-center gap-1">
+                    <div className={`w-2 h-2 rounded-full ${member.isActive ? 'bg-mpesa-green' : 'bg-neutral-textLight'}`} />
+                    <span className="text-[10px] font-bold text-neutral-textMid uppercase tracking-widest">
+                      {member.isActive ? 'ACTIVE' : 'INACTIVE'}
+                    </span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="h-8 text-xs"
+                      onClick={() => navigate(`/staff/report/${member.id}`)}
+                    >
+                      View Report
+                    </Button>
+                  </div>
                 </div>
+              </Card>
+            ))
+          ) : (
+            <div className="text-center py-12 px-4">
+              <div className="w-20 h-20 bg-neutral-background rounded-full flex items-center justify-center text-neutral-textLight mx-auto mb-4">
+                <UserCircle size={40} />
               </div>
-            </Card>
-          ))}
+              <h3 className="text-lg font-bold text-neutral-darkNavy mb-2">No {content.staffLabel.toLowerCase()} found</h3>
+              <p className="text-sm text-neutral-textMid max-w-xs mx-auto">
+                {searchTerm 
+                  ? "We couldn't find any staff matching your search." 
+                  : `Start by adding your first ${content.staffLabel.toLowerCase().slice(0, -1)} to manage your team.`}
+              </p>
+              {!searchTerm && (
+                <Button 
+                  variant="primary" 
+                  className="mt-6"
+                  onClick={() => navigate('/staff/new')}
+                >
+                  Add Your First {content.staffLabel.slice(0, -1)}
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </MainLayout>

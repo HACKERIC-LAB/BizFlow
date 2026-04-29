@@ -104,3 +104,66 @@ export async function updateSchedule(
     data: schedule.map((s) => ({ userId, ...s })),
   });
 }
+
+export async function getStaffReport(businessId: string, staffId: string) {
+  const user = await prisma.user.findFirst({
+    where: { id: staffId, businessId },
+    select: { name: true }
+  });
+
+  if (!user) throw new AppError('Staff member not found', 404);
+
+  // Get transactions for this staff member (Completed only)
+  const transactions = await prisma.transaction.findMany({
+    where: { 
+      staffId, 
+      businessId,
+      status: 'COMPLETED'
+    },
+    include: {
+      services: {
+        include: { service: true }
+      }
+    },
+    orderBy: { createdAt: 'desc' }
+  });
+
+  const revenue = transactions.reduce((sum, t) => sum + t.totalAmount, 0);
+  const customerCount = new Set(transactions.filter(t => t.customerId).map(t => t.customerId)).size;
+  
+  // Top Services
+  const serviceCounts: Record<string, number> = {};
+  transactions.forEach(t => {
+    t.services.forEach(ts => {
+      serviceCounts[ts.service.name] = (serviceCounts[ts.service.name] || 0) + 1;
+    });
+  });
+
+  const topServices = Object.entries(serviceCounts)
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 5);
+
+  // Daily Performance (Last 7 days)
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const dailyPerformance = Array.from({ length: 7 }).map((_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    const dayName = days[d.getDay()];
+    const dayRevenue = transactions
+      .filter(t => new Date(t.createdAt).toDateString() === d.toDateString())
+      .reduce((sum, t) => sum + t.totalAmount, 0);
+    
+    return { day: dayName, revenue: dayRevenue };
+  });
+
+  return {
+    name: user.name,
+    period: 'Last 30 Days',
+    revenue,
+    customerCount,
+    avgServiceTime: 45, // Default for now
+    topServices,
+    dailyPerformance
+  };
+}

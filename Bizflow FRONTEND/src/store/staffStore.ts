@@ -14,7 +14,10 @@ export interface StaffMember {
   name: string;
   role: StaffRole;
   phone: string;
-  status: 'ACTIVE' | 'INACTIVE';
+  email?: string;
+  isActive: boolean;
+  commission: number;
+  status?: 'ACTIVE' | 'INACTIVE'; // Derived for UI
   schedule?: StaffSchedule[];
 }
 
@@ -32,7 +35,12 @@ export const useStaffStore = create<StaffState>((set) => ({
     set({ isLoading: true });
     try {
       const response = await staffApi.list();
-      set({ staff: response.data, isLoading: false });
+      // Map isActive to status for UI consistency
+      const mappedStaff = response.data.map((s: any) => ({
+        ...s,
+        status: s.isActive ? 'ACTIVE' : 'INACTIVE'
+      }));
+      set({ staff: mappedStaff, isLoading: false });
     } catch (error) {
       set({ isLoading: false });
       throw error;
@@ -41,7 +49,9 @@ export const useStaffStore = create<StaffState>((set) => ({
   deactivateStaff: async (id: string) => {
     await staffApi.deactivate(id);
     set((state) => ({
-      staff: state.staff.filter((s) => s.id !== id)
+      staff: state.staff.map((s) => 
+        s.id === id ? { ...s, isActive: false, status: 'INACTIVE' as const } : s
+      )
     }));
   }
 }));

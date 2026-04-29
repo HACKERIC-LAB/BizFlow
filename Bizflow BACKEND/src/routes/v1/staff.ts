@@ -11,5 +11,6 @@ router.put('/:id', checkRole(['OWNER', 'MANAGER']), ctrl.updateStaff);
 router.delete('/:id', checkRole(['OWNER']), ctrl.deactivateStaff);
 router.post('/:id/reset-password', checkRole(['OWNER', 'MANAGER']), ctrl.resetStaffPassword);
 router.put('/:id/schedule', checkRole(['OWNER', 'MANAGER']), ctrl.updateSchedule);
+router.get('/:id/report', checkRole(['OWNER', 'MANAGER']), ctrl.listStaffReport);
 
 export default router;
