@@ -9,7 +9,8 @@ export const getSocket = (): Socket | null => {
   if (!accessToken || !user?.businessId) return null;
 
   if (!socket) {
-    socket = io(import.meta.env.VITE_SOCKET_URL + '/queue', {
+    const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3000';
+    socket = io(SOCKET_URL + '/queue', {
       auth: { token: accessToken },
       query: { businessId: user.businessId }
     });
