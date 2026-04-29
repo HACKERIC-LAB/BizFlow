@@ -17,7 +17,7 @@ export interface StaffMember {
   email?: string;
   isActive: boolean;
   commission: number;
-  status?: 'ACTIVE' | 'INACTIVE'; // Derived for UI
+  status?: 'ACTIVE' | 'INACTIVE' | 'OFF DUTY'; // Derived for UI
   schedule?: StaffSchedule[];
 }
 
