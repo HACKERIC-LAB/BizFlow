@@ -160,9 +160,12 @@ const StaffManagementScreen = () => {
                 
                 <div className="mt-4 pt-4 border-t border-neutral-border flex justify-between items-center">
                   <div className="flex items-center gap-1">
-                    <div className={`w-2 h-2 rounded-full ${member.isActive ? 'bg-mpesa-green' : 'bg-neutral-textLight'}`} />
+                    <div className={`w-2 h-2 rounded-full ${
+                      member.status === 'ACTIVE' ? 'bg-mpesa-green' : 
+                      member.status === 'OFF DUTY' ? 'bg-amber-400' : 'bg-neutral-textLight'
+                    }`} />
                     <span className="text-[10px] font-bold text-neutral-textMid uppercase tracking-widest">
-                      {member.isActive ? 'ACTIVE' : 'INACTIVE'}
+                      {member.status}
                     </span>
                   </div>
                   <div className="flex gap-2">

@@ -35,11 +35,25 @@ export const useStaffStore = create<StaffState>((set) => ({
     set({ isLoading: true });
     try {
       const response = await staffApi.list();
-      // Map isActive to status for UI consistency
-      const mappedStaff = response.data.map((s: any) => ({
-        ...s,
-        status: s.isActive ? 'ACTIVE' : 'INACTIVE'
-      }));
+      const today = new Date().getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+
+      // Map isActive to a dynamic display status
+      const mappedStaff = response.data.map((s: any) => {
+        let displayStatus: 'ACTIVE' | 'INACTIVE' | 'OFF DUTY' = s.isActive ? 'ACTIVE' : 'INACTIVE';
+        
+        // If they are active, check if today is their day off
+        if (s.isActive && s.schedules) {
+          const todaySchedule = s.schedules.find((sch: any) => sch.dayOfWeek === today);
+          if (todaySchedule && todaySchedule.isOff) {
+            displayStatus = 'OFF DUTY';
+          }
+        }
+
+        return {
+          ...s,
+          status: displayStatus
+        };
+      });
       set({ staff: mappedStaff, isLoading: false });
     } catch (error) {
       set({ isLoading: false });
