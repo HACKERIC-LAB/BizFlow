@@ -1,30 +1,24 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Card } from '../../components/common/Card';
 import { Button } from '../../components/common/Button';
 import { 
-  Plus, 
   MessageCircle, 
   Play, 
-  RotateCcw,
-  Wifi,
-  WifiOff
+  RotateCcw
 } from 'lucide-react';
 import { useQueueStore } from '../../store/queueStore';
 import { getSocket } from '../../utils/socket';
 import toast from 'react-hot-toast';
 
 const QueueManagementScreen = () => {
-  const navigate = useNavigate();
   const { queueEntries, nowServing, fetchQueue, startServing, complete, skip, setQueue, isLoading } = useQueueStore();
-  const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
   useEffect(() => {
     fetchQueue().catch(() => toast.error('Failed to load queue'));
 
-    const handleOnline = () => setIsOffline(false);
-    const handleOffline = () => setIsOffline(true);
+    const handleOnline = () => {}; // Sync is seamless now
+    const handleOffline = () => {};
 
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
@@ -89,18 +83,13 @@ const QueueManagementScreen = () => {
           <h2 className="text-2xl flex items-center gap-2">
             Queue <span className="text-neutral-textLight text-sm font-normal">({queueEntries.length} waiting)</span>
           </h2>
-          <div className={`flex items-center gap-1.5 px-3 py-1 rounded-badge text-[10px] font-bold uppercase tracking-wider ${
-            isOffline ? 'bg-accent-redLight text-accent-red' : 'bg-mpesa-muted text-primary'
-          }`}>
-            {isOffline ? <><WifiOff size={12} /> Offline Mode</> : <><Wifi size={12} /> Live Sync</>}
-          </div>
         </div>
 
         {/* Now Serving */}
         <section>
           <h3 className="text-xs uppercase tracking-wider text-neutral-textLight font-bold mb-3">Currently Serving</h3>
           {nowServing ? (
-            <Card className="bg-primary text-white border-none shadow-large p-6">
+            <Card variant="primary" className="shadow-large p-6">
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <p className="text-primary-light text-xs uppercase font-bold tracking-widest mb-1">Serving Now</p>
@@ -184,13 +173,6 @@ const QueueManagementScreen = () => {
         <div className="h-10" />
       </div>
 
-      {/* FAB */}
-      <Button 
-        className="fixed md:absolute bottom-20 right-6 w-14 h-14 rounded-full shadow-large z-40 flex items-center justify-center p-0"
-        leftIcon={<Plus size={28} className="m-0" />}
-        onClick={() => navigate('/transactions/new')}
-      >
-      </Button>
     </MainLayout>
   );
 };

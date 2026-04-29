@@ -1,4 +1,4 @@
-import { BusinessType } from '../types/business';
+import type { BusinessType } from '../types/business';
 
 export interface BusinessContent {
   serviceLabel: string;

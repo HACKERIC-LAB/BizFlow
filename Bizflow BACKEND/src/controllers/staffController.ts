@@ -39,7 +39,7 @@ export async function deactivateStaff(req: Request, res: Response, next: NextFun
 export async function resetStaffPassword(req: Request, res: Response, next: NextFunction) {
   try {
     const data = await staffService.resetStaffPassword((req as any).businessId!, req.params.id);
-    res.json({ success: true, ...data });
+    res.json({ success: true, data });
   } catch (error) { next(error); }
 }
 

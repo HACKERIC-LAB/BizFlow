@@ -13,6 +13,8 @@ import {
   ChevronRight,
   Filter
 } from 'lucide-react';
+import { Menu as HeadlessMenu, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 import { customerApi } from '../../services/customerApi';
 import toast from 'react-hot-toast';
 
@@ -24,7 +26,7 @@ const CustomerListScreen = () => {
 
   useEffect(() => {
     customerApi.list()
-      .then(res => setCustomers(res.data))
+      .then(res => setCustomers(res.data.customers || []))
       .catch(() => toast.error('Failed to load customers'))
       .finally(() => setIsLoading(false));
   }, []);
@@ -57,9 +59,48 @@ const CustomerListScreen = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <Button variant="outline" className="px-3">
-            <Filter size={18} />
-          </Button>
+          
+          <HeadlessMenu as="div" className="relative">
+            <HeadlessMenu.Button className="h-14 px-4 bg-white border border-neutral-border/50 rounded-2xl flex items-center justify-center text-slate-400 hover:text-primary transition-standard shadow-subtle">
+              <Filter size={18} />
+            </HeadlessMenu.Button>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <HeadlessMenu.Items className="absolute right-0 mt-2 w-48 origin-top-right divide-y divide-neutral-border rounded-2xl bg-white shadow-large ring-1 ring-black ring-opacity-5 focus:outline-none z-10 p-1">
+                <div className="px-3 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sort By</div>
+                <div className="py-1">
+                  <HeadlessMenu.Item>
+                    {({ active }) => (
+                      <button className={`${active ? 'bg-primary/10 text-primary' : 'text-slate-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
+                        Most Recent
+                      </button>
+                    )}
+                  </HeadlessMenu.Item>
+                  <HeadlessMenu.Item>
+                    {({ active }) => (
+                      <button className={`${active ? 'bg-primary/10 text-primary' : 'text-slate-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
+                        Most Visits
+                      </button>
+                    )}
+                  </HeadlessMenu.Item>
+                  <HeadlessMenu.Item>
+                    {({ active }) => (
+                      <button className={`${active ? 'bg-primary/10 text-primary' : 'text-slate-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
+                        Top Spenders
+                      </button>
+                    )}
+                  </HeadlessMenu.Item>
+                </div>
+              </HeadlessMenu.Items>
+            </Transition>
+          </HeadlessMenu>
         </div>
 
         <div className="space-y-3">

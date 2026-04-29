@@ -7,7 +7,7 @@ import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 import { useAuthStore } from '../../store/authStore';
 import toast from 'react-hot-toast';
-import { LogIn } from 'lucide-react';
+import { LogIn, ArrowUpRight } from 'lucide-react';
 import { authApi } from '../../services/authApi';
 
 const schema = z.object({
@@ -50,65 +50,84 @@ const LoginScreen = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-background md:bg-neutral-darkNavy flex justify-center items-center md:p-4 lg:p-8">
-      <div className="w-full h-screen md:h-auto md:max-w-[414px] md:aspect-[9/19.5] md:max-h-[896px] bg-white flex flex-col relative md:shadow-2xl md:rounded-[3rem] overflow-hidden md:border-[8px] md:border-neutral-darkNavy">
-        {/* Mock Status Bar - Only on Desktop */}
-        <div className="hidden md:flex h-10 bg-white items-center justify-between px-8 pt-4 pb-2 text-[12px] font-bold z-50">
-          <span>9:41</span>
-          <div className="flex items-center gap-1.5">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12.55a11 11 0 0 1 14.08 0" /><path d="M1.42 9a16 16 0 0 1 21.16 0" /><path d="M8.53 16.11a6 6 0 0 1 6.95 0" /><line x1="12" y1="20" x2="12.01" y2="20" /></svg>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><rect x="2" y="7" width="16" height="10" rx="2" ry="2" /><line x1="22" y1="11" x2="22" y2="13" /></svg>
+    <div className="min-h-screen bg-slate-900 flex justify-center items-center md:p-8 relative overflow-hidden">
+      {/* Background Blobs */}
+      <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary/20 rounded-full blur-[120px] animate-pulse" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-500/10 rounded-full blur-[120px] animate-pulse delay-700" />
+
+      {/* Main Container */}
+      <div className="w-full h-screen md:h-[844px] md:max-w-[390px] bg-neutral-background flex flex-col relative md:shadow-2xl md:rounded-[3rem] overflow-hidden md:border-[12px] md:border-slate-800 z-10 animate-fade-in">
+        
+        {/* Branding Section */}
+        <div className="relative pt-20 pb-12 px-8 text-center overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-primary/10 to-transparent" />
+          <div className="relative z-10">
+            <div className="w-20 h-20 bg-white rounded-3xl shadow-large mx-auto flex items-center justify-center mb-6 animate-slide-up">
+              <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-futuristic">
+                <LogIn size={24} />
+              </div>
+            </div>
+            <h1 className="text-4xl font-extrabold text-neutral-darkNavy tracking-tight animate-slide-up delay-100">
+              Biz<span className="text-primary">Flow</span>
+            </h1>
+            <p className="text-neutral-textLight font-medium mt-2 animate-slide-up delay-200">
+              Elevate your business operations
+            </p>
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col justify-center px-6 md:px-8 bg-neutral-background overflow-y-auto">
-          <div className="mb-8 text-center">
-            <h1 className="text-primary text-3xl mb-2">BizFlow</h1>
-            <p className="text-neutral-textMid">Manage your business on the go</p>
-          </div>
-
-          <div className="space-y-6">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              <Input
-                label="Phone Number"
-                prefix="+254"
-                placeholder="712345678"
-                {...register('phone')}
-                error={errors.phone?.message}
-              />
-              <Input
-                label="Password"
-                type="password"
-                placeholder="••••••••"
-                {...register('password')}
-                error={errors.password?.message}
-              />
-              
-              <div className="flex items-center justify-end">
-                <Link to="/forgot-password" title="Forgot Password" className="text-sm text-primary font-medium hover:underline">
-                  Forgot password?
-                </Link>
-              </div>
-
-              <Button className="w-full" type="submit" isLoading={isLoading} leftIcon={<LogIn size={18} />}>
-                Sign In
-              </Button>
-            </form>
-
-            <div className="mt-8 pt-6 border-t border-neutral-border text-center">
-              <p className="text-sm text-neutral-textMid">
-                Don't have an account?{' '}
-                <Link to="/register" className="text-primary font-bold hover:underline">
-                  Register Business
-                </Link>
-              </p>
+        <div className="flex-1 px-8 pb-10 overflow-y-auto no-scrollbar">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 animate-slide-up delay-300">
+            <Input
+              label="Access Phone"
+              prefix="+254"
+              placeholder="712345678"
+              {...register('phone')}
+              error={errors.phone?.message}
+            />
+            <Input
+              label="Security Key"
+              type="password"
+              placeholder="••••••••"
+              {...register('password')}
+              error={errors.password?.message}
+            />
+            
+            <div className="flex items-center justify-end px-1">
+              <Link to="/forgot-password" title="Forgot Password" className="text-xs font-bold text-primary uppercase tracking-wider hover:underline">
+                Recovery Access
+              </Link>
             </div>
+
+            <Button 
+              className="w-full h-14 text-base tracking-wide" 
+              type="submit" 
+              isLoading={isLoading} 
+              rightIcon={<ArrowUpRight size={20} />}
+            >
+              System Login
+            </Button>
+          </form>
+
+          <div className="mt-12 text-center animate-slide-up delay-500">
+            <div className="inline-flex items-center gap-2 mb-6">
+              <div className="h-px w-8 bg-neutral-border/50" />
+              <span className="text-[10px] font-bold text-neutral-textLight uppercase tracking-[0.2em]">Partner Hub</span>
+              <div className="h-px w-8 bg-neutral-border/50" />
+            </div>
+            
+            <p className="text-sm font-medium text-neutral-textMid">
+              New to the platform?{' '}
+              <Link to="/register" className="text-primary font-bold hover:underline">
+                Create Account
+              </Link>
+            </p>
           </div>
         </div>
         
-        {/* Home Indicator - Only on Desktop */}
-        <div className="hidden md:flex h-6 bg-white justify-center items-end pb-2 shrink-0">
-          <div className="w-32 h-1 bg-neutral-darkNavy/20 rounded-full" />
+        {/* Phone Footer - Desktop Only */}
+        <div className="hidden md:flex h-8 bg-transparent justify-center items-center shrink-0">
+          <div className="w-32 h-1.5 bg-slate-800/20 rounded-full" />
         </div>
       </div>
     </div>

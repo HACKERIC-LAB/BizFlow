@@ -9,7 +9,7 @@ export async function listCustomers(req: Request, res: Response, next: NextFunct
       page: page ? Number(page) : undefined,
       limit: limit ? Number(limit) : undefined,
     });
-    res.json({ success: true, ...data });
+    res.json({ success: true, data });
   } catch (error) { next(error); }
 }
 

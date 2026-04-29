@@ -22,7 +22,7 @@ export async function initiateMpesa(req: Request, res: Response, next: NextFunct
 export async function listTransactions(req: Request, res: Response, next: NextFunction) {
   try {
     const data = await transactionService.listTransactions((req as any).businessId!, req.query as any);
-    res.json({ success: true, ...data });
+    res.json({ success: true, data });
   } catch (error) { next(error); }
 }
 

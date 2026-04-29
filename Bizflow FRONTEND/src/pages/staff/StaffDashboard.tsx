@@ -11,7 +11,6 @@ import {
 } from 'lucide-react';
 import { transactionApi } from '../../services/transactionApi';
 import { queueApi } from '../../services/queueApi';
-import { useAuthStore } from '../../store/authStore';
 import toast from 'react-hot-toast';
 
 const StaffDashboard = () => {
@@ -37,43 +36,43 @@ const StaffDashboard = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 animate-slide-up">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl">Your Day</h2>
-            <p className="body-small text-neutral-textLight">You've served {stats?.transactionCount || 0} clients today.</p>
+            <h2 className="text-2xl font-bold">Your Day</h2>
+            <p className="text-sm text-slate-400">You've served {stats?.transactionCount || 0} clients today.</p>
           </div>
-          <div className="w-12 h-12 rounded-full bg-gold-light border-2 border-gold flex items-center justify-center text-gold">
+          <div className="w-12 h-12 rounded-2xl bg-gold/10 border-2 border-white flex items-center justify-center text-gold shadow-subtle">
             <Award size={24} />
           </div>
         </div>
 
         {/* Personal Stats */}
         <div className="grid grid-cols-2 gap-4">
-          <Card className="p-4 bg-primary-light border-primary/10">
-            <TrendingUp size={20} className="text-primary mb-2" />
-            <p className="text-[10px] uppercase font-bold text-primary/70 tracking-wider">Your Earnings</p>
-            <p className="text-xl font-bold text-primary">KSh {(stats?.totalRevenue || 0).toLocaleString()}</p>
+          <Card className="p-4 bg-primary text-white border-none shadow-medium">
+            <TrendingUp size={20} className="text-white/80 mb-2" />
+            <p className="text-[10px] uppercase font-bold text-white/60 tracking-wider">Your Earnings</p>
+            <p className="text-xl font-bold text-white">KSh {(stats?.totalRevenue || 0).toLocaleString()}</p>
           </Card>
-          <Card className="p-4">
-            <Clock size={20} className="text-blue mb-2" />
-            <p className="text-[10px] uppercase font-bold text-neutral-textLight tracking-wider">Next Break</p>
-            <p className="text-xl font-bold text-neutral-darkNavy">1:00 PM</p>
+          <Card className="p-4 bg-white border border-slate-200 shadow-subtle">
+            <Clock size={20} className="text-primary mb-2" />
+            <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Next Break</p>
+            <p className="text-xl font-bold text-slate-900">1:00 PM</p>
           </Card>
         </div>
 
         {/* Current Focus */}
-        <section>
-          <h3 className="text-xs uppercase tracking-wider text-neutral-textLight font-bold mb-3">Current Focus</h3>
+        <section className="space-y-3">
+          <h3 className="text-xs uppercase tracking-wider text-slate-400 font-bold">Current Focus</h3>
           {nextClient ? (
-            <Card className="p-6 border-l-4 border-l-primary">
+            <Card className="p-6 border-l-4 border-l-primary bg-white shadow-medium">
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <p className="text-primary text-xs font-bold uppercase tracking-widest mb-1">
                     {nextClient.status === 'SERVING' ? 'Current Service' : 'Upcoming Service'}
                   </p>
-                  <h4 className="text-xl font-bold">{nextClient.customerName}</h4>
-                  <p className="text-sm text-neutral-textMid">{nextClient.serviceName}</p>
+                  <h4 className="text-xl font-bold text-slate-900">{nextClient.customerName}</h4>
+                  <p className="text-sm text-slate-500">{nextClient.serviceName}</p>
                 </div>
               </div>
               <div className="flex gap-3">
@@ -85,23 +84,23 @@ const StaffDashboard = () => {
               </div>
             </Card>
           ) : (
-            <Card className="p-6 text-center text-neutral-textLight italic">
+            <Card className="p-6 text-center text-slate-400 italic bg-slate-50 border-dashed">
               No clients in the queue.
             </Card>
           )}
         </section>
 
-        {/* Task List (Dynamic tasks could be added later, for now we keep a clean placeholder) */}
-        <section>
-          <h3 className="text-xs uppercase tracking-wider text-neutral-textLight font-bold mb-3">Today's Tasks</h3>
+        {/* Task List */}
+        <section className="space-y-3">
+          <h3 className="text-xs uppercase tracking-wider text-slate-400 font-bold">Today's Tasks</h3>
           <div className="space-y-3">
-            <Card className="flex items-center gap-3 p-4 opacity-60 bg-neutral-background">
-               <div className="w-5 h-5 rounded-full border-2 bg-mpesa-green border-mpesa-green flex items-center justify-center">
+            <Card className="flex items-center gap-3 p-4 bg-slate-50 border-none opacity-60">
+               <div className="w-5 h-5 rounded-full bg-mpesa-green flex items-center justify-center">
                   <CheckCircle2 size={12} className="text-white" />
                </div>
                <div className="flex-1">
-                  <p className="text-sm font-bold line-through">Clean station</p>
-                  <p className="text-[10px] text-neutral-textLight">Completed</p>
+                  <p className="text-sm font-bold text-slate-900 line-through">Clean station</p>
+                  <p className="text-[10px] text-slate-400">Completed</p>
                </div>
             </Card>
           </div>

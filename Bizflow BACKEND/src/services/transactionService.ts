@@ -206,6 +206,24 @@ export async function getDailySummary(businessId: string) {
   // Unique customers today
   const customerCount = new Set(transactions.map((t) => t.customerId).filter(Boolean)).size;
 
+  // Real Weekly Stats (Last 7 days)
+  const lastWeek = new Date();
+  lastWeek.setDate(lastWeek.getDate() - 7);
+  const weeklyTransactions = await prisma.transaction.findMany({
+    where: { businessId, status: 'COMPLETED', createdAt: { gte: lastWeek } },
+  });
+  const weeklyRevenue = weeklyTransactions.reduce((sum, t) => sum + t.totalAmount, 0);
+
+  // Returning Customers % (Total)
+  const totalCompletedTransactions = await prisma.transaction.count({
+    where: { businessId, status: 'COMPLETED' }
+  });
+  const recurringCustomersCount = await prisma.customer.count({
+    where: { businessId, totalVisits: { gt: 1 } }
+  });
+  const totalCustomers = await prisma.customer.count({ where: { businessId } });
+  const returningRate = totalCustomers > 0 ? (recurringCustomersCount / totalCustomers) * 100 : 0;
+
   return {
     totalRevenue,
     cashRevenue,
@@ -215,5 +233,7 @@ export async function getDailySummary(businessId: string) {
     queueCount,
     appointmentCount,
     topServices,
+    weeklyRevenue,
+    returningRate,
   };
 }

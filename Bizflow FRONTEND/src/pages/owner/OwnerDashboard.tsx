@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Card } from '../../components/common/Card';
-import { Button } from '../../components/common/Button';
 import { 
   TrendingUp, 
   Users, 
   UsersRound, 
   Calendar, 
-  Plus, 
-  ArrowUpRight,
-  Zap
+  Sparkles,
+  ChevronRight,
+  BarChart3,
+  PieChart,
+  ArrowUpRight
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 
 import { useAuthStore } from '../../store/authStore';
 import { getBusinessContent } from '../../utils/businessUtils';
@@ -19,40 +19,31 @@ import { transactionApi } from '../../services/transactionApi';
 import { queueApi } from '../../services/queueApi';
 import toast from 'react-hot-toast';
 
-const KPI = ({ label, value, icon: Icon, trend, color }: any) => (
-  <Card className="flex flex-col justify-between h-32 relative overflow-hidden group">
-    <div className="absolute -right-4 -top-4 w-16 h-16 bg-neutral-background rounded-full opacity-50 group-hover:scale-150 transition-standard" />
-    <div className="flex justify-between items-start">
-      <div className={`p-2 rounded-button bg-${color}-light text-${color}`}>
+const KPI = ({ label, value, icon: Icon, trend, variant = 'default' }: any) => (
+  <Card hover variant={variant} className="flex flex-col justify-between h-40 p-5 relative overflow-hidden">
+    <div className="flex justify-between items-start z-10">
+      <div className={`p-2.5 rounded-xl ${variant === 'primary' ? 'bg-white/20 text-white' : 'bg-primary/10 text-primary'}`}>
         <Icon size={20} />
       </div>
       {trend && (
-        <span className="flex items-center text-xs font-bold text-mpesa-green">
-          <ArrowUpRight size={14} className="mr-0.5" /> {trend}
+        <span className={`flex items-center px-2 py-0.5 rounded-badge text-[10px] font-bold ${variant === 'primary' ? 'bg-white/20 text-white' : 'bg-primary/10 text-primary'}`}>
+          {trend}
         </span>
       )}
     </div>
-    <div>
-      <p className="text-[10px] uppercase font-bold text-neutral-textLight tracking-wider">{label}</p>
-      <p className="text-xl font-bold text-neutral-darkNavy">{value}</p>
+    <div className="z-10 mt-4">
+      <p className={`text-2xl font-bold tracking-tight ${variant === 'primary' ? 'text-white' : 'text-slate-900'}`}>{value}</p>
+      <p className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${variant === 'primary' ? 'text-white/70' : 'text-slate-400'}`}>{label}</p>
     </div>
   </Card>
 );
 
-const Sparkles = ({ className }: { className?: string }) => (
-  <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
-    <path d="M5 3v4" /><path d="M19 17v4" /><path d="M3 5h4" /><path d="M17 19h4" />
-  </svg>
-);
-
 const OwnerDashboard = () => {
-  const navigate = useNavigate();
   const user = useAuthStore(state => state.user);
   const content = getBusinessContent(user?.businessType);
   const [stats, setStats] = useState<any>(null);
   const [queue, setQueue] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('performance');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,8 +56,6 @@ const OwnerDashboard = () => {
         setQueue(queueRes.data.slice(0, 3));
       } catch (error) {
         toast.error('Failed to load dashboard data');
-      } finally {
-        setIsLoading(false);
       }
     };
     fetchData();
@@ -74,121 +63,182 @@ const OwnerDashboard = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
-        {/* Welcome Section */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl">Good Morning!</h2>
-            <p className="body-small text-neutral-textLight">Here's what's happening today.</p>
-          </div>
-          <Button 
-            size="sm" 
-            leftIcon={<Zap size={16} />} 
-            variant="secondary"
-            onClick={() => navigate('/ai')}
+      <div className="space-y-6 animate-slide-up">
+        {/* Tab Selection */}
+        <div className="flex bg-slate-100/50 p-1 rounded-2xl border border-slate-200/50">
+          <button 
+            onClick={() => setActiveTab('performance')}
+            className={`flex-1 py-2 text-[10px] font-bold uppercase tracking-widest rounded-xl transition-all ${activeTab === 'performance' ? 'bg-primary text-white shadow-medium' : 'text-slate-400 hover:text-slate-600'}`}
           >
-            AI Insight
-          </Button>
+            Performance
+          </button>
+          <button 
+            onClick={() => setActiveTab('analytics')}
+            className={`flex-1 py-2 text-[10px] font-bold uppercase tracking-widest rounded-xl transition-all ${activeTab === 'analytics' ? 'bg-primary text-white shadow-medium' : 'text-slate-400 hover:text-slate-600'}`}
+          >
+            Analytics
+          </button>
         </div>
 
-        {/* KPIs */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <KPI label="Revenue" value={`KSh ${stats?.totalRevenue?.toLocaleString() || 0}`} icon={TrendingUp} trend={stats?.revenueTrend} color="primary" />
-          <KPI label={content.customersLabel} value={stats?.customerCount || 0} icon={Users} trend={stats?.customerTrend} color="blue" />
-          <KPI label="Queue" value={queue.length} icon={UsersRound} color="gold" />
-          <KPI label="Bookings" value={stats?.appointmentCount || 0} icon={Calendar} color="primary" />
-        </div>
-
-        {/* Team Management Quick Access */}
-        <section>
-          <Card className="flex items-center justify-between p-4 bg-blue-light/30 border-blue/20">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-blue flex items-center justify-center text-white">
-                <Users size={20} />
+        {activeTab === 'performance' ? (
+          <>
+            {/* Main Score Area */}
+            <div className="relative py-4 text-center overflow-hidden">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
+              <div className="relative inline-block mb-2">
+                <h1 className="text-6xl font-black text-slate-900 tracking-tighter">
+                  {stats?.totalRevenue ? (stats.totalRevenue / 1000).toFixed(1) : '0.0'}
+                  <span className="text-2xl text-primary ml-1">k</span>
+                </h1>
               </div>
-              <div>
-                <h4 className="font-bold text-neutral-darkNavy">Team & Staff</h4>
-                <p className="text-xs text-neutral-textLight">Manage roles, commission, and access</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Total Revenue Generated Today</p>
+              <div className="flex items-center justify-center gap-2 mt-2">
+                <div className="px-2 py-0.5 rounded-badge bg-primary/10 text-[10px] font-bold text-primary flex items-center">
+                  <TrendingUp size={12} className="mr-1" /> Top Performance Today
+                </div>
               </div>
             </div>
-            <Button size="sm" onClick={() => navigate('/staff-management')}>
-              Manage
-            </Button>
-          </Card>
-        </section>
 
-        {/* Live Queue Preview */}
-        <section>
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-base uppercase tracking-wider text-neutral-textLight font-bold">Live Queue</h3>
-            <button onClick={() => navigate('/queue')} className="text-sm text-primary font-bold hover:underline">
-              View All
-            </button>
-          </div>
-          <div className="space-y-3">
-            {isLoading ? (
-               [1, 2, 3].map(i => <div key={i} className="h-20 bg-neutral-background animate-pulse rounded-card" />)
-            ) : queue.length > 0 ? (
-              queue.map((entry: any, index: number) => (
-                <Card key={entry.id} className={`flex items-center justify-between py-3 border-l-4 ${entry.status === 'SERVING' ? 'border-l-primary' : 'border-l-gold'}`}>
-                  <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${entry.status === 'SERVING' ? 'bg-primary-light text-primary' : 'bg-gold-light text-gold'}`}>
-                      #{index + 1}
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold">{entry.customerName || entry.customerPhone}</p>
-                      <p className="text-[10px] text-neutral-textLight">
-                        {entry.serviceName} • {entry.status === 'SERVING' ? 'In Progress' : 'Waiting'}
-                      </p>
-                    </div>
+            {/* Action Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              <KPI 
+                label="Revenue" 
+                value={`KSh ${stats?.totalRevenue?.toLocaleString() || 0}`} 
+                icon={TrendingUp} 
+                trend={stats?.totalRevenue > 0 ? "+Real" : undefined} 
+                variant="primary"
+              />
+              <KPI 
+                label={content.customersLabel} 
+                value={stats?.customerCount || 0} 
+                icon={Users} 
+                trend={stats?.customerCount > 0 ? "Live" : undefined} 
+                variant="default"
+              />
+            </div>
+
+            {/* Today's Activity Section */}
+            <section className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-slate-900 tracking-tight">Today's Activity</h3>
+                <button className="text-[10px] font-bold text-primary uppercase tracking-wider" onClick={() => toast.success('Filter coming soon!')}>Filter</button>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <Card variant="flat" className="p-4 flex flex-col gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-gold/10 text-gold flex items-center justify-center">
+                    <Calendar size={18} />
                   </div>
-                  <div className="text-right">
-                    <span className={`text-[10px] px-2 py-0.5 font-bold rounded-badge uppercase ${entry.status === 'SERVING' ? 'bg-primary-light text-primary' : 'bg-gold-light text-gold'}`}>
-                      {entry.status}
-                    </span>
+                  <div>
+                    <p className="text-lg font-bold text-slate-900">{stats?.appointmentCount || 0}</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Bookings</p>
                   </div>
                 </Card>
-              ))
-            ) : (
-              <p className="text-center py-4 text-neutral-textLight text-sm">No one in queue</p>
-            )}
-          </div>
-        </section>
+                <Card variant="flat" className="p-4 flex flex-col gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+                    <UsersRound size={18} />
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-slate-900">{queue.length}</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">In Queue</p>
+                  </div>
+                </Card>
+              </div>
+            </section>
+          </>
+        ) : (
+          <div className="space-y-6 animate-slide-up">
+            {/* Analytics Content */}
+            <section className="space-y-4">
+              <h3 className="text-sm font-bold text-slate-900 tracking-tight">Revenue Trends</h3>
+              <Card className="p-6 bg-slate-900 border-none shadow-large relative overflow-hidden">
+                <div className="relative z-10 flex justify-between items-end mb-8">
+                  <div>
+                    <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-1">Weekly Total</p>
+                    <h4 className="text-2xl font-black text-white">KSh {(stats?.weeklyRevenue || 0).toLocaleString()}</h4>
+                  </div>
+                  {stats?.weeklyRevenue > 0 && (
+                    <div className="flex items-center gap-1 text-mpesa-green text-xs font-bold bg-mpesa-green/10 px-2 py-1 rounded-badge">
+                      <ArrowUpRight size={14} /> Live Data
+                    </div>
+                  )}
+                </div>
+                {/* Visual indicator of data presence */}
+                <div className="flex items-end justify-between h-24 gap-2">
+                  {stats?.totalRevenue > 0 ? (
+                    [20, 30, 25, 45, 60, stats?.totalRevenue > 5000 ? 90 : 40, 50].map((h, i) => (
+                      <div 
+                        key={i} 
+                        className={`flex-1 rounded-t-lg transition-all duration-1000 ${i === 5 ? 'bg-primary' : 'bg-white/10'}`} 
+                        style={{ height: `${h}%` }}
+                      />
+                    ))
+                  ) : (
+                    <div className="w-full flex items-center justify-center text-white/20 text-xs italic">No activity recorded yet</div>
+                  )}
+                </div>
+              </Card>
+            </section>
 
-        {/* Revenue Chart Teaser */}
-        <Card className="p-6 h-64 flex flex-col items-center justify-center border-dashed">
-          <TrendingUp size={40} className="text-neutral-border mb-4" />
-          <p className="text-neutral-textLight font-medium">Revenue Analytics Chart</p>
-          <p className="text-xs text-neutral-textLight mt-1">Detailed reports coming soon</p>
-        </Card>
-
-        {/* AI Tip */}
-        <Card className="bg-primary-dark text-white border-none relative overflow-hidden">
-          <div className="absolute right-0 top-0 w-32 h-32 bg-primary/20 rounded-full -translate-y-1/2 translate-x-1/3 blur-2xl" />
-          <div className="flex items-start gap-4">
-            <div className="p-3 bg-white/10 rounded-card backdrop-blur-sm">
-              <Sparkles className="text-gold" />
+            <div className="grid grid-cols-2 gap-4">
+              <Card className="p-5 flex flex-col items-center text-center">
+                <div className="w-12 h-12 rounded-2xl bg-blue/10 text-blue flex items-center justify-center mb-3">
+                  <PieChart size={24} />
+                </div>
+                <h5 className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Returning Rate</h5>
+                <p className="text-xl font-bold text-slate-900 mt-1">{stats?.returningRate?.toFixed(0) || 0}% <span className="text-[10px] text-slate-400">Ret.</span></p>
+              </Card>
+              <Card className="p-5 flex flex-col items-center text-center">
+                <div className="w-12 h-12 rounded-2xl bg-gold/10 text-gold flex items-center justify-center mb-3">
+                  <BarChart3 size={24} />
+                </div>
+                <h5 className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Top Service</h5>
+                <p className="text-sm font-bold text-slate-900 mt-1 truncate w-full px-2">
+                  {stats?.topServices?.[0]?.name || 'N/A'}
+                </p>
+              </Card>
             </div>
-            <div className="flex-1">
-              <h4 className="font-bold text-sm mb-1">AI Recommendation</h4>
-              <p className="text-xs text-white/80 leading-relaxed">
-                Most customers arrive between 4 PM and 6 PM. Consider adding an extra staff member during this peak time.
-              </p>
+
+            {/* AI Intelligent Forecast */}
+            <Card className="bg-primary/5 border-none p-6 relative overflow-hidden group shadow-subtle rounded-3xl">
+              <div className="flex gap-4 items-center relative z-10">
+                <div className="w-14 h-14 rounded-2xl bg-white shadow-medium flex items-center justify-center text-primary group-hover:scale-110 transition-standard">
+                  <Sparkles size={28} />
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-base font-black text-slate-900">AI Insights</h4>
+                  <p className="text-sm text-slate-500 mt-1">
+                    {stats?.totalRevenue > 0 
+                      ? "Based on today's performance, we suggest focusing on your top services to maximize evening revenue."
+                      : "Start recording transactions to enable AI-powered business insights and growth forecasts."}
+                  </p>
+                </div>
+              </div>
+              <div className="absolute -right-6 -bottom-6 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
+            </Card>
+          </div>
+        )}
+
+        {/* Team Management Quick Link */}
+        <button 
+          onClick={() => window.location.href = '/staff-management'}
+          className="w-full bg-white p-5 rounded-3xl border border-slate-200 shadow-subtle hover:shadow-medium transition-all flex items-center justify-between group"
+        >
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-standard">
+              <UsersRound size={24} />
+            </div>
+            <div className="text-left">
+              <h4 className="text-sm font-bold text-slate-900">Manage Your Team</h4>
+              <p className="text-xs text-slate-400">Add Managers, Staff & set roles</p>
             </div>
           </div>
-        </Card>
+          <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-300 group-hover:text-primary transition-standard">
+            <ChevronRight size={18} />
+          </div>
+        </button>
 
-        {/* FAB Space */}
-        <div className="h-10" />
+        <div className="h-24" />
       </div>
-
-      {/* FAB */}
-      <button 
-        onClick={() => navigate('/transactions/new')}
-        className="fixed md:absolute bottom-20 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-large flex items-center justify-center hover:bg-primary-dark hover:scale-110 active:scale-95 transition-standard z-40"
-      >
-        <Plus size={28} />
-      </button>
     </MainLayout>
   );
 };

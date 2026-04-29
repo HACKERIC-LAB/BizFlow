@@ -1,13 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Card } from '../../components/common/Card';
 import { Button } from '../../components/common/Button';
-import { 
-  Sparkles, 
-  Send, 
-  TrendingUp, 
-  Users
-} from 'lucide-react';
+import { Sparkles, Send, TrendingUp } from 'lucide-react';
 import { aiApi } from '../../services/aiApi';
 import toast from 'react-hot-toast';
 
@@ -16,27 +11,30 @@ const AIAssistantScreen = () => {
   const [chatHistory, setChatHistory] = useState<{ role: 'user' | 'ai', text: string }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [insights, setInsights] = useState<any[]>([]);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     aiApi.getRevenueInsights().then(res => {
       setInsights([
-        { title: 'Revenue Trend', desc: res.data.message, icon: TrendingUp, color: 'primary' },
+        { title: 'Revenue Trend', desc: res.data?.message || 'Based on your recent transactions.', icon: TrendingUp },
       ]);
-    });
+    }).catch(() => {});
   }, []);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatHistory]);
 
   const handleSend = async () => {
     if (!message.trim()) return;
-    
     const userMsg = message;
     setMessage('');
     setChatHistory(prev => [...prev, { role: 'user', text: userMsg }]);
     setIsLoading(true);
-
     try {
       const response = await aiApi.chat(userMsg);
       setChatHistory(prev => [...prev, { role: 'ai', text: response.data.reply }]);
-    } catch (error) {
+    } catch {
       toast.error('Failed to get AI response');
     } finally {
       setIsLoading(false);
@@ -45,104 +43,94 @@ const AIAssistantScreen = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6 flex flex-col h-[calc(100vh-140px)]">
-        <div className="flex items-center gap-2">
+      {/* Full height flex column — input always visible at bottom */}
+      <div className="flex flex-col" style={{ height: 'calc(100dvh - 180px)' }}>
+
+        {/* Header */}
+        <div className="flex items-center gap-2 mb-4 shrink-0">
           <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white">
             <Sparkles size={18} fill="white" />
           </div>
-          <h2 className="text-2xl">BizFlow AI</h2>
+          <h2 className="text-2xl font-bold">BizFlow AI</h2>
         </div>
 
-        {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto space-y-6 pr-1">
-          {/* Chat History */}
-          <div className="space-y-4">
-            {chatHistory.length === 0 && (
-              <section className="bg-primary-dark text-white p-6 rounded-card relative overflow-hidden">
+        {/* Scrollable chat area */}
+        <div className="flex-1 overflow-y-auto no-scrollbar space-y-4 pr-1">
+          {chatHistory.length === 0 && (
+            <>
+              <section className="bg-primary text-white p-5 rounded-3xl relative overflow-hidden shadow-medium">
                 <div className="relative z-10">
-                  <h3 className="text-lg font-bold mb-2">Hello, I'm your assistant!</h3>
+                  <h3 className="text-base font-bold mb-1">Hello, I'm your assistant!</h3>
                   <p className="text-sm text-white/80 leading-relaxed">
-                    I analyze your business data to help you make better decisions. Ask me about your revenue, staff, or customer trends.
+                    Ask me about your revenue, staff, or customer trends.
                   </p>
                 </div>
                 <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
               </section>
-            )}
 
-            {chatHistory.map((chat, i) => (
-              <div key={i} className={`flex ${chat.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[80%] p-4 rounded-card text-sm ${
-                  chat.role === 'user' ? 'bg-primary text-white' : 'bg-white border border-neutral-border text-neutral-darkNavy shadow-subtle'
-                }`}>
-                  {chat.text}
-                </div>
-              </div>
-            ))}
+              {insights.length > 0 && (
+                <section>
+                  <h3 className="text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-2">Today's Insight</h3>
+                  {insights.map((item, i) => (
+                    <Card key={i} className="flex gap-4 p-4 border-none bg-white shadow-subtle">
+                      <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-primary/10 text-primary shrink-0">
+                        <item.icon size={20} />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold">{item.title}</h4>
+                        <p className="text-xs text-slate-500 mt-0.5">{item.desc}</p>
+                      </div>
+                    </Card>
+                  ))}
+                </section>
+              )}
 
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-white border border-neutral-border p-4 rounded-card">
-                   <div className="flex gap-1">
-                      <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" />
-                      <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce delay-75" />
-                      <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce delay-150" />
-                   </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Quick Insights */}
-          {insights.length > 0 && chatHistory.length === 0 && (
-            <section>
-              <h3 className="text-xs uppercase tracking-wider text-neutral-textLight font-bold mb-3">Today's Insight</h3>
-              <div className="grid grid-cols-1 gap-3">
-                {insights.map((item, i) => (
-                  <Card key={i} className="flex gap-4 p-4 border-none bg-white shadow-subtle hover:shadow-medium transition-standard">
-                    <div className={`w-10 h-10 rounded-card flex items-center justify-center bg-${item.color}-light text-${item.color} shrink-0`}>
-                      <item.icon size={20} />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold">{item.title}</h4>
-                      <p className="text-xs text-neutral-textMid mt-1">{item.desc}</p>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </section>
+              <section>
+                <h3 className="text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-2">Try asking</h3>
+                <button
+                  onClick={() => setMessage("What's my expected revenue for tomorrow?")}
+                  className="text-xs font-bold text-primary bg-primary/10 px-4 py-2 rounded-xl hover:bg-primary/20 transition-standard text-left"
+                >
+                  What's my expected revenue for tomorrow?
+                </button>
+              </section>
+            </>
           )}
 
-          {/* Suggestions */}
-          {chatHistory.length === 0 && (
-            <section>
-              <h3 className="text-xs uppercase tracking-wider text-neutral-textLight font-bold mb-3">Try asking</h3>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  "What's my expected revenue for tomorrow?",
-                  "Who is my most productive staff member?",
-                  "Suggest a promotion for slow days"
-                ].map((text, i) => (
-                  <button 
-                    key={i} 
-                    onClick={() => setMessage(text)}
-                    className="text-xs font-medium text-primary bg-primary-light px-4 py-2 rounded-badge border border-primary/10 hover:bg-primary/20 transition-standard text-left"
-                  >
-                    {text}
-                  </button>
-                ))}
+          {chatHistory.map((chat, i) => (
+            <div key={i} className={`flex ${chat.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div className={`max-w-[80%] p-4 rounded-2xl text-sm ${
+                chat.role === 'user'
+                  ? 'bg-primary text-white'
+                  : 'bg-white border border-slate-200 text-slate-900 shadow-subtle'
+              }`}>
+                {chat.text}
               </div>
-            </section>
+            </div>
+          ))}
+
+          {isLoading && (
+            <div className="flex justify-start">
+              <div className="bg-white border border-slate-200 p-4 rounded-2xl">
+                <div className="flex gap-1">
+                  <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" />
+                  <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce delay-75" />
+                  <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce delay-150" />
+                </div>
+              </div>
+            </div>
           )}
+          <div ref={bottomRef} />
         </div>
 
-        {/* Chat Input */}
-        <div className="pt-2">
+        {/* Chat Input — always at the bottom, never hidden */}
+        <div className="pt-3 shrink-0">
           <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="flex gap-2 items-center">
-            <Card className="flex-1 p-1 flex gap-2 items-center bg-white shadow-large border-primary/10">
-              <input 
-                type="text" 
-                placeholder="Ask BizFlow AI..." 
-                className="w-full bg-transparent border-none focus:ring-0 px-3 py-2 text-sm"
+            <Card className="flex-1 p-1 flex gap-2 items-center bg-white shadow-large border border-primary/20 rounded-2xl">
+              <input
+                type="text"
+                placeholder="Ask BizFlow AI..."
+                className="w-full bg-transparent border-none focus:ring-0 px-3 py-3 text-sm font-medium"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
               />

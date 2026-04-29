@@ -9,6 +9,14 @@ export async function suggestReply(req: Request, res: Response, next: NextFuncti
   } catch (error) { next(error); }
 }
 
+export async function chat(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { message } = req.body;
+    const reply = await aiService.chat((req as any).businessId!, message);
+    res.json({ success: true, data: { reply } });
+  } catch (error) { next(error); }
+}
+
 export async function getWeeklySummary(req: Request, res: Response, next: NextFunction) {
   try {
     const data = await aiService.getWeeklySummary((req as any).businessId!);

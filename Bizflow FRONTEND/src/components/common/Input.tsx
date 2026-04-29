@@ -17,37 +17,37 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, leftIcon, rightIcon, prefix, className, ...props }, ref) => {
     return (
-      <div className="w-full space-y-1.5">
-        {label && <label className="label-text text-neutral-textMid">{label}</label>}
-        <div className="relative">
+      <div className="w-full space-y-2 animate-fade-in">
+        {label && <label className="text-xs font-bold uppercase tracking-widest text-neutral-textLight ml-1">{label}</label>}
+        <div className="relative group">
           {leftIcon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-textLight">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-textLight group-focus-within:text-primary transition-standard">
               {leftIcon}
             </div>
           )}
           {prefix && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-textMid font-medium border-r border-neutral-border pr-2">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-textMid font-bold text-sm border-r border-neutral-border/50 pr-3 group-focus-within:border-primary/30 transition-standard">
               {prefix}
             </div>
           )}
           <input
             ref={ref}
             className={cn(
-              'w-full bg-white border border-neutral-border rounded-input px-3 py-2 text-base placeholder:text-neutral-textLight focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-standard',
-              leftIcon && 'pl-10',
-              prefix && 'pl-16',
-              error && 'border-accent-red focus:ring-accent-red/20 focus:border-accent-red',
+              'w-full bg-neutral-background/50 border-2 border-transparent rounded-[1.25rem] px-4 py-3.5 text-sm font-medium text-neutral-darkNavy placeholder:text-neutral-textLight focus:outline-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 shadow-subtle hover:bg-neutral-background transition-standard',
+              leftIcon && 'pl-12',
+              prefix && 'pl-20',
+              error && 'border-accent-red/20 focus:border-accent-red focus:ring-accent-red/5 bg-accent-red/5',
               className
             )}
             {...props}
           />
           {rightIcon && (
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-textLight">
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-textLight group-focus-within:text-primary transition-standard">
               {rightIcon}
             </div>
           )}
         </div>
-        {error && <p className="text-xs text-accent-red font-medium">{error}</p>}
+        {error && <p className="text-[10px] font-bold text-accent-red uppercase tracking-wider ml-1">{error}</p>}
       </div>
     );
   }

@@ -1,50 +1,79 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&family=IBM+Plex+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Poppins:wght@600;700&family=IBM+Plex+Mono&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+  
   body {
     @apply bg-neutral-background text-neutral-darkNavy font-sans antialiased;
   }
 
   h1 {
-    @apply text-2xl font-bold font-heading;
+    @apply text-3xl font-bold font-heading tracking-tight;
   }
 
   h2 {
-    @apply text-xl font-semibold font-heading;
+    @apply text-2xl font-bold font-heading tracking-tight;
   }
 
   h3 {
-    @apply text-lg font-semibold font-heading;
+    @apply text-xl font-bold font-heading tracking-tight;
   }
 
   p {
-    @apply text-base font-normal;
+    @apply text-base font-normal leading-relaxed;
   }
 }
 
 @layer components {
   .body-small {
-    @apply text-sm font-normal;
+    @apply text-sm font-normal text-neutral-textMid;
   }
 
   .label-text {
-    @apply text-sm font-medium;
+    @apply text-sm font-semibold text-neutral-darkNavy;
   }
 
   .caption-text {
-    @apply text-xs font-normal;
+    @apply text-[10px] font-bold uppercase tracking-wider text-neutral-textLight;
+  }
+
+  .glass-card {
+    @apply bg-white border border-neutral-border shadow-medium;
+  }
+
+  .glass-header {
+    @apply bg-white border-b border-neutral-border sticky top-0 z-50;
+  }
+  
+  .soft-gradient-bg {
+    background: linear-gradient(180deg, #F0FDFA 0%, #FFFFFF 100%);
+  }
+  
+  .solid-primary {
+    @apply bg-primary text-white;
+  }
+
+  .solid-blue {
+    @apply bg-blue text-white;
   }
 }
 
 /* Custom transitions and utility classes */
 .transition-standard {
-  @apply transition-all duration-200 ease-in-out;
+  @apply transition-all duration-300 ease-in-out;
 }
 
-.glass-morphism {
-  @apply bg-white/70 backdrop-blur-md border border-white/20;
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

@@ -2,19 +2,16 @@ import { useState } from 'react';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
-import { ChevronLeft, UserPlus, Save } from 'lucide-react';
+import { ChevronLeft, Save, UserPlus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
-import { useStaffStore } from '../../store/staffStore';
 import type { StaffRole } from '../../store/staffStore';
 import { staffApi } from '../../services/staffApi';
 
 const AddStaffScreen = () => {
   const navigate = useNavigate();
-  const { addStaff } = useStaffStore();
   const [isSaving, setIsSaving] = useState(false);
-
   const [formData, setFormData] = useState({
     name: '',
     phone: '',

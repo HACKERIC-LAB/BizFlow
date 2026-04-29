@@ -15,8 +15,17 @@ import v1Router from './routes/v1';
 const app = express();
 
 // ─── Security & Parsing ───────────────────────────────────────────────────────
-app.use(helmet());
-app.use(cors({ origin: config.FRONTEND_URL, credentials: true }));
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
+app.use(cors({ 
+  origin: config.NODE_ENV === 'development' ? true : (config.FRONTEND_URL || 'http://localhost:5173'),
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-business-id', 'x-refresh-token']
+}));
+// Handle preflight for all routes
+app.options('*', cors());
 app.use(compression());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));

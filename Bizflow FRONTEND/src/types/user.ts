@@ -1,4 +1,4 @@
-import { BusinessType } from './business';
+import type { BusinessType } from './business';
 
 export type UserRole = 'OWNER' | 'MANAGER' | 'STAFF' | 'VIEWER';
 

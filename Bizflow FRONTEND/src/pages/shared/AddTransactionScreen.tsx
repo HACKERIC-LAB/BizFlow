@@ -32,7 +32,7 @@ const AddTransactionScreen = () => {
   const [mpesaPhone, setMpesaPhone] = useState('');
 
   useEffect(() => {
-    customerApi.list().then(res => setCustomers(res.data));
+    customerApi.list().then(res => setCustomers(res.data.customers || []));
     businessApi.getServices().then(res => setServices(res.data));
   }, []);
 
@@ -128,17 +128,17 @@ const AddTransactionScreen = () => {
             </Button>
             <div className="space-y-2 mt-4">
               {filteredCustomers.map(c => (
-                <Card key={c.id} onClick={() => { setSelectedCustomer(c); setMpesaPhone(c.phone); handleNext(); }} hover className="flex items-center justify-between">
+                <Card key={c.id} variant="secondaryTeal" onClick={() => { setSelectedCustomer(c); setMpesaPhone(c.phone); handleNext(); }} hover className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-neutral-background flex items-center justify-center font-bold">
+                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center font-bold">
                       {c.name[0]}
                     </div>
                     <div>
-                      <p className="font-bold text-sm">{c.name}</p>
-                      <p className="text-xs text-neutral-textLight">{c.phone}</p>
+                      <p className="font-bold text-sm text-white">{c.name}</p>
+                      <p className="text-xs text-white/70">{c.phone}</p>
                     </div>
                   </div>
-                  <ChevronRight size={18} className="text-neutral-textLight" />
+                  <ChevronRight size={18} className="text-white/60" />
                 </Card>
               ))}
             </div>

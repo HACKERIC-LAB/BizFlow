@@ -24,7 +24,7 @@ const StaffManagementScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
   const user = useAuthStore(state => state.user);
-  const { staff, fetchStaff, isLoading, deactivateStaff } = useStaffStore();
+  const { staff, fetchStaff, deactivateStaff } = useStaffStore();
   const content = getBusinessContent(user?.businessType);
 
   useEffect(() => {
@@ -68,24 +68,24 @@ const StaffManagementScreen = () => {
 
         <div className="space-y-4">
           {filteredStaff.map((member) => (
-            <Card key={member.id} className="relative group">
+            <Card key={member.id} variant="secondaryTeal" className="relative group">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-primary-light rounded-card flex items-center justify-center text-primary">
+                  <div className="w-12 h-12 bg-white/20 rounded-card flex items-center justify-center text-white">
                     <UserCircle size={28} />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h4 className="font-bold">{member.name}</h4>
+                      <h4 className="font-bold text-white">{member.name}</h4>
                       <span className={`px-2 py-0.5 rounded-badge text-[10px] font-bold uppercase ${
-                        member.role === 'MANAGER' ? 'bg-blue-light text-blue' : 'bg-neutral-background text-neutral-textMid'
+                        member.role === 'MANAGER' ? 'bg-primary text-white' : 'bg-white/10 text-white/80'
                       }`}>
                         {member.role}
                       </span>
                     </div>
                     <div className="flex items-center gap-3 mt-1">
                       <p 
-                        className="flex items-center text-xs text-neutral-textLight cursor-pointer hover:text-primary transition-standard"
+                        className="flex items-center text-xs text-white/70 cursor-pointer hover:text-white transition-standard"
                         onClick={() => window.location.href = `tel:${member.phone}`}
                       >
                         <Phone size={12} className="mr-1" /> {member.phone}
@@ -95,7 +95,7 @@ const StaffManagementScreen = () => {
                 </div>
 
                 <HeadlessMenu as="div" className="relative">
-                  <HeadlessMenu.Button className="p-2 text-neutral-textLight hover:bg-neutral-background rounded-button transition-standard">
+                  <HeadlessMenu.Button className="p-2 text-white/60 hover:bg-white/10 rounded-button transition-standard">
                     <MoreVertical size={20} />
                   </HeadlessMenu.Button>
                   <Transition
@@ -157,16 +157,16 @@ const StaffManagementScreen = () => {
                 </HeadlessMenu>
               </div>
               
-              <div className="mt-4 pt-4 border-t border-neutral-border flex justify-between items-center">
+              <div className="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
                 <div className="flex items-center gap-1">
-                  <div className={`w-2 h-2 rounded-full ${member.status === 'Active' ? 'bg-mpesa-green' : 'bg-neutral-border'}`} />
-                  <span className="text-[10px] font-bold text-neutral-textLight uppercase tracking-widest">{member.status}</span>
+                  <div className={`w-2 h-2 rounded-full ${member.status === 'ACTIVE' ? 'bg-mpesa-green' : 'bg-white/20'}`} />
+                  <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest">{member.status}</span>
                 </div>
                 <div className="flex gap-2">
                   <Button 
                     size="sm" 
                     variant="outline" 
-                    className="h-8 text-xs"
+                    className="h-8 text-xs border-white/20 text-white hover:bg-white/10"
                     onClick={() => navigate(`/staff/report/${member.id}`)}
                   >
                     View Report

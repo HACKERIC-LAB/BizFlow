@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, UsersRound, Calendar, Sparkles, Settings } from 'lucide-react';
+import { LayoutDashboard, Users, UsersRound, Calendar, Settings, Plus } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import type { UserRole } from '../../types/user';
 
@@ -13,16 +13,13 @@ const ROLE_NAV: Record<UserRole, NavItem[]> = {
   OWNER: [
     { label: 'Home', path: '/dashboard', icon: LayoutDashboard },
     { label: 'Queue', path: '/queue', icon: UsersRound },
-    { label: 'Clients', path: '/customers', icon: Users },
-    { label: 'Booking', path: '/appointments', icon: Calendar },
-    { label: 'AI', path: '/ai', icon: Sparkles },
-    // { label: 'Settings', path: '/settings', icon: Settings },
+    { label: 'Team', path: '/staff-management', icon: Users },
+    { label: 'Clients', path: '/customers', icon: UsersRound },
   ],
   MANAGER: [
     { label: 'Home', path: '/dashboard', icon: LayoutDashboard },
     { label: 'Queue', path: '/queue', icon: UsersRound },
     { label: 'Clients', path: '/customers', icon: Users },
-    { label: 'AI', path: '/ai', icon: Sparkles },
   ],
   STAFF: [
     { label: 'Queue', path: '/queue', icon: UsersRound },
@@ -45,25 +42,52 @@ export const BottomNavigation = () => {
   const items = ROLE_NAV[user.role] || [];
 
   return (
-    <nav className="fixed md:absolute bottom-0 left-0 z-30 w-full bg-white border-t border-neutral-border h-16 flex items-center justify-around px-2 pb-safe shadow-[0_-1px_3px_rgba(0,0,0,0.05)]">
-      {items.map((item) => (
-        <NavLink
-          key={item.path}
-          to={item.path}
-          className={({ isActive }) => `
-            flex flex-col items-center justify-center flex-1 py-1 gap-1 transition-standard
-            ${isActive ? 'text-primary' : 'text-neutral-textLight hover:text-neutral-textMid'}
-          `}
-        >
-          {({ isActive }) => (
-            <>
-              <item.icon size={22} className={isActive ? 'animate-in fade-in zoom-in duration-300' : ''} />
-              <span className="text-[10px] font-medium uppercase tracking-tight">{item.label}</span>
-              {isActive && <div className="w-1 h-1 bg-primary rounded-full absolute bottom-1" />}
-            </>
-          )}
-        </NavLink>
-      ))}
-    </nav>
+    <div className="fixed md:absolute bottom-0 left-0 z-50 w-full px-6 pb-6 pointer-events-none">
+      <nav className="w-full bg-white h-20 flex items-center justify-between px-2 rounded-3xl shadow-large border border-neutral-border/50 pointer-events-auto relative">
+        {/* First Half */}
+        <div className="flex flex-1 justify-around">
+          {items.slice(0, 2).map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) => `
+                relative flex flex-col items-center justify-center py-2 gap-1 transition-standard
+                ${isActive ? 'text-primary' : 'text-slate-400 hover:text-slate-600'}
+              `}
+            >
+              <item.icon size={22} strokeWidth={2} />
+              <span className="text-[10px] font-bold">{item.label}</span>
+            </NavLink>
+          ))}
+        </div>
+
+        {/* Center FAB */}
+        <div className="relative -top-10 flex flex-col items-center">
+          <button 
+            onClick={() => window.location.href = '/transactions/new'}
+            className="w-16 h-16 bg-primary text-white rounded-full shadow-large flex items-center justify-center hover:scale-110 active:scale-95 transition-standard"
+          >
+            <Plus size={32} strokeWidth={3} />
+          </button>
+        </div>
+
+        {/* Second Half */}
+        <div className="flex flex-1 justify-around">
+          {items.slice(2, 4).map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) => `
+                relative flex flex-col items-center justify-center py-2 gap-1 transition-standard
+                ${isActive ? 'text-primary' : 'text-slate-400 hover:text-slate-600'}
+              `}
+            >
+              <item.icon size={22} strokeWidth={2} />
+              <span className="text-[10px] font-bold">{item.label}</span>
+            </NavLink>
+          ))}
+        </div>
+      </nav>
+    </div>
   );
 };

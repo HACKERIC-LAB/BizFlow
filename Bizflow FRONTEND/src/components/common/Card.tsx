@@ -11,15 +11,26 @@ interface CardProps {
   className?: string;
   onClick?: () => void;
   hover?: boolean;
+  variant?: 'default' | 'primary' | 'secondaryTeal' | 'glass' | 'outline' | 'flat';
 }
 
-export const Card = ({ children, className, onClick, hover }: CardProps) => {
+export const Card = ({ children, className, onClick, hover, variant = 'default' }: CardProps) => {
+  const variants = {
+    default: 'bg-white shadow-medium border border-slate-200',
+    primary: 'bg-primary text-white shadow-large border-none',
+    secondaryTeal: 'bg-secondaryTeal text-primary shadow-medium border border-primary/10',
+    glass: 'glass-card',
+    outline: 'bg-transparent border-2 border-neutral-border',
+    flat: 'bg-slate-50 border border-slate-200',
+  };
+
   return (
     <div
       onClick={onClick}
       className={cn(
-        'bg-neutral-cardBg rounded-card border border-neutral-border shadow-subtle p-4',
-        hover && 'hover:shadow-medium transition-standard cursor-pointer',
+        'rounded-card p-5 animate-fade-in',
+        variants[variant],
+        hover && 'hover:shadow-large hover:-translate-y-1 transition-standard cursor-pointer',
         className
       )}
     >

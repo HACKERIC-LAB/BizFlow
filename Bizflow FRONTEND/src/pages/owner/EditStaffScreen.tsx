@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useStaffStore } from '../../store/staffStore';
 import type { StaffRole } from '../../store/staffStore';
 import { staffApi } from '../../services/staffApi';
 import { MainLayout } from '../../components/layout/MainLayout';
@@ -18,6 +17,7 @@ const EditStaffScreen = () => {
     phone: '',
     role: 'STAFF' as StaffRole
   });
+
   useEffect(() => {
     if (id) {
       staffApi.get(id).then(res => {

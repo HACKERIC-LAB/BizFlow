@@ -38,6 +38,20 @@ KISWAHILI: [reply in Kiswahili]`;
   return result;
 }
 
+export async function chat(businessId: string, userMessage: string): Promise<string> {
+  const prompt = `User message: "${userMessage}"
+  
+You are an AI assistant for a Kenyan small business. Provide a helpful, concise answer.`;
+
+  const response = await chatCompletion(SYSTEM_PROMPT, prompt);
+
+  await prisma.aIInteraction.create({
+    data: { businessId, prompt: userMessage, response },
+  });
+
+  return response;
+}
+
 export async function getWeeklySummary(businessId: string): Promise<string> {
   const weekAgo = new Date();
   weekAgo.setDate(weekAgo.getDate() - 7);
