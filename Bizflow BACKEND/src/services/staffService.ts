@@ -108,7 +108,7 @@ export async function updateSchedule(
 export async function getStaffReport(businessId: string, staffId: string) {
   const user = await prisma.user.findFirst({
     where: { id: staffId, businessId },
-    select: { name: true }
+    select: { name: true, schedules: true }
   });
 
   if (!user) throw new AppError('Staff member not found', 404);
@@ -131,6 +131,21 @@ export async function getStaffReport(businessId: string, staffId: string) {
   const revenue = transactions.reduce((sum, t) => sum + t.totalAmount, 0);
   const customerCount = new Set(transactions.filter(t => t.customerId).map(t => t.customerId)).size;
   
+  // Calculate Off Days vs Active Days (for last 30 days)
+  let offDaysCount = 0;
+  let activeDaysCount = 0;
+  for (let i = 0; i < 30; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dayOfWeek = d.getDay();
+    const sch = user.schedules.find(s => s.dayOfWeek === dayOfWeek);
+    if (sch && sch.isOff) {
+      offDaysCount++;
+    } else {
+      activeDaysCount++;
+    }
+  }
+
   // Top Services
   const serviceCounts: Record<string, number> = {};
   transactions.forEach(t => {
@@ -162,7 +177,9 @@ export async function getStaffReport(businessId: string, staffId: string) {
     period: 'Last 30 Days',
     revenue,
     customerCount,
-    avgServiceTime: 45, // Default for now
+    offDaysCount,
+    activeDaysCount,
+    avgServiceTime: 45,
     topServices,
     dailyPerformance
   };

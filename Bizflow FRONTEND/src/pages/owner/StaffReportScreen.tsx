@@ -39,7 +39,8 @@ const StaffReportScreen = () => {
   const stats = [
     { label: 'Revenue Generated', value: `KSh ${report.revenue.toLocaleString()}`, icon: DollarSign, color: 'primary' },
     { label: `${content.customersLabel} Served`, value: report.customerCount, icon: Users, color: 'blue' },
-    { label: 'Avg. Service Time', value: `${report.avgServiceTime} min`, icon: Clock, color: 'gold' },
+    { label: 'Working Days', value: report.activeDaysCount, icon: Calendar, color: 'primary' },
+    { label: 'Off Days', value: report.offDaysCount, icon: Clock, color: 'gold' },
   ];
 
   return (
