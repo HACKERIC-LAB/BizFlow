@@ -25,16 +25,31 @@ const StaffScheduleScreen = () => {
 
   useEffect(() => {
     if (id) {
-      staffApi.list().then(res => {
-        const found = res.data.find((s: any) => s.id === id);
+      staffApi.get(id).then(res => {
+        const found = res.data;
         if (found) {
           setMember(found);
-          // If the member has a schedule, use it, otherwise use default
-          setSchedule(found.schedule || days.map(day => ({
-            day,
-            off: day === 'Sunday',
-            shifts: day === 'Sunday' ? [] : [{ start: '09:00', end: '18:00' }]
-          })));
+          // Map backend schedules (dayOfWeek) to our display format
+          if (found.schedules && found.schedules.length > 0) {
+            const mapped = days.map((dayName, idx) => {
+              const dayOfWeek = idx === 6 ? 0 : idx + 1; // Mon=1...Sat=6, Sun=0
+              const daySettings = found.schedules.find((s: any) => s.dayOfWeek === dayOfWeek);
+              return {
+                day: dayName,
+                off: daySettings ? daySettings.isOff : (dayName === 'Sunday'),
+                shifts: daySettings && !daySettings.isOff 
+                  ? [{ start: daySettings.startTime || '09:00', end: daySettings.endTime || '18:00' }]
+                  : (dayName === 'Sunday' ? [] : [{ start: '09:00', end: '18:00' }])
+              };
+            });
+            setSchedule(mapped);
+          } else {
+            setSchedule(days.map(day => ({
+              day,
+              off: day === 'Sunday',
+              shifts: day === 'Sunday' ? [] : [{ start: '09:00', end: '18:00' }]
+            })));
+          }
         }
         setIsLoading(false);
       });
@@ -43,7 +58,10 @@ const StaffScheduleScreen = () => {
 
   const toggleDayOff = (index: number) => {
     const newSchedule = [...schedule];
-    newSchedule[index].off = !newSchedule[index].off;
+    newSchedule[index] = {
+      ...newSchedule[index],
+      off: !newSchedule[index].off
+    };
     if (!newSchedule[index].off && newSchedule[index].shifts.length === 0) {
       newSchedule[index].shifts = [{ start: '09:00', end: '18:00' }];
     }
@@ -52,7 +70,9 @@ const StaffScheduleScreen = () => {
 
   const updateShift = (dayIndex: number, shiftIndex: number, field: 'start' | 'end', value: string) => {
     const newSchedule = [...schedule];
-    newSchedule[dayIndex].shifts[shiftIndex][field] = value;
+    const newShifts = [...newSchedule[dayIndex].shifts];
+    newShifts[shiftIndex] = { ...newShifts[shiftIndex], [field]: value };
+    newSchedule[dayIndex] = { ...newSchedule[dayIndex], shifts: newShifts };
     setSchedule(newSchedule);
   };
 
@@ -61,7 +81,15 @@ const StaffScheduleScreen = () => {
     setIsSaving(true);
     
     try {
-      await staffApi.update(id, { schedule });
+      // Map back to backend format: { dayOfWeek, isOff, startTime, endTime }
+      const backendSchedule = schedule.map((item, idx) => ({
+        dayOfWeek: idx === 6 ? 0 : idx + 1,
+        isOff: item.off,
+        startTime: item.shifts[0]?.start || '09:00',
+        endTime: item.shifts[0]?.end || '18:00'
+      }));
+
+      await staffApi.updateSchedule(id, backendSchedule);
       toast.success('Schedule updated successfully!');
       navigate(-1);
     } catch (error) {
