@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useAuthStore } from '../store/authStore';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.bizflow.co.ke/v1';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/v1';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
