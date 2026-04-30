@@ -56,7 +56,7 @@ const AddTransactionScreen = () => {
       await transactionApi.initiateMpesa({
         customerPhone: mpesaPhone,
         customerId: selectedCustomer.id,
-        amount: totalAmount,
+        totalAmount: totalAmount,
         serviceIds: selectedServices
       });
       
@@ -80,7 +80,7 @@ const AddTransactionScreen = () => {
     try {
       await transactionApi.recordCash({
         customerId: selectedCustomer.id,
-        amount: totalAmount,
+        totalAmount: totalAmount,
         serviceIds: selectedServices
       });
       toast.success('Payment Received!');
@@ -128,17 +128,23 @@ const AddTransactionScreen = () => {
             </Button>
             <div className="space-y-2 mt-4">
               {filteredCustomers.map(c => (
-                <Card key={c.id} variant="secondaryTeal" onClick={() => { setSelectedCustomer(c); setMpesaPhone(c.phone); handleNext(); }} hover className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center font-bold">
+                <Card 
+                  key={c.id} 
+                  variant="default" 
+                  onClick={() => { setSelectedCustomer(c); setMpesaPhone(c.phone); handleNext(); }} 
+                  hover 
+                  className="flex items-center justify-between group"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full bg-neutral-background flex items-center justify-center font-bold text-primary">
                       {c.name[0]}
                     </div>
                     <div>
-                      <p className="font-bold text-sm text-white">{c.name}</p>
-                      <p className="text-xs text-white/70">{c.phone}</p>
+                      <p className="font-bold text-sm text-neutral-darkNavy group-hover:text-primary transition-standard">{c.name}</p>
+                      <p className="text-xs text-neutral-textLight">{c.phone}</p>
                     </div>
                   </div>
-                  <ChevronRight size={18} className="text-white/60" />
+                  <ChevronRight size={18} className="text-neutral-border group-hover:text-primary transition-standard" />
                 </Card>
               ))}
             </div>
@@ -146,8 +152,28 @@ const AddTransactionScreen = () => {
         )}
 
         {step === 2 && (
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold">Select Services</h3>
+          <div className="space-y-6">
+            <div className="bg-white p-4 rounded-card border border-neutral-border shadow-subtle sticky top-20 z-10">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-lg font-bold">Select Services</h3>
+                  <p className="text-xs text-neutral-textLight">{selectedServices.length} services selected</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[10px] text-neutral-textLight uppercase tracking-widest font-bold">Total Amount</p>
+                  <p className="text-2xl font-bold text-primary">KSh {totalAmount.toLocaleString()}</p>
+                </div>
+              </div>
+              <Button 
+                className="w-full" 
+                onClick={handleNext} 
+                disabled={selectedServices.length === 0}
+                leftIcon={<CheckCircle2 size={18} />}
+              >
+                Confirm Selection
+              </Button>
+            </div>
+
             <div className="space-y-2">
               {services.map((s) => (
                 <Card key={s.id} 
@@ -172,13 +198,6 @@ const AddTransactionScreen = () => {
                   </div>
                 </Card>
               ))}
-            </div>
-            <div className="pt-4 border-t border-neutral-border">
-              <div className="flex justify-between items-center mb-4">
-                <span className="font-bold">Total Amount</span>
-                <span className="text-2xl font-bold text-primary">KSh {totalAmount.toLocaleString()}</span>
-              </div>
-              <Button className="w-full" onClick={handleNext} disabled={selectedServices.length === 0}>Confirm Services</Button>
             </div>
           </div>
         )}

@@ -22,6 +22,8 @@ const StaffScheduleScreen = lazy(() => import('./pages/owner/StaffScheduleScreen
 const AddTransactionScreen = lazy(() => import('./pages/shared/AddTransactionScreen.tsx'));
 const AddCustomerScreen = lazy(() => import('./pages/shared/AddCustomerScreen.tsx'));
 const CustomerDetailsScreen = lazy(() => import('./pages/shared/CustomerDetailsScreen.tsx'));
+const SettingsScreen = lazy(() => import('./pages/shared/SettingsScreen.tsx'));
+const LegalScreen = lazy(() => import('./pages/shared/LegalScreen.tsx'));
 
 const Loading = () => (
   <div className="flex h-screen w-full items-center justify-center">
@@ -161,13 +163,14 @@ function App() {
             }
           />
           <Route
-            path="/profile"
+            path="/settings"
             element={
-              <ProtectedRoute allowedRoles={['STAFF']}>
-                <StaffDashboard />
+              <ProtectedRoute allowedRoles={['OWNER', 'MANAGER', 'STAFF', 'VIEWER']}>
+                <SettingsScreen />
               </ProtectedRoute>
             }
           />
+          <Route path="/legal/:type" element={<LegalScreen />} />
           
           {/* Default Route */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
