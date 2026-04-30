@@ -28,6 +28,7 @@ export async function recordCashTransaction(
   const transaction = await prisma.$transaction(async (tx) => {
     const t = await tx.transaction.create({
       data: {
+        id: uuidv4(),
         businessId,
         customerId: data.customerId,
         staffId,
@@ -39,8 +40,9 @@ export async function recordCashTransaction(
       },
     });
 
-    await tx.transactionService.createMany({
+    await tx.transactionservice.createMany({
       data: services.map((s) => ({
+        id: uuidv4(),
         transactionId: t.id,
         serviceId: s.id,
         price: s.price,
@@ -83,6 +85,7 @@ export async function initiateMpesaPayment(
 
   const transaction = await prisma.transaction.create({
     data: {
+      id: uuidv4(),
       businessId,
       customerId: data.customerId,
       staffId,
@@ -95,8 +98,9 @@ export async function initiateMpesaPayment(
     },
   });
 
-  await prisma.transactionService.createMany({
+  await prisma.transactionservice.createMany({
     data: services.map((s) => ({
+      id: uuidv4(),
       transactionId: transaction.id,
       serviceId: s.id,
       price: s.price,
@@ -190,7 +194,7 @@ export async function getDailySummary(businessId: string) {
     .slice(0, 5);
 
   // Queue count
-  const queueCount = await prisma.queueEntry.count({
+  const queueCount = await prisma.queueentry.count({
     where: { businessId, status: 'WAITING' },
   });
 

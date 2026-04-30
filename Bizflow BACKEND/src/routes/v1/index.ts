@@ -13,6 +13,7 @@ import aiRoutes from './ai';
 import webhookRoutes from './webhooks';
 import reportRoutes from './reports';
 import syncRoutes from './sync';
+import userRoutes from './user';
 
 const router = Router();
 
@@ -30,5 +31,6 @@ router.use('/appointments', authenticate, tenantIsolation, appointmentRoutes);
 router.use('/ai', authenticate, tenantIsolation, aiRoutes);
 router.use('/reports', authenticate, tenantIsolation, reportRoutes);
 router.use('/sync', authenticate, tenantIsolation, syncRoutes);
+router.use('/user', authenticate, userRoutes);
 
 export default router;

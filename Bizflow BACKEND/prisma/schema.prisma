@@ -71,7 +71,7 @@ model auditlog {
 }
 
 model business {
-  id              String            @id
+  id              String            @id @default(cuid())
   name            String            @db.VarChar(255)
   type            business_type     @default(BARBERSHOP)
   phone           String            @db.VarChar(20)
@@ -80,7 +80,7 @@ model business {
   logoUrl         String?           @db.VarChar(500)
   mpesaTill       String?           @db.VarChar(20)
   createdAt       DateTime          @default(now())
-  updatedAt       DateTime
+  updatedAt       DateTime          @updatedAt
   aiinteraction   aiinteraction[]
   appointment     appointment[]
   auditlog        auditlog[]
@@ -95,7 +95,7 @@ model business {
 }
 
 model customer {
-  id          String        @id
+  id          String        @id @default(cuid())
   businessId  String
   name        String        @db.VarChar(255)
   phone       String        @db.VarChar(20)
@@ -104,11 +104,11 @@ model customer {
   totalVisits Int           @default(0)
   lastVisit   DateTime?
   createdAt   DateTime      @default(now())
-  updatedAt   DateTime
-  appointment appointment[]
-  business    business      @relation(fields: [businessId], references: [id], onDelete: Cascade, map: "Customer_businessId_fkey")
-  queueentry  queueentry[]
-  transaction transaction[]
+  updatedAt   DateTime      @updatedAt
+  appointments  appointment[]
+  business      business      @relation(fields: [businessId], references: [id], onDelete: Cascade, map: "Customer_businessId_fkey")
+  queueEntries  queueentry[]
+  transactions  transaction[]
 
   @@unique([phone, businessId], map: "Customer_phone_businessId_key")
   @@index([businessId], map: "Customer_businessId_idx")
@@ -167,31 +167,31 @@ model queueservice {
 }
 
 model service {
-  id                 String               @id
+  id                 String               @id @default(cuid())
   businessId         String
   name               String               @db.VarChar(255)
   price              Float
   duration           Int
   isActive           Boolean              @default(true)
   createdAt          DateTime             @default(now())
-  updatedAt          DateTime
-  appointmentservice appointmentservice[]
-  queueservice       queueservice[]
+  updatedAt          DateTime             @updatedAt
+  appointments       appointmentservice[]
+  queueEntries       queueservice[]
   business           business             @relation(fields: [businessId], references: [id], onDelete: Cascade, map: "Service_businessId_fkey")
-  transactionservice transactionservice[]
+  transactions       transactionservice[]
 
   @@index([businessId], map: "Service_businessId_idx")
 }
 
 model staffschedule {
-  id        String   @id
+  id        String   @id @default(cuid())
   userId    String
   dayOfWeek Int
   isOff     Boolean  @default(false)
   startTime String?  @db.VarChar(5)
   endTime   String?  @db.VarChar(5)
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
   user      user     @relation(fields: [userId], references: [id], onDelete: Cascade, map: "StaffSchedule_userId_fkey")
 
   @@unique([userId, dayOfWeek], map: "StaffSchedule_userId_dayOfWeek_key")
@@ -199,7 +199,7 @@ model staffschedule {
 }
 
 model transaction {
-  id                 String                    @id
+  id                 String                    @id @default(cuid())
   businessId         String
   customerId         String?
   staffId            String?
@@ -211,12 +211,12 @@ model transaction {
   receiptNumber      String                    @unique(map: "Transaction_receiptNumber_key") @db.VarChar(50)
   notes              String?                   @db.Text
   createdAt          DateTime                  @default(now())
-  updatedAt          DateTime
+  updatedAt          DateTime                  @updatedAt
   mpesacallback      mpesacallback?
   business           business                  @relation(fields: [businessId], references: [id], onDelete: Cascade, map: "Transaction_businessId_fkey")
   customer           customer?                 @relation(fields: [customerId], references: [id], map: "Transaction_customerId_fkey")
   user               user?                     @relation(fields: [staffId], references: [id], map: "Transaction_staffId_fkey")
-  transactionservice transactionservice[]
+  services           transactionservice[]
 
   @@index([businessId], map: "Transaction_businessId_idx")
   @@index([createdAt], map: "Transaction_createdAt_idx")
@@ -237,7 +237,7 @@ model transactionservice {
 }
 
 model user {
-  id            String          @id
+  id            String          @id @default(cuid())
   businessId    String
   name          String          @db.VarChar(255)
   phone         String          @db.VarChar(20)
@@ -249,11 +249,12 @@ model user {
   resetOtp      String?         @db.VarChar(10)
   resetOtpExp   DateTime?
   commission    Float           @default(0)
+  profilePhoto  String?         @db.VarChar(500)
   createdAt     DateTime        @default(now())
-  updatedAt     DateTime
-  appointment   appointment[]
-  staffschedule staffschedule[]
-  transaction   transaction[]
+  updatedAt     DateTime        @updatedAt
+  appointments       appointment[]
+  schedules          staffschedule[]
+  transactions       transaction[]
   business      business        @relation(fields: [businessId], references: [id], onDelete: Cascade, map: "User_businessId_fkey")
 
   @@unique([phone, businessId], map: "User_phone_businessId_key")

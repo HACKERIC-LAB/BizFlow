@@ -99,8 +99,8 @@ export async function updateSchedule(
   const user = await prisma.user.findFirst({ where: { id: userId, businessId } });
   if (!user) throw new AppError('Staff member not found', 404);
 
-  await prisma.staffSchedule.deleteMany({ where: { userId } });
-  return prisma.staffSchedule.createMany({
+  await prisma.staffschedule.deleteMany({ where: { userId } });
+  return prisma.staffschedule.createMany({
     data: schedule.map((s) => ({ userId, ...s })),
   });
 }

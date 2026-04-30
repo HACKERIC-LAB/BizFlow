@@ -31,6 +31,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev', { stream: { write: (msg) => logger.http(msg.trim()) } }));
 app.use(defaultLimiter);
+app.use('/uploads', express.static('uploads'));
 
 // ─── Health Check ─────────────────────────────────────────────────────────────
 app.get('/health', (_req, res) => {
