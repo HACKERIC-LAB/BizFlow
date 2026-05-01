@@ -35,16 +35,16 @@ const AddCustomerScreen = () => {
     <MainLayout>
       <div className="space-y-6">
         <div className="flex items-center gap-4">
-          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-neutral-textMid">
+          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-coffee-600">
             <ChevronLeft size={24} />
           </button>
           <h2 className="text-xl">Add New Customer</h2>
         </div>
 
-        <div className="bg-white p-6 rounded-card border border-neutral-border shadow-subtle">
+        <div className="bg-white p-6 rounded-card border border-coffee-200 shadow-subtle">
           <form onSubmit={handleSave} className="space-y-5">
             <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-primary-light rounded-full flex items-center justify-center text-primary">
+              <div className="w-20 h-20 bg-coffee-400 rounded-full flex items-center justify-center text-coffee-700">
                 <UserPlus size={40} />
               </div>
             </div>
@@ -87,8 +87,8 @@ const AddCustomerScreen = () => {
           </form>
         </div>
 
-        <div className="p-4 bg-neutral-background rounded-card border border-dashed border-neutral-border text-center">
-          <p className="text-xs text-neutral-textLight">
+        <div className="p-4 bg-coffee-50 rounded-card border border-dashed border-coffee-200 text-center">
+          <p className="text-xs text-neutral-500">
             Adding a customer allows you to track their visit history and reward them with loyalty points.
           </p>
         </div>

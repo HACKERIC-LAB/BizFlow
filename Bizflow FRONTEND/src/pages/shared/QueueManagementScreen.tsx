@@ -81,20 +81,20 @@ const QueueManagementScreen = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl flex items-center gap-2">
-            Queue <span className="text-neutral-textLight text-sm font-normal">({queueEntries.length} waiting)</span>
+            Queue <span className="text-neutral-500 text-sm font-normal">({queueEntries.length} waiting)</span>
           </h2>
         </div>
 
         {/* Now Serving */}
         <section>
-          <h3 className="text-xs uppercase tracking-wider text-neutral-textLight font-bold mb-3">Currently Serving</h3>
+          <h3 className="text-xs uppercase tracking-wider text-neutral-500 font-bold mb-3">Currently Serving</h3>
           {nowServing ? (
             <Card variant="primary" className="shadow-large p-6">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <p className="text-primary-light text-xs uppercase font-bold tracking-widest mb-1">Serving Now</p>
+                  <p className="text-coffee-400 text-xs uppercase font-bold tracking-widest mb-1">Serving Now</p>
                   <h4 className="text-2xl font-bold">{nowServing.customerName || nowServing.customerPhone}</h4>
-                  <p className="text-primary-light text-sm">{nowServing.serviceName}</p>
+                  <p className="text-coffee-400 text-sm">{nowServing.serviceName}</p>
                 </div>
                 <div className="bg-white/20 p-3 rounded-card backdrop-blur-sm">
                   <Play size={24} className="fill-white" />
@@ -103,7 +103,7 @@ const QueueManagementScreen = () => {
               <div className="flex gap-3">
                 <Button 
                   variant="secondary" 
-                  className="flex-1 bg-white text-primary border-none"
+                  className="flex-1 bg-white text-coffee-700 border-none"
                   onClick={handleComplete}
                 >
                   Complete
@@ -119,8 +119,8 @@ const QueueManagementScreen = () => {
             </Card>
           ) : (
             <Card className="border-dashed flex flex-col items-center justify-center py-10 bg-white/50">
-              <RotateCcw size={32} className="text-neutral-border mb-3" />
-              <p className="text-neutral-textLight font-medium">No one is being served</p>
+              <RotateCcw size={32} className="text-coffee-200 mb-3" />
+              <p className="text-neutral-500 font-medium">No one is being served</p>
               <Button 
                 size="sm" 
                 className="mt-4" 
@@ -136,29 +136,29 @@ const QueueManagementScreen = () => {
 
         {/* Waiting List */}
         <section className="space-y-3">
-          <h3 className="text-xs uppercase tracking-wider text-neutral-textLight font-bold mb-1">Waiting List</h3>
+          <h3 className="text-xs uppercase tracking-wider text-neutral-500 font-bold mb-1">Waiting List</h3>
           {isLoading ? (
-            [1, 2, 3].map(i => <div key={i} className="h-20 bg-neutral-background animate-pulse rounded-card" />)
+            [1, 2, 3].map(i => <div key={i} className="h-20 bg-coffee-50 animate-pulse rounded-card" />)
           ) : queueEntries.length > 0 ? (
             queueEntries.map((entry, index) => (
-              <Card key={entry.id} className="flex items-center justify-between p-4 group hover:border-primary transition-standard">
+              <Card key={entry.id} className="flex items-center justify-between p-4 group hover:border-coffee-700 transition-standard">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-card bg-neutral-background flex flex-col items-center justify-center">
-                    <span className="text-[10px] text-neutral-textLight font-bold uppercase">Pos</span>
-                    <span className="text-sm font-bold text-neutral-darkNavy">{index + 1}</span>
+                  <div className="w-10 h-10 rounded-card bg-coffee-50 flex flex-col items-center justify-center">
+                    <span className="text-[10px] text-neutral-500 font-bold uppercase">Pos</span>
+                    <span className="text-sm font-bold text-coffee-900">{index + 1}</span>
                   </div>
                   <div>
                     <h4 className="text-sm font-bold">{entry.customerName || entry.customerPhone}</h4>
-                    <p className="text-[10px] text-neutral-textLight">{entry.serviceName}</p>
+                    <p className="text-[10px] text-neutral-500">{entry.serviceName}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button className="p-2 text-primary hover:bg-primary-light rounded-button transition-standard">
+                  <button className="p-2 text-coffee-700 hover:bg-coffee-400 rounded-button transition-standard">
                     <MessageCircle size={18} />
                   </button>
                   <button 
                     onClick={() => handleStartService(entry.id)}
-                    className="p-2 bg-primary-accent text-primary-dark rounded-button hover:bg-primary-accent/90 transition-standard"
+                    className="p-2 bg-accent text-coffee-900 rounded-button hover:bg-accent/90 transition-standard"
                   >
                     <Play size={18} fill="white" />
                   </button>
@@ -166,7 +166,7 @@ const QueueManagementScreen = () => {
               </Card>
             ))
           ) : (
-            <p className="text-center py-10 text-neutral-textLight text-sm italic">Queue is empty</p>
+            <p className="text-center py-10 text-neutral-500 text-sm italic">Queue is empty</p>
           )}
         </section>
 

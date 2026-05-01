@@ -9,70 +9,70 @@
     -webkit-tap-highlight-color: transparent;
     scroll-behavior: smooth;
   }
-  
+
   body {
-    @apply bg-neutral-background text-neutral-darkNavy font-sans antialiased;
+    background-color: #F5EFE6;
+    color: #3B231B;
+    font-family: Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  h1 {
-    @apply text-3xl font-bold font-heading tracking-tight;
-  }
-
-  h2 {
-    @apply text-2xl font-bold font-heading tracking-tight;
-  }
-
-  h3 {
-    @apply text-xl font-bold font-heading tracking-tight;
-  }
-
-  p {
-    @apply text-base font-normal leading-relaxed;
-  }
+  h1 { @apply text-3xl font-bold font-heading tracking-tight; }
+  h2 { @apply text-2xl font-bold font-heading tracking-tight; }
+  h3 { @apply text-xl  font-bold font-heading tracking-tight; }
+  p  { @apply text-base font-normal leading-relaxed; }
 }
 
 @layer components {
   .body-small {
-    @apply text-sm font-normal text-neutral-textMid;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #8A5A44; /* coffee-600 */
   }
 
   .label-text {
-    @apply text-sm font-semibold text-neutral-darkNavy;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #3B231B; /* coffee-900 */
   }
 
   .caption-text {
-    @apply text-[10px] font-bold uppercase tracking-wider text-neutral-textLight;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9E9E9E; /* neutral-500 */
   }
 
   .glass-card {
-    @apply bg-white border border-neutral-border shadow-medium;
+    background-color: #ffffff;
+    border: 1px solid #E0D6C8; /* coffee-200 */
+    @apply shadow-medium;
   }
 
   .glass-header {
-    @apply bg-white border-b border-neutral-border sticky top-0 z-50;
-  }
-  
-  .soft-gradient-bg {
-    background: linear-gradient(180deg, #F0FDFA 0%, #FFFFFF 100%);
-  }
-  
-  .solid-primary {
-    @apply bg-primary text-white;
+    background-color: #ffffff;
+    border-bottom: 1px solid #E0D6C8; /* coffee-200 */
+    @apply sticky top-0 z-50;
   }
 
-  .solid-blue {
-    @apply bg-blue text-white;
+  .soft-gradient-bg {
+    background: linear-gradient(180deg, #EADBC8 0%, #F5EFE6 100%);
+  }
+
+  .solid-primary {
+    background-color: #6B3E2E; /* coffee-700 */
+    color: #ffffff;
   }
 }
 
-/* Custom transitions and utility classes */
+/* Utilities */
 .transition-standard {
   @apply transition-all duration-300 ease-in-out;
 }
 
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
+.no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

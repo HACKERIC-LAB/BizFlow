@@ -61,7 +61,7 @@ const CustomerListScreen = () => {
           </div>
           
           <HeadlessMenu as="div" className="relative">
-            <HeadlessMenu.Button className="h-14 px-4 bg-white border border-neutral-border/50 rounded-2xl flex items-center justify-center text-slate-400 hover:text-primary transition-standard shadow-subtle">
+            <HeadlessMenu.Button className="h-14 px-4 bg-white border border-coffee-200/50 rounded-2xl flex items-center justify-center text-coffee-500 hover:text-coffee-700 transition-standard shadow-subtle">
               <Filter size={18} />
             </HeadlessMenu.Button>
             <Transition
@@ -73,26 +73,26 @@ const CustomerListScreen = () => {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <HeadlessMenu.Items className="absolute right-0 mt-2 w-48 origin-top-right divide-y divide-neutral-border rounded-2xl bg-white shadow-large ring-1 ring-black ring-opacity-5 focus:outline-none z-10 p-1">
-                <div className="px-3 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sort By</div>
+              <HeadlessMenu.Items className="absolute right-0 mt-2 w-48 origin-top-right divide-y divide-coffee-200 rounded-2xl bg-white shadow-large ring-1 ring-black ring-opacity-5 focus:outline-none z-10 p-1">
+                <div className="px-3 py-2 text-[10px] font-bold text-coffee-500 uppercase tracking-widest">Sort By</div>
                 <div className="py-1">
                   <HeadlessMenu.Item>
                     {({ active }) => (
-                      <button className={`${active ? 'bg-primary/10 text-primary' : 'text-slate-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
+                      <button className={`${active ? 'bg-coffee-700/10 text-coffee-700' : 'text-coffee-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
                         Most Recent
                       </button>
                     )}
                   </HeadlessMenu.Item>
                   <HeadlessMenu.Item>
                     {({ active }) => (
-                      <button className={`${active ? 'bg-primary/10 text-primary' : 'text-slate-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
+                      <button className={`${active ? 'bg-coffee-700/10 text-coffee-700' : 'text-coffee-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
                         Most Visits
                       </button>
                     )}
                   </HeadlessMenu.Item>
                   <HeadlessMenu.Item>
                     {({ active }) => (
-                      <button className={`${active ? 'bg-primary/10 text-primary' : 'text-slate-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
+                      <button className={`${active ? 'bg-coffee-700/10 text-coffee-700' : 'text-coffee-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
                         Top Spenders
                       </button>
                     )}
@@ -105,7 +105,7 @@ const CustomerListScreen = () => {
 
         <div className="space-y-3">
           {isLoading ? (
-            [1, 2, 3].map(i => <div key={i} className="h-20 bg-neutral-background animate-pulse rounded-card" />)
+            [1, 2, 3].map(i => <div key={i} className="h-20 bg-coffee-50 animate-pulse rounded-card" />)
           ) : filteredCustomers.length > 0 ? (
             filteredCustomers.map((customer) => (
               <Card 
@@ -115,16 +115,16 @@ const CustomerListScreen = () => {
                 onClick={() => navigate(`/customers/${customer.id}`)}
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-neutral-background rounded-full flex items-center justify-center text-neutral-textMid font-bold text-lg">
+                  <div className="w-12 h-12 bg-coffee-50 rounded-full flex items-center justify-center text-coffee-600 font-bold text-lg">
                     {customer.name[0]}
                   </div>
                   <div>
-                    <h4 className="font-bold group-hover:text-primary transition-standard">{customer.name}</h4>
+                    <h4 className="font-bold group-hover:text-coffee-700 transition-standard">{customer.name}</h4>
                     <div className="flex items-center gap-3 mt-0.5">
-                      <p className="flex items-center text-[10px] text-neutral-textLight font-medium">
+                      <p className="flex items-center text-[10px] text-neutral-500 font-medium">
                         <Phone size={10} className="mr-1" /> {customer.phone}
                       </p>
-                      <p className="flex items-center text-[10px] text-neutral-textLight font-medium">
+                      <p className="flex items-center text-[10px] text-neutral-500 font-medium">
                         <History size={10} className="mr-1" /> {customer._count?.transactions || 0} Visits
                       </p>
                     </div>
@@ -132,29 +132,29 @@ const CustomerListScreen = () => {
                 </div>
                 <div className="text-right flex items-center gap-3">
                   <div>
-                    <p className="text-xs font-bold text-neutral-darkNavy">KSh {(customer.totalSpent || 0).toLocaleString()}</p>
-                    <p className="flex items-center justify-end text-[10px] text-gold font-bold">
+                    <p className="text-xs font-bold text-coffee-900">KSh {(customer.totalSpent || 0).toLocaleString()}</p>
+                    <p className="flex items-center justify-end text-[10px] text-accent font-bold">
                       <Star size={8} className="mr-0.5 fill-gold" /> {customer.loyaltyPoints || 0}
                     </p>
                   </div>
-                  <ChevronRight size={18} className="text-neutral-border group-hover:text-primary transition-standard" />
+                  <ChevronRight size={18} className="text-coffee-200 group-hover:text-coffee-700 transition-standard" />
                 </div>
               </Card>
             ))
           ) : (
-            <p className="text-center py-10 text-neutral-textLight text-sm italic">No customers found</p>
+            <p className="text-center py-10 text-neutral-500 text-sm italic">No customers found</p>
           )}
         </div>
 
         {/* Loyalty Program Teaser */}
-        <Card className="bg-gold-light border-gold/20 p-6 mt-6">
+        <Card className="bg-accent-light border-accent/20 p-6 mt-6">
           <div className="flex gap-4">
-            <div className="w-12 h-12 bg-gold rounded-card flex items-center justify-center text-white shrink-0">
+            <div className="w-12 h-12 bg-accent rounded-card flex items-center justify-center text-white shrink-0">
               <Star size={24} fill="white" />
             </div>
             <div>
-              <h4 className="font-bold text-gold-dark">Loyalty Program</h4>
-              <p className="text-xs text-gold-dark/80 mt-1">
+              <h4 className="font-bold text-accent-dark">Loyalty Program</h4>
+              <p className="text-xs text-accent-dark/80 mt-1">
                 Reward your regulars to keep them coming back! Track points and offer discounts automatically.
               </p>
             </div>

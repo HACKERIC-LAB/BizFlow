@@ -72,21 +72,21 @@ const StaffManagementScreen = () => {
               <Card key={member.id} variant="default" className="relative group border-l-4 border-l-primary">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-card flex items-center justify-center text-primary">
+                    <div className="w-12 h-12 bg-coffee-700/10 rounded-card flex items-center justify-center text-coffee-700">
                       <UserCircle size={28} />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h4 className="font-bold text-neutral-darkNavy">{member.name}</h4>
+                        <h4 className="font-bold text-coffee-900">{member.name}</h4>
                         <span className={`px-2 py-0.5 rounded-badge text-[10px] font-bold uppercase ${
-                          member.role === 'MANAGER' ? 'bg-primary text-white' : 'bg-neutral-background text-neutral-textMid'
+                          member.role === 'MANAGER' ? 'bg-coffee-700 text-white' : 'bg-coffee-50 text-coffee-600'
                         }`}>
                           {member.role}
                         </span>
                       </div>
                       <div className="flex items-center gap-3 mt-1">
                         <p 
-                          className="flex items-center text-xs text-neutral-textMid cursor-pointer hover:text-primary transition-standard"
+                          className="flex items-center text-xs text-coffee-600 cursor-pointer hover:text-coffee-700 transition-standard"
                           onClick={() => window.location.href = `tel:${member.phone}`}
                         >
                           <Phone size={12} className="mr-1" /> {member.phone}
@@ -96,7 +96,7 @@ const StaffManagementScreen = () => {
                   </div>
 
                   <HeadlessMenu as="div" className="relative">
-                    <HeadlessMenu.Button className="p-2 text-neutral-textLight hover:bg-neutral-background rounded-button transition-standard">
+                    <HeadlessMenu.Button className="p-2 text-neutral-500 hover:bg-coffee-50 rounded-button transition-standard">
                       <MoreVertical size={20} />
                     </HeadlessMenu.Button>
                     <Transition
@@ -108,12 +108,12 @@ const StaffManagementScreen = () => {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <HeadlessMenu.Items className="absolute right-0 mt-2 w-48 origin-top-right divide-y divide-neutral-border rounded-card bg-white shadow-large ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                      <HeadlessMenu.Items className="absolute right-0 mt-2 w-48 origin-top-right divide-y divide-coffee-200 rounded-card bg-white shadow-large ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
                         <div className="py-1">
                           <HeadlessMenu.Item>
                             {({ active }) => (
                               <button 
-                                className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}
+                                className={`${active ? 'bg-coffee-50' : ''} flex w-full items-center px-4 py-2 text-sm text-coffee-600 transition-standard`}
                                 onClick={() => navigate(`/staff/edit/${member.id}`)}
                               >
                                 Edit Profile
@@ -123,7 +123,7 @@ const StaffManagementScreen = () => {
                           <HeadlessMenu.Item>
                             {({ active }) => (
                               <button 
-                                className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}
+                                className={`${active ? 'bg-coffee-50' : ''} flex w-full items-center px-4 py-2 text-sm text-coffee-600 transition-standard`}
                                 onClick={() => navigate(`/staff/schedule/${member.id}`)}
                               >
                                 Manage Schedule
@@ -135,7 +135,7 @@ const StaffManagementScreen = () => {
                           <HeadlessMenu.Item>
                             {({ active }) => (
                               <button 
-                                className={`${active ? 'bg-neutral-background' : ''} flex w-full items-center px-4 py-2 text-sm text-neutral-textMid transition-standard`}
+                                className={`${active ? 'bg-coffee-50' : ''} flex w-full items-center px-4 py-2 text-sm text-coffee-600 transition-standard`}
                                 onClick={() => toast.success('Password reset link sent!')}
                               >
                                 <Lock size={14} className="mr-2" /> Reset Password
@@ -145,7 +145,7 @@ const StaffManagementScreen = () => {
                           <HeadlessMenu.Item>
                             {({ active }) => (
                               <button 
-                                className={`${active ? 'bg-accent-redLight text-accent-red' : 'text-accent-red'} flex w-full items-center px-4 py-2 text-sm transition-standard`}
+                                className={`${active ? 'bg-accent-redLight text-red-500' : 'text-red-500'} flex w-full items-center px-4 py-2 text-sm transition-standard`}
                                 onClick={() => handleDelete(member.id)}
                               >
                                 <Trash2 size={14} className="mr-2" /> Deactivate
@@ -158,13 +158,13 @@ const StaffManagementScreen = () => {
                   </HeadlessMenu>
                 </div>
                 
-                <div className="mt-4 pt-4 border-t border-neutral-border flex justify-between items-center">
+                <div className="mt-4 pt-4 border-t border-coffee-200 flex justify-between items-center">
                   <div className="flex items-center gap-1">
                     <div className={`w-2 h-2 rounded-full ${
-                      member.status === 'ACTIVE' ? 'bg-primary-accent' :
-                      member.status === 'OFF DUTY' ? 'bg-amber-400' : 'bg-neutral-textLight'
+                      member.status === 'ACTIVE' ? 'bg-accent' :
+                      member.status === 'OFF DUTY' ? 'bg-amber-400' : 'bg-neutral-500'
                     }`} />
-                    <span className="text-[10px] font-bold text-neutral-textMid uppercase tracking-widest">
+                    <span className="text-[10px] font-bold text-coffee-600 uppercase tracking-widest">
                       {member.status}
                     </span>
                   </div>
@@ -183,11 +183,11 @@ const StaffManagementScreen = () => {
             ))
           ) : (
             <div className="text-center py-12 px-4">
-              <div className="w-20 h-20 bg-neutral-background rounded-full flex items-center justify-center text-neutral-textLight mx-auto mb-4">
+              <div className="w-20 h-20 bg-coffee-50 rounded-full flex items-center justify-center text-neutral-500 mx-auto mb-4">
                 <UserCircle size={40} />
               </div>
-              <h3 className="text-lg font-bold text-neutral-darkNavy mb-2">No {content.staffLabel.toLowerCase()} found</h3>
-              <p className="text-sm text-neutral-textMid max-w-xs mx-auto">
+              <h3 className="text-lg font-bold text-coffee-900 mb-2">No {content.staffLabel.toLowerCase()} found</h3>
+              <p className="text-sm text-coffee-600 max-w-xs mx-auto">
                 {searchTerm 
                   ? "We couldn't find any staff matching your search." 
                   : `Start by adding your first ${content.staffLabel.toLowerCase().slice(0, -1)} to manage your team.`}

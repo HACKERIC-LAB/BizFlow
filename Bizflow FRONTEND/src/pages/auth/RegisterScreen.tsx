@@ -114,8 +114,8 @@ const RegisterScreen = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-background md:bg-neutral-darkNavy flex justify-center items-center md:p-4 lg:p-8">
-      <div className="w-full h-screen md:h-auto md:max-w-[414px] md:aspect-[9/19.5] md:max-h-[896px] bg-white flex flex-col relative md:shadow-2xl md:rounded-[3rem] overflow-hidden md:border-[8px] md:border-neutral-darkNavy">
+    <div className="min-h-screen bg-coffee-50 md:bg-coffee-900 flex justify-center items-center md:p-4 lg:p-8">
+      <div className="w-full h-screen md:h-auto md:max-w-[414px] md:aspect-[9/19.5] md:max-h-[896px] bg-white flex flex-col relative md:shadow-2xl md:rounded-[3rem] overflow-hidden md:border-[8px] md:border-coffee-900">
         {/* Mock Status Bar - Only on Desktop */}
         <div className="hidden md:flex h-10 bg-white items-center justify-between px-8 pt-4 pb-2 text-[12px] font-bold z-50">
           <span>9:41</span>
@@ -125,10 +125,10 @@ const RegisterScreen = () => {
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col px-6 bg-neutral-background overflow-y-auto">
+        <div className="flex-1 flex flex-col px-6 bg-coffee-50 overflow-y-auto">
         <div className="mb-8 text-center pt-8">
-          <h1 className="text-primary text-3xl mb-2">BizFlow</h1>
-          <p className="text-neutral-textMid">Set up your business in minutes</p>
+          <h1 className="text-coffee-700 text-3xl mb-2">BizFlow</h1>
+          <p className="text-coffee-600">Set up your business in minutes</p>
         </div>
 
         {/* Stepper */}
@@ -136,11 +136,11 @@ const RegisterScreen = () => {
           {[1, 2, 3].map((s) => (
             <div key={s} className="flex items-center">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-standard ${
-                step >= s ? 'bg-primary border-primary text-white' : 'border-neutral-border text-neutral-textLight'
+                step >= s ? 'bg-coffee-700 border-coffee-700 text-white' : 'border-coffee-200 text-neutral-500'
               }`}>
                 {step > s ? <Check size={20} /> : s}
               </div>
-              {s < 3 && <div className={`w-12 h-0.5 mx-2 ${step > s ? 'bg-primary' : 'bg-neutral-border'}`} />}
+              {s < 3 && <div className={`w-12 h-0.5 mx-2 ${step > s ? 'bg-coffee-700' : 'bg-coffee-200'}`} />}
             </div>
           ))}
         </div>
@@ -157,9 +157,9 @@ const RegisterScreen = () => {
                   error={errors.businessName?.message}
                 />
                 <div className="space-y-1.5">
-                  <label className="label-text text-neutral-textMid">Business Type</label>
+                  <label className="label-text text-coffee-600">Business Type</label>
                   <select
-                    className="w-full bg-white border border-neutral-border rounded-input px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-standard"
+                    className="w-full bg-white border border-coffee-200 rounded-input px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-coffee-700/20 focus:border-coffee-700 transition-standard"
                     {...register('businessType')}
                     onChange={onTypeChange}
                   >
@@ -233,14 +233,14 @@ const RegisterScreen = () => {
               <div className="space-y-4">
                 <div className="mb-4">
                   <h2 className="">Initial Services</h2>
-                  <p className="body-small text-neutral-textLight">
+                  <p className="body-small text-neutral-500">
                     Based on your business type, we've suggested some services. You can edit, add or remove.
                   </p>
                 </div>
 
                 <div className="space-y-3 max-h-80 overflow-y-auto pr-2">
                   {fields.map((field, index) => (
-                    <div key={field.id} className="flex items-start gap-2 bg-neutral-background p-3 rounded-card border border-neutral-border">
+                    <div key={field.id} className="flex items-start gap-2 bg-coffee-50 p-3 rounded-card border border-coffee-200">
                       <div className="flex-1 space-y-2">
                         <Input
                           placeholder="Service Name"
@@ -270,7 +270,7 @@ const RegisterScreen = () => {
                       <button
                         type="button"
                         onClick={() => remove(index)}
-                        className="mt-2 text-neutral-textLight hover:text-accent-red p-1"
+                        className="mt-2 text-neutral-500 hover:text-red-500 p-1"
                       >
                         <Trash2 size={18} />
                       </button>
@@ -304,7 +304,7 @@ const RegisterScreen = () => {
       
       {/* Home Indicator - Only on Desktop */}
       <div className="hidden md:flex h-6 bg-white justify-center items-end pb-2 shrink-0">
-        <div className="w-32 h-1 bg-neutral-darkNavy/20 rounded-full" />
+        <div className="w-32 h-1 bg-coffee-900/20 rounded-full" />
       </div>
     </div>
   </div>

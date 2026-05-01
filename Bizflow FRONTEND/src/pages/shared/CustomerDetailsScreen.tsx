@@ -38,19 +38,19 @@ const CustomerDetailsScreen = () => {
     <MainLayout>
       <div className="space-y-6 pb-10 animate-slide-up">
         <div className="flex items-center gap-4">
-          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-slate-400">
+          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-coffee-500">
             <ChevronLeft size={24} />
           </button>
           <h2 className="text-xl font-bold">Customer Profile</h2>
         </div>
 
         {/* Profile Header */}
-        <div className="flex flex-col items-center text-center p-6 bg-white rounded-3xl border border-slate-200 shadow-medium">
-          <div className="w-24 h-24 bg-primary/10 rounded-2xl flex items-center justify-center text-primary font-bold text-3xl mb-4 border-4 border-white shadow-subtle">
+        <div className="flex flex-col items-center text-center p-6 bg-white rounded-3xl border border-coffee-200 shadow-medium">
+          <div className="w-24 h-24 bg-coffee-700/10 rounded-2xl flex items-center justify-center text-coffee-700 font-bold text-3xl mb-4 border-4 border-white shadow-subtle">
             {customer.name[0]}
           </div>
-          <h3 className="text-2xl font-bold text-slate-900">{customer.name}</h3>
-          <p className="text-slate-400 text-sm mb-4">Customer since {format(new Date(customer.createdAt), 'MMM d, yyyy')}</p>
+          <h3 className="text-2xl font-bold text-coffee-900">{customer.name}</h3>
+          <p className="text-coffee-500 text-sm mb-4">Customer since {format(new Date(customer.createdAt), 'MMM d, yyyy')}</p>
           
           <div className="flex gap-2 w-full">
             <Button 
@@ -75,44 +75,44 @@ const CustomerDetailsScreen = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3">
           <Card className="p-4 flex flex-col items-center justify-center text-center">
-            <div className="w-8 h-8 bg-gold/10 rounded-lg flex items-center justify-center text-gold mb-2">
+            <div className="w-8 h-8 bg-accent/10 rounded-lg flex items-center justify-center text-accent mb-2">
               <Star size={16} fill="currentColor" />
             </div>
-            <p className="text-xl font-bold text-slate-900">{customer.loyaltyPoints || 0}</p>
-            <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Points</p>
+            <p className="text-xl font-bold text-coffee-900">{customer.loyaltyPoints || 0}</p>
+            <p className="text-[10px] uppercase font-bold text-coffee-500 tracking-wider">Points</p>
           </Card>
           <Card className="p-4 flex flex-col items-center justify-center text-center">
-            <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-2">
+            <div className="w-8 h-8 bg-coffee-700/10 rounded-lg flex items-center justify-center text-coffee-700 mb-2">
               <TrendingUp size={16} />
             </div>
-            <p className="text-xl font-bold text-slate-900">{customer.transactions?.length || 0}</p>
-            <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Visits</p>
+            <p className="text-xl font-bold text-coffee-900">{customer.transactions?.length || 0}</p>
+            <p className="text-[10px] uppercase font-bold text-coffee-500 tracking-wider">Visits</p>
           </Card>
         </div>
 
         {/* Contact Info */}
         <section className="space-y-3">
-          <h4 className="text-xs uppercase font-bold text-slate-400 tracking-wider">Contact Details</h4>
-          <Card className="divide-y divide-slate-100 p-0 overflow-hidden">
+          <h4 className="text-xs uppercase font-bold text-coffee-500 tracking-wider">Contact Details</h4>
+          <Card className="divide-y divide-coffee-100 p-0 overflow-hidden">
             <div 
-              className="p-4 flex items-center gap-4 cursor-pointer hover:bg-slate-50 transition-standard"
+              className="p-4 flex items-center gap-4 cursor-pointer hover:bg-coffee-50 transition-standard"
               onClick={() => window.location.href = `tel:${customer.phone}`}
             >
-              <div className="text-primary"><Phone size={18} /></div>
+              <div className="text-coffee-700"><Phone size={18} /></div>
               <div>
-                <p className="text-xs text-slate-400">Phone Number</p>
-                <p className="text-sm font-bold text-slate-900">{customer.phone}</p>
+                <p className="text-xs text-coffee-500">Phone Number</p>
+                <p className="text-sm font-bold text-coffee-900">{customer.phone}</p>
               </div>
             </div>
             {customer.email && (
               <div 
-                className="p-4 flex items-center gap-4 cursor-pointer hover:bg-slate-50 transition-standard"
+                className="p-4 flex items-center gap-4 cursor-pointer hover:bg-coffee-50 transition-standard"
                 onClick={() => window.location.href = `mailto:${customer.email}`}
               >
-                <div className="text-primary"><Mail size={18} /></div>
+                <div className="text-coffee-700"><Mail size={18} /></div>
                 <div>
-                  <p className="text-xs text-slate-400">Email Address</p>
-                  <p className="text-sm font-bold text-slate-900">{customer.email}</p>
+                  <p className="text-xs text-coffee-500">Email Address</p>
+                  <p className="text-sm font-bold text-coffee-900">{customer.email}</p>
                 </div>
               </div>
             )}
@@ -122,7 +122,7 @@ const CustomerDetailsScreen = () => {
         {/* Recent Transactions */}
         <section className="space-y-3">
           <div className="flex justify-between items-center">
-            <h4 className="text-xs uppercase font-bold text-slate-400 tracking-wider">Recent Activity</h4>
+            <h4 className="text-xs uppercase font-bold text-coffee-500 tracking-wider">Recent Activity</h4>
             <Button variant="link" size="sm" className="text-xs font-bold p-0 h-auto">View All</Button>
           </div>
           <div className="space-y-2">
@@ -130,19 +130,19 @@ const CustomerDetailsScreen = () => {
               customer.transactions.slice(0, 5).map((tx: any) => (
                 <Card key={tx.id} className="p-3 flex justify-between items-center">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-slate-50 rounded-xl text-slate-400">
+                    <div className="p-2 bg-coffee-50 rounded-xl text-coffee-500">
                       <History size={16} />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-slate-900">{tx.services.map((s: any) => s.service.name).join(', ')}</p>
-                      <p className="text-[10px] text-slate-400">{format(new Date(tx.createdAt), 'MMM d, yyyy')}</p>
+                      <p className="text-sm font-bold text-coffee-900">{tx.services.map((s: any) => s.service.name).join(', ')}</p>
+                      <p className="text-[10px] text-coffee-500">{format(new Date(tx.createdAt), 'MMM d, yyyy')}</p>
                     </div>
                   </div>
-                  <p className="font-bold text-sm text-slate-900">KSh {tx.amount.toLocaleString()}</p>
+                  <p className="font-bold text-sm text-coffee-900">KSh {tx.amount.toLocaleString()}</p>
                 </Card>
               ))
             ) : (
-              <p className="text-center py-10 text-slate-400 text-sm italic">No recent activity</p>
+              <p className="text-center py-10 text-coffee-500 text-sm italic">No recent activity</p>
             )}
           </div>
         </section>

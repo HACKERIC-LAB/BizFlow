@@ -16,12 +16,12 @@ interface CardProps {
 
 export const Card = ({ children, className, onClick, hover, variant = 'default' }: CardProps) => {
   const variants = {
-    default: 'bg-white shadow-medium border border-slate-200',
-    primary: 'bg-primary text-white shadow-large border-none',
-    secondaryTeal: 'bg-secondaryTeal text-primary shadow-medium border border-primary/10',
+    default: 'bg-white shadow-medium border border-coffee-200',
+    primary: 'bg-coffee-700 text-white shadow-large border-none',
+    secondaryTeal: 'bg-coffee-100 text-coffee-900 shadow-medium border border-coffee-300',
     glass: 'glass-card',
-    outline: 'bg-transparent border-2 border-neutral-border',
-    flat: 'bg-slate-50 border border-slate-200',
+    outline: 'bg-transparent border-2 border-coffee-300',
+    flat: 'bg-coffee-50 border border-coffee-200',
   };
 
   return (

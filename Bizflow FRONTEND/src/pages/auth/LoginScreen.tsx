@@ -50,27 +50,27 @@ const LoginScreen = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex justify-center items-center md:p-8 relative overflow-hidden">
+    <div className="min-h-screen bg-coffee-900 flex justify-center items-center md:p-8 relative overflow-hidden">
       {/* Background Blobs */}
-      <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary/20 rounded-full blur-[120px] animate-pulse" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-500/10 rounded-full blur-[120px] animate-pulse delay-700" />
+      <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-coffee-600/30 rounded-full blur-[120px] animate-pulse" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-accent/15 rounded-full blur-[120px] animate-pulse delay-700" />
 
       {/* Main Container */}
-      <div className="w-full h-screen md:h-[844px] md:max-w-[390px] bg-neutral-background flex flex-col relative md:shadow-2xl md:rounded-[3rem] overflow-hidden md:border-[12px] md:border-slate-800 z-10 animate-fade-in">
+      <div className="w-full h-screen md:h-[844px] md:max-w-[390px] bg-coffee-50 flex flex-col relative md:shadow-2xl md:rounded-[3rem] overflow-hidden md:border-[12px] md:border-coffee-900 z-10 animate-fade-in">
         
         {/* Branding Section */}
         <div className="relative pt-20 pb-12 px-8 text-center overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-primary/10 to-transparent" />
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-coffee-700/10 to-transparent" />
           <div className="relative z-10">
             <div className="w-20 h-20 bg-white rounded-3xl shadow-large mx-auto flex items-center justify-center mb-6 animate-slide-up">
-              <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-futuristic">
+              <div className="w-12 h-12 bg-coffee-700 rounded-2xl flex items-center justify-center text-white shadow-futuristic">
                 <LogIn size={24} />
               </div>
             </div>
-            <h1 className="text-4xl font-extrabold text-neutral-darkNavy tracking-tight animate-slide-up delay-100">
-              Biz<span className="text-primary">Flow</span>
+            <h1 className="text-4xl font-extrabold text-coffee-900 tracking-tight animate-slide-up delay-100">
+              Biz<span className="text-coffee-700">Flow</span>
             </h1>
-            <p className="text-neutral-textLight font-medium mt-2 animate-slide-up delay-200">
+            <p className="text-neutral-500 font-medium mt-2 animate-slide-up delay-200">
               Elevate your business operations
             </p>
           </div>
@@ -94,7 +94,7 @@ const LoginScreen = () => {
             />
             
             <div className="flex items-center justify-end px-1">
-              <Link to="/forgot-password" title="Forgot Password" className="text-xs font-bold text-primary uppercase tracking-wider hover:underline">
+              <Link to="/forgot-password" title="Forgot Password" className="text-xs font-bold text-coffee-700 uppercase tracking-wider hover:underline">
                 Recovery Access
               </Link>
             </div>
@@ -111,14 +111,14 @@ const LoginScreen = () => {
 
           <div className="mt-12 text-center animate-slide-up delay-500">
             <div className="inline-flex items-center gap-2 mb-6">
-              <div className="h-px w-8 bg-neutral-border/50" />
-              <span className="text-[10px] font-bold text-neutral-textLight uppercase tracking-[0.2em]">Partner Hub</span>
-              <div className="h-px w-8 bg-neutral-border/50" />
+              <div className="h-px w-8 bg-coffee-200/50" />
+              <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-[0.2em]">Partner Hub</span>
+              <div className="h-px w-8 bg-coffee-200/50" />
             </div>
             
-            <p className="text-sm font-medium text-neutral-textMid">
+            <p className="text-sm font-medium text-coffee-600">
               New to the platform?{' '}
-              <Link to="/register" className="text-primary font-bold hover:underline">
+              <Link to="/register" className="text-coffee-700 font-bold hover:underline">
                 Create Account
               </Link>
             </p>
@@ -127,7 +127,7 @@ const LoginScreen = () => {
         
         {/* Phone Footer - Desktop Only */}
         <div className="hidden md:flex h-8 bg-transparent justify-center items-center shrink-0">
-          <div className="w-32 h-1.5 bg-slate-800/20 rounded-full" />
+          <div className="w-32 h-1.5 bg-coffee-800/20 rounded-full" />
         </div>
       </div>
     </div>

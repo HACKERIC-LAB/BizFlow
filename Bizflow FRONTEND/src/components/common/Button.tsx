@@ -26,13 +26,13 @@ export const Button = ({
   ...props
 }: ButtonProps) => {
   const variants = {
-    primary: 'bg-primary text-white shadow-medium hover:opacity-90 active:scale-95',
-    secondary: 'bg-primary-dark text-white shadow-medium hover:opacity-90 active:scale-95',
-    outline: 'border-2 border-primary/20 text-primary hover:bg-primary/5 active:scale-95',
-    ghost: 'text-neutral-textMid hover:bg-neutral-background active:scale-95',
-    danger: 'bg-accent-red text-white hover:bg-accent-red/90 shadow-subtle active:scale-95',
-    mpesa: 'bg-primary-accent text-primary-dark hover:bg-primary-accent/90 shadow-subtle active:scale-95 font-black',
-    link: 'text-primary hover:underline p-0 h-auto',
+    primary: 'bg-coffee-700 text-white shadow-medium hover:opacity-90 active:scale-95',
+    secondary: 'bg-coffee-900 text-white shadow-medium hover:opacity-90 active:scale-95',
+    outline: 'border-2 border-coffee-700/20 text-coffee-700 hover:bg-coffee-700/5 active:scale-95',
+    ghost: 'text-coffee-600 hover:bg-coffee-50 active:scale-95',
+    danger: 'bg-red-500 text-white hover:bg-red-500/90 shadow-subtle active:scale-95',
+    mpesa: 'bg-accent text-coffee-900 hover:bg-accent/90 shadow-subtle active:scale-95 font-black',
+    link: 'text-coffee-700 hover:underline p-0 h-auto',
   };
 
   const sizes = {
@@ -44,7 +44,7 @@ export const Button = ({
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center rounded-button font-heading transition-standard focus:outline-none focus:ring-4 focus:ring-primary/10 disabled:opacity-50 disabled:cursor-not-allowed',
+        'inline-flex items-center justify-center rounded-button font-heading transition-standard focus:outline-none focus:ring-4 focus:ring-coffee-700/10 disabled:opacity-50 disabled:cursor-not-allowed',
         variants[variant],
         sizes[size],
         className

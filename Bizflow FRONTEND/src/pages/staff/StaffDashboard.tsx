@@ -40,39 +40,39 @@ const StaffDashboard = () => {
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold">Your Day</h2>
-            <p className="text-sm text-slate-400">You've served {stats?.transactionCount || 0} clients today.</p>
+            <p className="text-sm text-coffee-500">You've served {stats?.transactionCount || 0} clients today.</p>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-gold/10 border-2 border-white flex items-center justify-center text-gold shadow-subtle">
+          <div className="w-12 h-12 rounded-2xl bg-accent/10 border-2 border-white flex items-center justify-center text-accent shadow-subtle">
             <Award size={24} />
           </div>
         </div>
 
         {/* Personal Stats */}
         <div className="grid grid-cols-2 gap-4">
-          <Card className="p-4 bg-primary text-white border-none shadow-medium">
+          <Card className="p-4 bg-coffee-700 text-white border-none shadow-medium">
             <TrendingUp size={20} className="text-white/80 mb-2" />
             <p className="text-[10px] uppercase font-bold text-white/60 tracking-wider">Your Earnings</p>
             <p className="text-xl font-bold text-white">KSh {(stats?.totalRevenue || 0).toLocaleString()}</p>
           </Card>
-          <Card className="p-4 bg-white border border-slate-200 shadow-subtle">
-            <Clock size={20} className="text-primary mb-2" />
-            <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Next Break</p>
-            <p className="text-xl font-bold text-slate-900">1:00 PM</p>
+          <Card className="p-4 bg-white border border-coffee-200 shadow-subtle">
+            <Clock size={20} className="text-coffee-700 mb-2" />
+            <p className="text-[10px] uppercase font-bold text-coffee-500 tracking-wider">Next Break</p>
+            <p className="text-xl font-bold text-coffee-900">1:00 PM</p>
           </Card>
         </div>
 
         {/* Current Focus */}
         <section className="space-y-3">
-          <h3 className="text-xs uppercase tracking-wider text-slate-400 font-bold">Current Focus</h3>
+          <h3 className="text-xs uppercase tracking-wider text-coffee-500 font-bold">Current Focus</h3>
           {nextClient ? (
             <Card className="p-6 border-l-4 border-l-primary bg-white shadow-medium">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <p className="text-primary text-xs font-bold uppercase tracking-widest mb-1">
+                  <p className="text-coffee-700 text-xs font-bold uppercase tracking-widest mb-1">
                     {nextClient.status === 'SERVING' ? 'Current Service' : 'Upcoming Service'}
                   </p>
-                  <h4 className="text-xl font-bold text-slate-900">{nextClient.customerName}</h4>
-                  <p className="text-sm text-slate-500">{nextClient.serviceName}</p>
+                  <h4 className="text-xl font-bold text-coffee-900">{nextClient.customerName}</h4>
+                  <p className="text-sm text-neutral-500">{nextClient.serviceName}</p>
                 </div>
               </div>
               <div className="flex gap-3">
@@ -84,7 +84,7 @@ const StaffDashboard = () => {
               </div>
             </Card>
           ) : (
-            <Card className="p-6 text-center text-slate-400 italic bg-slate-50 border-dashed">
+            <Card className="p-6 text-center text-coffee-500 italic bg-coffee-50 border-dashed">
               No clients in the queue.
             </Card>
           )}
@@ -92,15 +92,15 @@ const StaffDashboard = () => {
 
         {/* Task List */}
         <section className="space-y-3">
-          <h3 className="text-xs uppercase tracking-wider text-slate-400 font-bold">Today's Tasks</h3>
+          <h3 className="text-xs uppercase tracking-wider text-coffee-500 font-bold">Today's Tasks</h3>
           <div className="space-y-3">
-            <Card className="flex items-center gap-3 p-4 bg-slate-50 border-none opacity-60">
-               <div className="w-5 h-5 rounded-full bg-primary-accent flex items-center justify-center">
+            <Card className="flex items-center gap-3 p-4 bg-coffee-50 border-none opacity-60">
+               <div className="w-5 h-5 rounded-full bg-accent flex items-center justify-center">
                   <CheckCircle2 size={12} className="text-white" />
                </div>
                <div className="flex-1">
-                  <p className="text-sm font-bold text-slate-900 line-through">Clean station</p>
-                  <p className="text-[10px] text-slate-400">Completed</p>
+                  <p className="text-sm font-bold text-coffee-900 line-through">Clean station</p>
+                  <p className="text-[10px] text-coffee-500">Completed</p>
                </div>
             </Card>
           </div>

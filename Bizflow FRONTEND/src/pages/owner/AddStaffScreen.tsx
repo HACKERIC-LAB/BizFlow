@@ -38,16 +38,16 @@ const AddStaffScreen = () => {
     <MainLayout hideBottomNav>
       <div className="space-y-6">
         <div className="flex items-center gap-4">
-          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-neutral-textMid">
+          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-coffee-600">
             <ChevronLeft size={24} />
           </button>
           <h2 className="text-xl font-bold">Add Staff Member</h2>
         </div>
 
-        <div className="bg-white p-6 rounded-card border border-neutral-border shadow-subtle">
+        <div className="bg-white p-6 rounded-card border border-coffee-200 shadow-subtle">
           <form onSubmit={handleSave} className="space-y-5">
             <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-primary-light rounded-full flex items-center justify-center text-primary">
+              <div className="w-20 h-20 bg-coffee-400 rounded-full flex items-center justify-center text-coffee-700">
                 <UserPlus size={40} />
               </div>
             </div>
@@ -70,9 +70,9 @@ const AddStaffScreen = () => {
             />
             
             <div className="space-y-1.5">
-              <label className="label-text text-neutral-textMid">Role</label>
+              <label className="label-text text-coffee-600">Role</label>
               <select
-                className="w-full bg-white border border-neutral-border rounded-input px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-standard"
+                className="w-full bg-white border border-coffee-200 rounded-input px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-coffee-700/20 focus:border-coffee-700 transition-standard"
                 value={formData.role}
                 onChange={(e) => setFormData({...formData, role: e.target.value as StaffRole})}
                 required
@@ -104,8 +104,8 @@ const AddStaffScreen = () => {
           </form>
         </div>
 
-        <div className="p-4 bg-neutral-background rounded-card border border-dashed border-neutral-border text-center">
-          <p className="text-xs text-neutral-textLight">
+        <div className="p-4 bg-coffee-50 rounded-card border border-dashed border-coffee-200 text-center">
+          <p className="text-xs text-neutral-500">
             Staff can log in using their phone number and the temporary password you set.
           </p>
         </div>

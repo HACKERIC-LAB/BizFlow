@@ -43,7 +43,7 @@ export const BottomNavigation = () => {
 
   return (
     <div className="fixed md:absolute bottom-0 left-0 z-50 w-full px-6 pb-6 pointer-events-none">
-      <nav className="w-full bg-white h-24 flex items-center justify-between px-2 rounded-3xl shadow-[0_-10px_40px_rgba(59,117,151,0.2)] border-2 border-primary-light/50 pointer-events-auto relative ring-4 ring-white/50">
+      <nav className="w-full bg-white h-24 flex items-center justify-between px-2 rounded-3xl shadow-[0_-10px_40px_rgba(107,62,46,0.15)] border-2 border-coffee-300/60 pointer-events-auto relative">
         {/* First Half */}
         <div className="flex flex-1 justify-around">
           {items.slice(0, 2).map((item) => (
@@ -52,7 +52,7 @@ export const BottomNavigation = () => {
               to={item.path}
               className={({ isActive }) => `
                 relative flex flex-col items-center justify-center py-2 gap-1.5 transition-all duration-300
-                ${isActive ? 'text-primary scale-110 drop-shadow-md' : 'text-slate-400 hover:text-slate-600 hover:scale-105'}
+                ${isActive ? 'text-coffee-700 scale-110 drop-shadow-md' : 'text-coffee-500 hover:text-coffee-600 hover:scale-105'}
               `}
             >
               <item.icon size={26} strokeWidth={2.5} />
@@ -65,7 +65,7 @@ export const BottomNavigation = () => {
         <div className="relative -top-10 flex flex-col items-center">
           <button 
             onClick={() => window.location.href = '/transactions/new'}
-            className="w-20 h-20 bg-primary text-white rounded-full shadow-[0_10px_30px_rgba(59,117,151,0.4)] border-4 border-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300"
+            className="w-20 h-20 bg-coffee-700 text-white rounded-full shadow-[0_10px_30px_rgba(107,62,46,0.45)] border-4 border-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300"
           >
             <Plus size={40} strokeWidth={3} />
           </button>
@@ -79,7 +79,7 @@ export const BottomNavigation = () => {
               to={item.path}
               className={({ isActive }) => `
                 relative flex flex-col items-center justify-center py-2 gap-1.5 transition-all duration-300
-                ${isActive ? 'text-primary scale-110 drop-shadow-md' : 'text-slate-400 hover:text-slate-600 hover:scale-105'}
+                ${isActive ? 'text-coffee-700 scale-110 drop-shadow-md' : 'text-coffee-500 hover:text-coffee-600 hover:scale-105'}
               `}
             >
               <item.icon size={26} strokeWidth={2.5} />

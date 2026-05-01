@@ -18,36 +18,36 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, leftIcon, rightIcon, prefix, className, ...props }, ref) => {
     return (
       <div className="w-full space-y-2 animate-fade-in">
-        {label && <label className="text-xs font-bold uppercase tracking-widest text-neutral-textLight ml-1">{label}</label>}
+        {label && <label className="text-xs font-bold uppercase tracking-widest text-neutral-500 ml-1">{label}</label>}
         <div className="relative group">
           {leftIcon && (
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-textLight group-focus-within:text-primary transition-standard">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500 group-focus-within:text-coffee-700 transition-standard">
               {leftIcon}
             </div>
           )}
           {prefix && (
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-textMid font-bold text-sm border-r border-neutral-border/50 pr-3 group-focus-within:border-primary/30 transition-standard">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-coffee-600 font-bold text-sm border-r border-coffee-200/50 pr-3 group-focus-within:border-coffee-700/30 transition-standard">
               {prefix}
             </div>
           )}
           <input
             ref={ref}
             className={cn(
-              'w-full bg-white border-2 border-slate-200 rounded-[1.25rem] px-4 py-3.5 text-sm font-medium text-neutral-darkNavy placeholder:text-neutral-textLight focus:outline-none focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:border-primary-light/50 transition-standard',
+              'w-full bg-white border-2 border-coffee-200 rounded-[1.25rem] px-4 py-3.5 text-sm font-medium text-coffee-900 placeholder:text-neutral-500 focus:outline-none focus:bg-white focus:border-coffee-700 focus:ring-4 focus:ring-coffee-700/10 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:border-coffee-400/50 transition-standard',
               leftIcon && 'pl-12',
               prefix && 'pl-20',
-              error && 'border-accent-red/50 focus:border-accent-red focus:ring-accent-red/10 bg-accent-red/5',
+              error && 'border-red-500/50 focus:border-red-500 focus:ring-red-500/10 bg-red-500/5',
               className
             )}
             {...props}
           />
           {rightIcon && (
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-textLight group-focus-within:text-primary transition-standard">
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-500 group-focus-within:text-coffee-700 transition-standard">
               {rightIcon}
             </div>
           )}
         </div>
-        {error && <p className="text-[10px] font-bold text-accent-red uppercase tracking-wider ml-1">{error}</p>}
+        {error && <p className="text-[10px] font-bold text-red-500 uppercase tracking-wider ml-1">{error}</p>}
       </div>
     );
   }

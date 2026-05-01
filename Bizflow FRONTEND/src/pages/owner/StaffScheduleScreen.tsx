@@ -105,32 +105,32 @@ const StaffScheduleScreen = () => {
     <MainLayout hideBottomNav>
       <div className="space-y-6 pb-10">
         <div className="flex items-center gap-4">
-          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-neutral-textMid">
+          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-coffee-600">
             <ChevronLeft size={24} />
           </button>
           <div>
             <h2 className="text-xl font-bold">Manage Schedule</h2>
-            <p className="text-xs text-neutral-textLight">Set working hours for {member?.name}</p>
+            <p className="text-xs text-neutral-500">Set working hours for {member?.name}</p>
           </div>
         </div>
 
         <div className="space-y-4">
           {schedule.map((item, dayIndex) => (
-            <Card key={item.day} className={`p-4 border-l-4 ${item.off ? 'border-l-neutral-border bg-neutral-background/50' : 'border-l-primary'}`}>
+            <Card key={item.day} className={`p-4 border-l-4 ${item.off ? 'border-l-coffee-200 bg-coffee-50/50' : 'border-l-primary'}`}>
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <h4 className={`font-bold ${item.off ? 'text-neutral-textLight' : 'text-neutral-darkNavy'}`}>
+                  <h4 className={`font-bold ${item.off ? 'text-neutral-500' : 'text-coffee-900'}`}>
                     {item.day}
                   </h4>
                   {item.off && (
-                    <span className="text-[10px] bg-neutral-border text-neutral-textMid px-2 py-0.5 rounded-full uppercase font-bold">
+                    <span className="text-[10px] bg-coffee-200 text-coffee-600 px-2 py-0.5 rounded-full uppercase font-bold">
                       Day Off
                     </span>
                   )}
                 </div>
                 <button 
                   onClick={() => toggleDayOff(dayIndex)}
-                  className={`text-xs font-bold ${item.off ? 'text-primary' : 'text-accent-red'}`}
+                  className={`text-xs font-bold ${item.off ? 'text-coffee-700' : 'text-red-500'}`}
                 >
                   {item.off ? 'Set Working' : 'Set Day Off'}
                 </button>
@@ -144,7 +144,7 @@ const StaffScheduleScreen = () => {
                         <div className="relative">
                           <input 
                             type="time" 
-                            className="w-full bg-neutral-background border border-neutral-border rounded-input px-2 py-1.5 text-sm focus:outline-none focus:border-primary"
+                            className="w-full bg-coffee-50 border border-coffee-200 rounded-input px-2 py-1.5 text-sm focus:outline-none focus:border-coffee-700"
                             value={shift.start}
                             onChange={(e) => updateShift(dayIndex, shiftIndex, 'start', e.target.value)}
                           />
@@ -152,18 +152,18 @@ const StaffScheduleScreen = () => {
                         <div className="relative">
                           <input 
                             type="time" 
-                            className="w-full bg-neutral-background border border-neutral-border rounded-input px-2 py-1.5 text-sm focus:outline-none focus:border-primary"
+                            className="w-full bg-coffee-50 border border-coffee-200 rounded-input px-2 py-1.5 text-sm focus:outline-none focus:border-coffee-700"
                             value={shift.end}
                             onChange={(e) => updateShift(dayIndex, shiftIndex, 'end', e.target.value)}
                           />
                         </div>
                       </div>
-                      <button className="p-1.5 text-neutral-textLight hover:text-accent-red">
+                      <button className="p-1.5 text-neutral-500 hover:text-red-500">
                         <Trash2 size={16} />
                       </button>
                     </div>
                   ))}
-                  <button className="flex items-center gap-1.5 text-[10px] font-bold text-primary uppercase tracking-wider">
+                  <button className="flex items-center gap-1.5 text-[10px] font-bold text-coffee-700 uppercase tracking-wider">
                     <Plus size={14} /> Add Shift
                   </button>
                 </div>
