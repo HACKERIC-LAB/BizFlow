@@ -27,11 +27,11 @@ export const Button = ({
 }: ButtonProps) => {
   const variants = {
     primary: 'bg-primary text-white shadow-medium hover:opacity-90 active:scale-95',
-    secondary: 'bg-emerald-600 text-white shadow-medium hover:opacity-90 active:scale-95',
+    secondary: 'bg-primary-dark text-white shadow-medium hover:opacity-90 active:scale-95',
     outline: 'border-2 border-primary/20 text-primary hover:bg-primary/5 active:scale-95',
     ghost: 'text-neutral-textMid hover:bg-neutral-background active:scale-95',
     danger: 'bg-accent-red text-white hover:bg-accent-red/90 shadow-subtle active:scale-95',
-    mpesa: 'bg-mpesa-green text-white hover:bg-mpesa-green/90 shadow-subtle active:scale-95',
+    mpesa: 'bg-primary-accent text-primary-dark hover:bg-primary-accent/90 shadow-subtle active:scale-95 font-black',
     link: 'text-primary hover:underline p-0 h-auto',
   };
 

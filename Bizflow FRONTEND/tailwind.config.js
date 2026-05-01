@@ -8,18 +8,20 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#0D9488", // Teal 600
-          dark: "#0F766E", // Teal 700
-          light: "#2DD4BF", // Teal 400
-          soft: "#F0FDFA", // Teal 50
+          DEFAULT: "#3B7597", // Medium Blue
+          dark: "#093C5D", // Dark Blue
+          light: "#6FD1D7", // Light Blue/Cyan
+          accent: "#5DF8D8", // Bright Aqua/Mint
+          soft: "#EAF6F6", // Soft Cyan/Blue for backgrounds
         },
         secondaryTeal: {
-          DEFAULT: "#99F6E4", // Teal 200
-          light: "#F0FDFA",
+          DEFAULT: "#6FD1D7",
+          light: "#EAF6F6",
         },
         accent: {
           red: "#F43F5E",
           redLight: "#FFF1F2",
+          mint: "#5DF8D8", // Also adding mint here
         },
         mpesa: {
           green: "#059669",
@@ -30,7 +32,7 @@ export default {
           light: "#FEF3C7",
         },
         neutral: {
-          darkNavy: "#0f172a", // Slate 900
+          darkNavy: "#093C5D", // Using the dark blue as dark navy
           textMid: "#475569", // Slate 600
           textLight: "#94a3b8", // Slate 400
           border: "#e2e8f0", // Slate 200

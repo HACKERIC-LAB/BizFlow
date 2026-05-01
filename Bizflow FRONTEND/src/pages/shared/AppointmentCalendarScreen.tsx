@@ -94,7 +94,7 @@ const AppointmentCalendarScreen = () => {
                       <p className="text-xs text-neutral-textLight">{apt.service.name} with {apt.staff.name}</p>
                     </div>
                     <span className={`px-2 py-0.5 rounded-badge text-[10px] font-bold uppercase ${
-                      apt.status === 'CONFIRMED' ? 'bg-mpesa-muted text-primary' : 
+                      apt.status === 'CONFIRMED' ? 'bg-primary-soft text-primary' :
                       apt.status === 'PENDING' ? 'bg-gold-light text-gold' : 'bg-neutral-background text-neutral-textLight'
                     }`}>
                       {apt.status}

@@ -27,12 +27,12 @@ export async function mpesaCallback(req: Request, res: Response, next: NextFunct
     }
 
     // Find the pending transaction by checkoutRequestId
-    const existing = await prisma.mpesaCallback.findFirst({
+    const existing = await prisma.mpesacallback.findFirst({
       where: { checkoutRequestId: CheckoutRequestID },
     });
 
     if (!existing) {
-      await prisma.mpesaCallback.create({
+      await prisma.mpesacallback.create({
         data: {
           merchantRequestId: MerchantRequestID,
           checkoutRequestId: CheckoutRequestID,

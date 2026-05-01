@@ -7,8 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model aiinteraction {
-  id         String   @id
+model aiInteraction {
+  id         String   @id @default(cuid())
   businessId String
   prompt     String   @db.Text
   response   String   @db.Text
@@ -21,7 +21,7 @@ model aiinteraction {
 }
 
 model appointment {
-  id                 String               @id
+  id                 String               @id @default(cuid())
   businessId         String
   customerId         String?
   staffId            String?
@@ -33,10 +33,10 @@ model appointment {
   notes              String?              @db.Text
   reminderSent       Boolean              @default(false)
   createdAt          DateTime             @default(now())
-  updatedAt          DateTime
+  updatedAt          DateTime             @updatedAt
   business           business             @relation(fields: [businessId], references: [id], onDelete: Cascade, map: "Appointment_businessId_fkey")
   customer           customer?            @relation(fields: [customerId], references: [id], map: "Appointment_customerId_fkey")
-  user               user?                @relation(fields: [staffId], references: [id], map: "Appointment_staffId_fkey")
+  staff              user?                @relation(fields: [staffId], references: [id], map: "Appointment_staffId_fkey")
   appointmentservice appointmentservice[]
 
   @@index([businessId, scheduledAt], map: "Appointment_businessId_scheduledAt_idx")
@@ -45,7 +45,7 @@ model appointment {
 }
 
 model appointmentservice {
-  id            String      @id
+  id            String      @id @default(cuid())
   appointmentId String
   serviceId     String
   appointment   appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade, map: "AppointmentService_appointmentId_fkey")
@@ -56,7 +56,7 @@ model appointmentservice {
 }
 
 model auditlog {
-  id         String   @id
+  id         String   @id @default(cuid())
   businessId String
   userId     String?
   action     String   @db.VarChar(100)
@@ -81,7 +81,7 @@ model business {
   mpesaTill       String?           @db.VarChar(20)
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
-  aiinteraction   aiinteraction[]
+  aiInteraction   aiInteraction[]
   appointment     appointment[]
   auditlog        auditlog[]
   customer        customer[]
@@ -116,7 +116,7 @@ model customer {
 }
 
 model mpesacallback {
-  id                String       @id
+  id                String       @id @default(cuid())
   transactionId     String?      @unique(map: "MpesaCallback_transactionId_key")
   merchantRequestId String       @db.VarChar(100)
   checkoutRequestId String       @db.VarChar(100)
@@ -134,7 +134,7 @@ model mpesacallback {
 }
 
 model queueentry {
-  id            String            @id
+  id            String            @id @default(cuid())
   businessId    String
   customerId    String?
   customerName  String            @db.VarChar(255)
@@ -145,10 +145,10 @@ model queueentry {
   startedAt     DateTime?
   completedAt   DateTime?
   createdAt     DateTime          @default(now())
-  updatedAt     DateTime
+  updatedAt     DateTime          @updatedAt
   business      business          @relation(fields: [businessId], references: [id], onDelete: Cascade, map: "QueueEntry_businessId_fkey")
   customer      customer?         @relation(fields: [customerId], references: [id], map: "QueueEntry_customerId_fkey")
-  queueservice  queueservice[]
+  services      queueservice[]
 
   @@index([businessId, status], map: "QueueEntry_businessId_status_idx")
   @@index([customerId], map: "QueueEntry_customerId_fkey")
@@ -156,7 +156,7 @@ model queueentry {
 }
 
 model queueservice {
-  id           String     @id
+  id           String     @id @default(cuid())
   queueEntryId String
   serviceId    String
   queueentry   queueentry @relation(fields: [queueEntryId], references: [id], onDelete: Cascade, map: "QueueService_queueEntryId_fkey")
@@ -225,7 +225,7 @@ model transaction {
 }
 
 model transactionservice {
-  id            String      @id
+  id            String      @id @default(cuid())
   transactionId String
   serviceId     String
   price         Float
@@ -263,7 +263,7 @@ model user {
 }
 
 model whatsappmessage {
-  id         String   @id
+  id         String   @id @default(cuid())
   businessId String
   phone      String   @db.VarChar(20)
   messageId  String?  @db.VarChar(100)

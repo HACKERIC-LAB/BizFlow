@@ -33,10 +33,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             className={cn(
-              'w-full bg-neutral-background/50 border-2 border-transparent rounded-[1.25rem] px-4 py-3.5 text-sm font-medium text-neutral-darkNavy placeholder:text-neutral-textLight focus:outline-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 shadow-subtle hover:bg-neutral-background transition-standard',
+              'w-full bg-white border-2 border-slate-200 rounded-[1.25rem] px-4 py-3.5 text-sm font-medium text-neutral-darkNavy placeholder:text-neutral-textLight focus:outline-none focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:border-primary-light/50 transition-standard',
               leftIcon && 'pl-12',
               prefix && 'pl-20',
-              error && 'border-accent-red/20 focus:border-accent-red focus:ring-accent-red/5 bg-accent-red/5',
+              error && 'border-accent-red/50 focus:border-accent-red focus:ring-accent-red/10 bg-accent-red/5',
               className
             )}
             {...props}

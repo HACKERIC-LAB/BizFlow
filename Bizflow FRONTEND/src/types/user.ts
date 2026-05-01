@@ -18,4 +18,5 @@ export interface User {
   businessType: BusinessType;
   commission?: number;
   workingHours?: WorkingHour[];
+  profilePhoto?: string;
 }

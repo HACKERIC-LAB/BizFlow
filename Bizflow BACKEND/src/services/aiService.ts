@@ -31,7 +31,7 @@ KISWAHILI: [reply in Kiswahili]`;
     kiswahili: kiswahiliMatch?.[1]?.trim() || response,
   };
 
-  await prisma.aIInteraction.create({
+  await prisma.aiInteraction.create({
     data: { businessId, prompt: customerMessage, response: JSON.stringify(result) },
   });
 
@@ -91,7 +91,7 @@ You are BizFlow AI, the business brain for this company.
 
   const response = await chatCompletion(SYSTEM_PROMPT, prompt);
 
-  await prisma.aIInteraction.create({
+  await prisma.aiInteraction.create({
     data: { businessId, prompt: userMessage, response },
   });
 
@@ -143,7 +143,7 @@ Include 2-3 actionable tips to improve next week.`;
 
   const summary = await chatCompletion(SYSTEM_PROMPT, prompt);
 
-  await prisma.aIInteraction.create({
+  await prisma.aiInteraction.create({
     data: {
       businessId,
       prompt: 'weekly_summary',
@@ -209,9 +209,9 @@ export async function recordFeedback(
   interactionId: string,
   feedback: number
 ) {
-  const interaction = await prisma.aIInteraction.findFirst({
+  const interaction = await prisma.aiInteraction.findFirst({
     where: { id: interactionId, businessId },
   });
   if (!interaction) throw new AppError('Interaction not found', 404);
-  return prisma.aIInteraction.update({ where: { id: interactionId }, data: { feedback } });
+  return prisma.aiInteraction.update({ where: { id: interactionId }, data: { feedback } });
 }

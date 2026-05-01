@@ -47,7 +47,7 @@ const ManagerDashboard = () => {
         <section className="space-y-3">
           <div className="flex justify-between items-center">
             <h3 className="text-xs uppercase font-bold text-neutral-textLight tracking-wider">Live Queue</h3>
-            <span className="text-[10px] font-bold text-mpesa-green bg-mpesa-muted px-2 py-0.5 rounded-badge uppercase animate-pulse">Live</span>
+            <span className="text-[10px] font-bold text-primary-accent bg-primary-soft px-2 py-0.5 rounded-badge uppercase animate-pulse">Live</span>
           </div>
           <Card className="divide-y divide-neutral-border">
             {queue.length > 0 ? queue.slice(0, 3).map((item) => (
@@ -79,7 +79,7 @@ const ManagerDashboard = () => {
             {staff.map(member => (
               <Card key={member.id} className="p-3 flex justify-between items-center">
                 <div className="flex items-center gap-3">
-                   <div className={`w-2 h-2 rounded-full ${member.status === 'ACTIVE' ? 'bg-mpesa-green' : 'bg-neutral-border'}`} />
+                   <div className={`w-2 h-2 rounded-full ${member.status === 'ACTIVE' ? 'bg-primary-accent' : 'bg-neutral-border'}`} />
                    <p className="text-sm font-medium">{member.name}</p>
                 </div>
                 <p className="text-[10px] font-bold text-neutral-textLight uppercase">{member.role}</p>

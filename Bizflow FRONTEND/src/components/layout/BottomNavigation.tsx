@@ -43,7 +43,7 @@ export const BottomNavigation = () => {
 
   return (
     <div className="fixed md:absolute bottom-0 left-0 z-50 w-full px-6 pb-6 pointer-events-none">
-      <nav className="w-full bg-white h-20 flex items-center justify-between px-2 rounded-3xl shadow-large border border-neutral-border/50 pointer-events-auto relative">
+      <nav className="w-full bg-white h-24 flex items-center justify-between px-2 rounded-3xl shadow-[0_-10px_40px_rgba(59,117,151,0.2)] border-2 border-primary-light/50 pointer-events-auto relative ring-4 ring-white/50">
         {/* First Half */}
         <div className="flex flex-1 justify-around">
           {items.slice(0, 2).map((item) => (
@@ -51,12 +51,12 @@ export const BottomNavigation = () => {
               key={item.path}
               to={item.path}
               className={({ isActive }) => `
-                relative flex flex-col items-center justify-center py-2 gap-1 transition-standard
-                ${isActive ? 'text-primary' : 'text-slate-400 hover:text-slate-600'}
+                relative flex flex-col items-center justify-center py-2 gap-1.5 transition-all duration-300
+                ${isActive ? 'text-primary scale-110 drop-shadow-md' : 'text-slate-400 hover:text-slate-600 hover:scale-105'}
               `}
             >
-              <item.icon size={22} strokeWidth={2} />
-              <span className="text-[10px] font-bold">{item.label}</span>
+              <item.icon size={26} strokeWidth={2.5} />
+              <span className="text-[11px] font-black tracking-wide">{item.label}</span>
             </NavLink>
           ))}
         </div>
@@ -65,9 +65,9 @@ export const BottomNavigation = () => {
         <div className="relative -top-10 flex flex-col items-center">
           <button 
             onClick={() => window.location.href = '/transactions/new'}
-            className="w-16 h-16 bg-primary text-white rounded-full shadow-large flex items-center justify-center hover:scale-110 active:scale-95 transition-standard"
+            className="w-20 h-20 bg-primary text-white rounded-full shadow-[0_10px_30px_rgba(59,117,151,0.4)] border-4 border-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300"
           >
-            <Plus size={32} strokeWidth={3} />
+            <Plus size={40} strokeWidth={3} />
           </button>
         </div>
 
@@ -78,12 +78,12 @@ export const BottomNavigation = () => {
               key={item.path}
               to={item.path}
               className={({ isActive }) => `
-                relative flex flex-col items-center justify-center py-2 gap-1 transition-standard
-                ${isActive ? 'text-primary' : 'text-slate-400 hover:text-slate-600'}
+                relative flex flex-col items-center justify-center py-2 gap-1.5 transition-all duration-300
+                ${isActive ? 'text-primary scale-110 drop-shadow-md' : 'text-slate-400 hover:text-slate-600 hover:scale-105'}
               `}
             >
-              <item.icon size={22} strokeWidth={2} />
-              <span className="text-[10px] font-bold">{item.label}</span>
+              <item.icon size={26} strokeWidth={2.5} />
+              <span className="text-[11px] font-black tracking-wide">{item.label}</span>
             </NavLink>
           ))}
         </div>

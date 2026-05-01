@@ -21,7 +21,7 @@ router.get('/daily', async (req: Request, res: Response, next: NextFunction) => 
       include: {
         customer: { select: { name: true, phone: true } },
         services: { include: { service: { select: { name: true } } } },
-        staff: { select: { name: true } },
+        user: { select: { name: true } },
       },
       orderBy: { createdAt: 'desc' },
     });

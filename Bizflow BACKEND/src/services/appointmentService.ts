@@ -18,7 +18,7 @@ export async function listAppointments(
   return prisma.appointment.findMany({
     where,
     include: {
-      services: { include: { service: true } },
+      appointmentservice: { include: { service: true } },
       staff: { select: { id: true, name: true } },
       customer: { select: { id: true, name: true, phone: true } },
     },
@@ -50,11 +50,11 @@ export async function createAppointment(
       duration: data.duration,
       notes: data.notes,
     },
-    include: { services: { include: { service: true } } },
+    include: { appointmentservice: { include: { service: true } } },
   });
 
   if (data.serviceIds.length > 0) {
-    await prisma.appointmentService.createMany({
+    await prisma.appointmentservice.createMany({
       data: data.serviceIds.map((sid) => ({ appointmentId: appointment.id, serviceId: sid })),
     });
   }
@@ -107,7 +107,7 @@ export async function cancelAppointment(businessId: string, appointmentId: strin
 export async function sendReminder(businessId: string, appointmentId: string) {
   const appt = await prisma.appointment.findFirst({
     where: { id: appointmentId, businessId },
-    include: { services: { include: { service: true } } },
+    include: { appointmentservice: { include: { service: true } } },
   });
   if (!appt) throw new AppError('Appointment not found', 404);
 

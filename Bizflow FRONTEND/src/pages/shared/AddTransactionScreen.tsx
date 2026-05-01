@@ -209,11 +209,11 @@ const AddTransactionScreen = () => {
               <button 
                 onClick={() => setPaymentMethod('MPESA')}
                 className={`flex flex-col items-center justify-center p-6 rounded-card border-2 transition-standard ${
-                  paymentMethod === 'MPESA' ? 'border-mpesa-green bg-mpesa-muted/20' : 'border-neutral-border bg-white'
+                  paymentMethod === 'MPESA' ? 'border-primary-accent bg-primary-soft/20' : 'border-neutral-border bg-white'
                 }`}
               >
-                <Smartphone size={32} className={paymentMethod === 'MPESA' ? 'text-mpesa-green' : 'text-neutral-textLight'} />
-                <span className={`mt-2 font-bold ${paymentMethod === 'MPESA' ? 'text-mpesa-green' : 'text-neutral-textMid'}`}>M-PESA</span>
+                <Smartphone size={32} className={paymentMethod === 'MPESA' ? 'text-primary-accent' : 'text-neutral-textLight'} />
+                <span className={`mt-2 font-bold ${paymentMethod === 'MPESA' ? 'text-primary-accent' : 'text-neutral-textMid'}`}>M-PESA</span>
               </button>
               <button 
                 onClick={() => setPaymentMethod('CASH')}
@@ -239,8 +239,8 @@ const AddTransactionScreen = () => {
                 {stkStatus === 'pending' ? (
                   <div className="mt-6 text-center space-y-4">
                     <div className="relative w-16 h-16 mx-auto">
-                      <div className="absolute inset-0 border-4 border-mpesa-muted rounded-full" />
-                      <div className="absolute inset-0 border-4 border-mpesa-green rounded-full border-t-transparent animate-spin" />
+                      <div className="absolute inset-0 border-4 border-primary-soft rounded-full" />
+                      <div className="absolute inset-0 border-4 border-primary-accent rounded-full border-t-transparent animate-spin" />
                     </div>
                     <p className="text-sm font-medium">Waiting for customer to enter PIN...</p>
                     <p className="text-[10px] text-neutral-textLight uppercase tracking-widest">Do not close this screen</p>
@@ -273,7 +273,7 @@ const AddTransactionScreen = () => {
 
         {step === 4 && (
           <div className="text-center space-y-6 pt-10">
-            <div className="w-20 h-20 bg-mpesa-muted rounded-full flex items-center justify-center mx-auto text-mpesa-green scale-110 animate-in zoom-in duration-500">
+            <div className="w-20 h-20 bg-primary-soft rounded-full flex items-center justify-center mx-auto text-primary-accent scale-110 animate-in zoom-in duration-500">
               <CheckCircle2 size={48} />
             </div>
             <div>

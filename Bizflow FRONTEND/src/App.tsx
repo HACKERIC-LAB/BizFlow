@@ -7,7 +7,6 @@ import { lazy, Suspense } from 'react';
 const LoginScreen = lazy(() => import('./pages/auth/LoginScreen.tsx'));
 const RegisterScreen = lazy(() => import('./pages/auth/RegisterScreen.tsx'));
 const OwnerDashboard = lazy(() => import('./pages/owner/OwnerDashboard.tsx'));
-const StaffDashboard = lazy(() => import('./pages/staff/StaffDashboard.tsx'));
 const ManagerDashboard = lazy(() => import('./pages/manager/ManagerDashboard.tsx'));
 const ViewerDashboard = lazy(() => import('./pages/viewer/ViewerDashboard.tsx'));
 const QueueManagementScreen = lazy(() => import('./pages/shared/QueueManagementScreen.tsx'));

@@ -158,7 +158,7 @@ const QueueManagementScreen = () => {
                   </button>
                   <button 
                     onClick={() => handleStartService(entry.id)}
-                    className="p-2 bg-mpesa-green text-white rounded-button hover:bg-mpesa-green/90 transition-standard"
+                    className="p-2 bg-primary-accent text-primary-dark rounded-button hover:bg-primary-accent/90 transition-standard"
                   >
                     <Play size={18} fill="white" />
                   </button>

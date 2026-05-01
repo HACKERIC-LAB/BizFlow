@@ -53,6 +53,7 @@ async function main() {
         createdAt: randomDate,
         services: {
           create: {
+            id: `ts_${Math.random().toString(36).slice(2, 11)}`,
             serviceId: randomService.id,
             price: randomService.price
           }

@@ -11,9 +11,7 @@ import {
   FileText, 
   LogOut, 
   ChevronRight, 
-  Camera,
-  CheckCircle2,
-  AlertTriangle
+  Camera
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { userApi } from '../../services/userApi';
@@ -21,7 +19,7 @@ import { useAuthStore } from '../../store/authStore';
 
 const SettingsScreen = () => {
   const navigate = useNavigate();
-  const { logout, user: authUser } = useAuthStore();
+  const { logout } = useAuthStore();
   const [profile, setProfile] = useState<any>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
@@ -168,7 +166,7 @@ const SettingsScreen = () => {
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold text-neutral-darkNavy">{profile?.name}</h3>
                   <p className="text-neutral-textLight text-sm flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-mpesa-green animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary-accent animate-pulse" />
                     {profile?.email || 'No email set'}
                   </p>
                   <div className="flex gap-2 mt-2">

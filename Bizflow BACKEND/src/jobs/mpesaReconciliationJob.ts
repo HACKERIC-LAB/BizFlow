@@ -20,7 +20,7 @@ export function startMpesaReconciliationJob(): void {
 
       for (const tx of pendingTransactions) {
         // Check if there's a matching callback
-        const callback = await prisma.mpesaCallback.findFirst({
+        const callback = await prisma.mpesacallback.findFirst({
           where: { phoneNumber: tx.mpesaPhone ?? undefined, resultCode: 0 },
           orderBy: { createdAt: 'desc' },
         });
@@ -63,7 +63,7 @@ export function startDataRetentionJob(): void {
       oneEightyDaysAgo.setDate(oneEightyDaysAgo.getDate() - 180);
 
       // Delete old queue entries (30 days)
-      await prisma.queueEntry.deleteMany({
+      await prisma.queueentry.deleteMany({
         where: {
           status: { in: ['COMPLETED', 'SKIPPED'] },
           createdAt: { lt: thirtyDaysAgo },
@@ -71,12 +71,12 @@ export function startDataRetentionJob(): void {
       });
 
       // Delete old audit logs (90 days)
-      await prisma.auditLog.deleteMany({
+      await prisma.auditlog.deleteMany({
         where: { createdAt: { lt: ninetyDaysAgo } },
       });
 
       // Delete old AI interactions (180 days)
-      await prisma.aIInteraction.deleteMany({
+      await prisma.aiInteraction.deleteMany({
         where: { createdAt: { lt: oneEightyDaysAgo } },
       });
 
