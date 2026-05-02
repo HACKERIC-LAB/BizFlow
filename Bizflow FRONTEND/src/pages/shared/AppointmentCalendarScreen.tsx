@@ -29,7 +29,7 @@ const AppointmentCalendarScreen = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 animate-fade-in">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl">Bookings</h2>
           <Button 
@@ -50,7 +50,7 @@ const AppointmentCalendarScreen = () => {
                 key={day.toString()}
                 onClick={() => setSelectedDate(day)}
                 className={`flex flex-col items-center justify-center min-w-[64px] h-20 rounded-card border-2 transition-standard shrink-0 ${
-                  isSelected ? 'bg-coffee-700 border-coffee-700 text-white' : 'bg-white border-coffee-200 text-coffee-600 hover:border-coffee-700/50'
+                  isSelected ? 'bg-coffee-900 border-coffee-900 text-white' : 'bg-white border-coffee-200 text-coffee-600 hover:border-coffee-900/50'
                 }`}
               >
                 <span className="text-[10px] font-bold uppercase tracking-widest mb-1">
@@ -71,7 +71,7 @@ const AppointmentCalendarScreen = () => {
             <h3 className="font-bold text-coffee-900">
               {isSameDay(selectedDate, startOfToday()) ? 'Today' : format(selectedDate, 'MMMM d, yyyy')}
             </h3>
-            <span className="text-xs text-neutral-500 font-medium">{appointments.length} Appointments</span>
+            <span className="text-xs text-coffee-500 font-medium">{appointments.length} Appointments</span>
           </div>
 
           <div className="space-y-4 relative">
@@ -83,19 +83,19 @@ const AppointmentCalendarScreen = () => {
             ) : appointments.length > 0 ? (
               appointments.map((apt) => (
                 <div key={apt.id} className="relative z-10 pl-10">
-                  <div className="absolute left-[13px] top-4 w-2.5 h-2.5 rounded-full border-2 border-white bg-coffee-700 shadow-subtle" />
-                  <Card className="p-4 flex justify-between items-start hover:border-coffee-700 transition-standard">
+                  <div className="absolute left-[13px] top-4 w-2.5 h-2.5 rounded-full border-2 border-white bg-coffee-900 shadow-subtle" />
+                  <Card className="p-4 flex justify-between items-start hover:border-coffee-900 transition-standard">
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
-                        <Clock size={14} className="text-coffee-700" />
-                        <span className="text-sm font-bold text-coffee-700">{format(new Date(apt.startTime), 'hh:mm a')}</span>
+                        <Clock size={14} className="text-coffee-900" />
+                        <span className="text-sm font-bold text-coffee-900">{format(new Date(apt.startTime), 'hh:mm a')}</span>
                       </div>
                       <h4 className="font-bold text-coffee-900">{apt.customer.name}</h4>
-                      <p className="text-xs text-neutral-500">{apt.service.name} with {apt.staff.name}</p>
+                      <p className="text-xs text-coffee-500">{apt.service.name} with {apt.staff.name}</p>
                     </div>
                     <span className={`px-2 py-0.5 rounded-badge text-[10px] font-bold uppercase ${
-                      apt.status === 'CONFIRMED' ? 'bg-coffee-50 text-coffee-700' :
-                      apt.status === 'PENDING' ? 'bg-accent-light text-accent' : 'bg-coffee-50 text-neutral-500'
+                      apt.status === 'CONFIRMED' ? 'bg-coffee-50 text-coffee-900' :
+                      apt.status === 'PENDING' ? 'bg-accent-light text-accent' : 'bg-coffee-50 text-coffee-500'
                     }`}>
                       {apt.status}
                     </span>
@@ -103,7 +103,7 @@ const AppointmentCalendarScreen = () => {
                 </div>
               ))
             ) : (
-              <div className="pl-10 py-10 text-center text-neutral-500 text-sm italic">
+              <div className="pl-10 py-10 text-center text-coffee-500 text-sm italic">
                 No appointments for this day
               </div>
             )}

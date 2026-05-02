@@ -17,7 +17,7 @@ export async function checkIn(req: Request, res: Response, next: NextFunction) {
 
 export async function startServing(req: Request, res: Response, next: NextFunction) {
   try {
-    const data = await queueService.startServing((req as any).businessId!, req.params.id);
+    const data = await queueService.startServing((req as any).businessId!, req.params.id, (req as any).userId!);
     res.json({ success: true, data });
   } catch (error) { next(error); }
 }

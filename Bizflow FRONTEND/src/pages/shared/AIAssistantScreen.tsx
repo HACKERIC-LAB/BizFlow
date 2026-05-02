@@ -43,22 +43,22 @@ const AIAssistantScreen = () => {
 
   return (
     <MainLayout>
-      {/* Full height flex column — input always visible at bottom */}
-      <div className="flex flex-col" style={{ height: 'calc(100dvh - 180px)' }}>
+      {/* Natural scrolling layout — removes the fixed empty space */}
+      <div className="flex flex-col animate-fade-in pb-24">
 
         {/* Header */}
         <div className="flex items-center gap-2 mb-4 shrink-0">
-          <div className="w-8 h-8 bg-coffee-700 rounded-full flex items-center justify-center text-white">
+          <div className="w-8 h-8 bg-coffee-900 rounded-full flex items-center justify-center text-white">
             <Sparkles size={18} fill="white" />
           </div>
           <h2 className="text-2xl font-bold">BizFlow AI</h2>
         </div>
 
-        {/* Scrollable chat area */}
-        <div className="flex-1 overflow-y-auto no-scrollbar space-y-4 pr-1">
+        {/* Chat area */}
+        <div className="space-y-4 pr-1">
           {chatHistory.length === 0 && (
             <>
-              <section className="bg-coffee-700 text-white p-5 rounded-3xl relative overflow-hidden shadow-medium">
+              <section className="bg-coffee-900 text-white p-5 rounded-3xl relative overflow-hidden shadow-medium">
                 <div className="relative z-10">
                   <h3 className="text-base font-bold mb-1">Hello, I'm your assistant!</h3>
                   <p className="text-sm text-white/80 leading-relaxed">
@@ -72,28 +72,29 @@ const AIAssistantScreen = () => {
                 <section>
                   <h3 className="text-[10px] uppercase tracking-wider text-coffee-500 font-bold mb-2">Today's Insight</h3>
                   {insights.map((item, i) => (
-                    <Card key={i} className="flex gap-4 p-4 border-none bg-white shadow-subtle">
-                      <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-coffee-700/10 text-coffee-700 shrink-0">
+                    <Card key={i} className="flex gap-4 p-4 border-none bg-white shadow-subtle mb-4">
+                      <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-coffee-900/10 text-coffee-900 shrink-0">
                         <item.icon size={20} />
                       </div>
                       <div>
                         <h4 className="text-sm font-bold">{item.title}</h4>
-                        <p className="text-xs text-neutral-500 mt-0.5">{item.desc}</p>
+                        <p className="text-xs text-coffee-500 mt-0.5">{item.desc}</p>
                       </div>
                     </Card>
                   ))}
+
+                  <div className="mt-4">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-coffee-400 mb-2 ml-1">Try Asking</p>
+                    <button
+                      onClick={() => setMessage("What's my expected revenue for tomorrow?")}
+                      className="inline-block px-4 py-2 bg-coffee-50 rounded-2xl text-xs font-bold text-coffee-900 cursor-pointer hover:bg-coffee-100 transition-colors border border-coffee-100"
+                    >
+                      What's my expected revenue for tomorrow?
+                    </button>
+                  </div>
                 </section>
               )}
 
-              <section>
-                <h3 className="text-[10px] uppercase tracking-wider text-coffee-500 font-bold mb-2">Try asking</h3>
-                <button
-                  onClick={() => setMessage("What's my expected revenue for tomorrow?")}
-                  className="text-xs font-bold text-coffee-700 bg-coffee-700/10 px-4 py-2 rounded-xl hover:bg-coffee-700/20 transition-standard text-left"
-                >
-                  What's my expected revenue for tomorrow?
-                </button>
-              </section>
             </>
           )}
 
@@ -101,7 +102,7 @@ const AIAssistantScreen = () => {
             <div key={i} className={`flex ${chat.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-[80%] p-4 rounded-2xl text-sm ${
                 chat.role === 'user'
-                  ? 'bg-coffee-700 text-white'
+                  ? 'bg-coffee-900 text-white'
                   : 'bg-white border border-coffee-200 text-coffee-900 shadow-subtle'
               }`}>
                 {chat.text}
@@ -113,9 +114,9 @@ const AIAssistantScreen = () => {
             <div className="flex justify-start">
               <div className="bg-white border border-coffee-200 p-4 rounded-2xl">
                 <div className="flex gap-1">
-                  <div className="w-1.5 h-1.5 bg-coffee-700 rounded-full animate-bounce" />
-                  <div className="w-1.5 h-1.5 bg-coffee-700 rounded-full animate-bounce delay-75" />
-                  <div className="w-1.5 h-1.5 bg-coffee-700 rounded-full animate-bounce delay-150" />
+                  <div className="w-1.5 h-1.5 bg-coffee-900 rounded-full animate-bounce" />
+                  <div className="w-1.5 h-1.5 bg-coffee-900 rounded-full animate-bounce delay-75" />
+                  <div className="w-1.5 h-1.5 bg-coffee-900 rounded-full animate-bounce delay-150" />
                 </div>
               </div>
             </div>
@@ -126,10 +127,10 @@ const AIAssistantScreen = () => {
         {/* Chat Input — always at the bottom, never hidden */}
         <div className="pt-3 shrink-0">
           <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="flex gap-2 items-center">
-            <Card className="flex-1 p-1 flex gap-2 items-center bg-white shadow-large border border-coffee-700/20 rounded-2xl">
+            <Card className="flex-1 p-1 flex gap-2 items-center bg-white shadow-large border border-coffee-200 rounded-2xl">
               <input
                 type="text"
-                placeholder="Ask BizFlow AI..."
+                placeholder="Ask BizFlow AI anything..."
                 className="w-full bg-transparent border-none focus:ring-0 px-3 py-3 text-sm font-medium"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}

@@ -23,33 +23,33 @@ const ManagerDashboard = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 animate-fade-in">
         <div>
           <h2 className="text-2xl font-bold">Manager Dashboard</h2>
-          <p className="text-neutral-500 text-sm">Overview of today's operations</p>
+          <p className="text-coffee-500 text-sm">Overview of today's operations</p>
         </div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-4">
-          <Card className="p-4 bg-coffee-700 text-white border-none">
+          <Card className="p-4 bg-coffee-900 text-white border-none">
             <TrendingUp size={20} className="mb-2 opacity-80" />
             <p className="text-2xl font-bold">KSh {(stats?.revenue || 0).toLocaleString()}</p>
             <p className="text-[10px] uppercase font-bold tracking-wider opacity-80">Daily Revenue</p>
           </Card>
           <Card className="p-4 bg-white shadow-subtle border-none">
-            <Users size={20} className="mb-2 text-coffee-700" />
+            <Users size={20} className="mb-2 text-coffee-900" />
             <p className="text-2xl font-bold text-coffee-900">{stats?.customers || 0}</p>
-            <p className="text-[10px] uppercase font-bold tracking-wider text-neutral-500">Customers Served</p>
+            <p className="text-[10px] uppercase font-bold tracking-wider text-coffee-400">Customers Served</p>
           </Card>
         </div>
 
         {/* Active Queue */}
         <section className="space-y-3">
           <div className="flex justify-between items-center">
-            <h3 className="text-xs uppercase font-bold text-neutral-500 tracking-wider">Live Queue</h3>
+            <h3 className="text-xs uppercase font-bold text-coffee-400 tracking-wider">Live Queue</h3>
             <span className="text-[10px] font-bold text-accent bg-coffee-50 px-2 py-0.5 rounded-badge uppercase animate-pulse">Live</span>
           </div>
-          <Card className="divide-y divide-coffee-200">
+          <Card className="divide-y divide-coffee-100">
             {queue.length > 0 ? queue.slice(0, 3).map((item) => (
               <div key={item.id} className="p-4 flex justify-between items-center">
                 <div className="flex items-center gap-3">
@@ -58,23 +58,23 @@ const ManagerDashboard = () => {
                   </div>
                   <div>
                     <p className="text-sm font-bold">{item.customerName}</p>
-                    <p className="text-[10px] text-neutral-500">{item.serviceName}</p>
+                    <p className="text-[10px] text-coffee-400">{item.serviceName}</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] font-bold text-coffee-700">{item.status}</p>
-                  <p className="text-[10px] text-neutral-500">{format(new Date(item.createdAt), 'hh:mm a')}</p>
+                  <p className="text-[10px] font-bold text-coffee-900">{item.status}</p>
+                  <p className="text-[10px] text-coffee-400">{format(new Date(item.createdAt), 'hh:mm a')}</p>
                 </div>
               </div>
             )) : (
-              <div className="p-6 text-center text-sm text-neutral-500 italic">No active queue</div>
+              <div className="p-6 text-center text-sm text-coffee-400 italic">No active queue</div>
             )}
           </Card>
         </section>
 
         {/* Staff Attendance */}
         <section className="space-y-3">
-          <h3 className="text-xs uppercase font-bold text-neutral-500 tracking-wider">Staff Status</h3>
+          <h3 className="text-xs uppercase font-bold text-coffee-400 tracking-wider">Staff Status</h3>
           <div className="grid grid-cols-1 gap-2">
             {staff.map(member => (
               <Card key={member.id} className="p-3 flex justify-between items-center">
@@ -82,7 +82,7 @@ const ManagerDashboard = () => {
                    <div className={`w-2 h-2 rounded-full ${member.status === 'ACTIVE' ? 'bg-accent' : 'bg-coffee-200'}`} />
                    <p className="text-sm font-medium">{member.name}</p>
                 </div>
-                <p className="text-[10px] font-bold text-neutral-500 uppercase">{member.role}</p>
+                <p className="text-[10px] font-bold text-coffee-400 uppercase">{member.role}</p>
               </Card>
             ))}
           </div>

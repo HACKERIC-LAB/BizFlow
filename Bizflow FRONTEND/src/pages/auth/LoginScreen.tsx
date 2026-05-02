@@ -60,17 +60,17 @@ const LoginScreen = () => {
         
         {/* Branding Section */}
         <div className="relative pt-20 pb-12 px-8 text-center overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-coffee-700/10 to-transparent" />
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-coffee-900/10 to-transparent" />
           <div className="relative z-10">
             <div className="w-20 h-20 bg-white rounded-3xl shadow-large mx-auto flex items-center justify-center mb-6 animate-slide-up">
-              <div className="w-12 h-12 bg-coffee-700 rounded-2xl flex items-center justify-center text-white shadow-futuristic">
+              <div className="w-12 h-12 bg-coffee-900 rounded-2xl flex items-center justify-center text-white shadow-futuristic">
                 <LogIn size={24} />
               </div>
             </div>
             <h1 className="text-4xl font-extrabold text-coffee-900 tracking-tight animate-slide-up delay-100">
-              Biz<span className="text-coffee-700">Flow</span>
+              Biz<span className="text-coffee-900">Flow</span>
             </h1>
-            <p className="text-neutral-500 font-medium mt-2 animate-slide-up delay-200">
+            <p className="text-coffee-500 font-medium mt-2 animate-slide-up delay-200">
               Elevate your business operations
             </p>
           </div>
@@ -94,7 +94,7 @@ const LoginScreen = () => {
             />
             
             <div className="flex items-center justify-end px-1">
-              <Link to="/forgot-password" title="Forgot Password" className="text-xs font-bold text-coffee-700 uppercase tracking-wider hover:underline">
+              <Link to="/forgot-password" title="Forgot Password" className="text-xs font-bold text-coffee-900 uppercase tracking-wider hover:underline">
                 Recovery Access
               </Link>
             </div>
@@ -112,13 +112,13 @@ const LoginScreen = () => {
           <div className="mt-12 text-center animate-slide-up delay-500">
             <div className="inline-flex items-center gap-2 mb-6">
               <div className="h-px w-8 bg-coffee-200/50" />
-              <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-[0.2em]">Partner Hub</span>
+              <span className="text-[10px] font-bold text-coffee-500 uppercase tracking-[0.2em]">Partner Hub</span>
               <div className="h-px w-8 bg-coffee-200/50" />
             </div>
             
             <p className="text-sm font-medium text-coffee-600">
               New to the platform?{' '}
-              <Link to="/register" className="text-coffee-700 font-bold hover:underline">
+              <Link to="/register" className="text-coffee-900 font-bold hover:underline">
                 Create Account
               </Link>
             </p>
@@ -127,7 +127,7 @@ const LoginScreen = () => {
         
         {/* Phone Footer - Desktop Only */}
         <div className="hidden md:flex h-8 bg-transparent justify-center items-center shrink-0">
-          <div className="w-32 h-1.5 bg-coffee-800/20 rounded-full" />
+          <div className="w-32 h-1.5 bg-coffee-900/20 rounded-full" />
         </div>
       </div>
     </div>

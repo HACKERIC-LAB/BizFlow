@@ -49,14 +49,14 @@ const StaffReportScreen = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6 pb-10">
+      <div className="space-y-6 pb-10 animate-fade-in">
         <div className="flex items-center gap-4">
           <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-coffee-600">
             <ChevronLeft size={24} />
           </button>
           <div>
             <h2 className="text-xl font-bold">Staff Performance</h2>
-            <p className="text-xs text-neutral-500">{report.name} • {report.period}</p>
+            <p className="text-xs text-coffee-500">{report.name} • {report.period}</p>
           </div>
         </div>
 
@@ -65,16 +65,16 @@ const StaffReportScreen = () => {
           {stats.map((stat) => (
             <Card 
               key={stat.id} 
-              className={`p-4 flex flex-col items-center justify-center text-center transition-standard ${stat.clickable ? 'cursor-pointer hover:border-coffee-700/40 hover:shadow-subtle' : ''}`}
+              className={`p-4 flex flex-col items-center justify-center text-center transition-standard ${stat.clickable ? 'cursor-pointer hover:border-coffee-900/40 hover:shadow-subtle' : ''}`}
               onClick={stat.clickable ? () => setShowClientsModal(true) : undefined}
             >
               <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-${stat.color}-light text-${stat.color}`}>
                 <stat.icon size={20} />
               </div>
               <p className="text-lg font-bold text-coffee-900">{stat.value}</p>
-              <p className="text-[10px] uppercase font-bold text-neutral-500 tracking-wider">
+              <p className="text-[10px] uppercase font-bold text-coffee-500 tracking-wider">
                 {stat.label}
-                {stat.clickable && <span className="block text-[8px] text-coffee-700 lowercase font-normal">(View List)</span>}
+                {stat.clickable && <span className="block text-[8px] text-coffee-900 lowercase font-normal">(View List)</span>}
               </p>
             </Card>
           ))}
@@ -84,16 +84,16 @@ const StaffReportScreen = () => {
         <Card className="p-6">
           <div className="flex items-center justify-between mb-6">
             <h4 className="font-bold text-coffee-900">Weekly Revenue</h4>
-            <BarChart3 size={18} className="text-neutral-500" />
+            <BarChart3 size={18} className="text-coffee-500" />
           </div>
           <div className="flex items-end justify-between h-32 gap-2 px-2">
             {report.dailyPerformance.map((item: any, i: number) => (
               <div key={i} className="flex-1 flex flex-col items-center gap-2">
                 <div 
-                  className="w-full bg-coffee-700 rounded-t-sm transition-all duration-500" 
+                  className="w-full bg-coffee-900 rounded-t-sm transition-all duration-500" 
                   style={{ height: `${Math.min((item.revenue / 10000) * 100, 100)}%` }}
                 />
-                <span className="text-[10px] font-bold text-neutral-500">{item.day}</span>
+                <span className="text-[10px] font-bold text-coffee-500">{item.day}</span>
               </div>
             ))}
           </div>
@@ -101,7 +101,7 @@ const StaffReportScreen = () => {
 
         {/* Service Breakdown */}
         <section className="space-y-3">
-          <h4 className="text-xs uppercase font-bold text-neutral-500 tracking-wider">Top Services</h4>
+          <h4 className="text-xs uppercase font-bold text-coffee-500 tracking-wider">Top Services</h4>
           <Card className="divide-y divide-coffee-200">
             {report.topServices.map((s: any, i: number) => (
               <div key={i} className="p-4 flex justify-between items-center">
@@ -148,7 +148,7 @@ const StaffReportScreen = () => {
                     <Dialog.Title as="h3" className="text-lg font-bold text-coffee-900">
                       Served Clients
                     </Dialog.Title>
-                    <button onClick={() => setShowClientsModal(false)} className="p-2 -mr-2 text-neutral-500">
+                    <button onClick={() => setShowClientsModal(false)} className="p-2 -mr-2 text-coffee-500">
                       <X size={20} />
                     </button>
                   </div>
@@ -164,15 +164,15 @@ const StaffReportScreen = () => {
                             </p>
                           </div>
                           <div className="text-right">
-                            <p className="text-[10px] text-neutral-500 uppercase font-bold tracking-wider">Last Served</p>
-                            <p className="text-[10px] font-bold text-coffee-700">
+                            <p className="text-[10px] text-coffee-500 uppercase font-bold tracking-wider">Last Served</p>
+                            <p className="text-[10px] font-bold text-coffee-900">
                               {new Date(client.lastVisit).toLocaleDateString()}
                             </p>
                           </div>
                         </div>
                       ))
                     ) : (
-                      <div className="text-center py-10 text-neutral-500">
+                      <div className="text-center py-10 text-coffee-500">
                         <Users size={32} className="mx-auto mb-2 opacity-20" />
                         <p className="text-sm italic">No clients served this month yet.</p>
                       </div>

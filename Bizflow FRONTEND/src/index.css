@@ -11,8 +11,8 @@
   }
 
   body {
-    background-color: #F5EFE6;
-    color: #3B231B;
+    background-color: #F5EFE6; /* coffee-50 */
+    color: #3B231B; /* coffee-900 */
     font-family: Inter, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -22,19 +22,34 @@
   h2 { @apply text-2xl font-bold font-heading tracking-tight; }
   h3 { @apply text-xl  font-bold font-heading tracking-tight; }
   p  { @apply text-base font-normal leading-relaxed; }
+
+  /* Custom Selection & Scrollbar */
+  ::selection {
+    @apply bg-accent/30 text-primary;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-coffee-200 rounded-full hover:bg-coffee-300 transition-colors;
+  }
 }
 
 @layer components {
   .body-small {
     font-size: 0.875rem;
     font-weight: 400;
-    color: #8A5A44; /* coffee-600 */
+    @apply text-coffee-500;
   }
 
   .label-text {
     font-size: 0.875rem;
     font-weight: 600;
-    color: #3B231B; /* coffee-900 */
+    @apply text-coffee-900;
   }
 
   .caption-text {
@@ -42,18 +57,20 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #9E9E9E; /* neutral-500 */
+    @apply text-coffee-400;
   }
 
   .glass-card {
-    background-color: #ffffff;
-    border: 1px solid #E0D6C8; /* coffee-200 */
-    @apply shadow-medium;
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(210, 194, 175, 0.3); /* coffee-300/30 */
+    @apply shadow-medium transition-standard hover:shadow-premium;
   }
 
   .glass-header {
-    background-color: #ffffff;
-    border-bottom: 1px solid #E0D6C8; /* coffee-200 */
+    background-color: rgba(245, 239, 230, 0.8);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(210, 194, 175, 0.3);
     @apply sticky top-0 z-50;
   }
 
@@ -62,8 +79,7 @@
   }
 
   .solid-primary {
-    background-color: #6B3E2E; /* coffee-700 */
-    color: #ffffff;
+    @apply bg-coffee-900 text-white;
   }
 }
 

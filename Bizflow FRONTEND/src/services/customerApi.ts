@@ -16,5 +16,9 @@ export const customerApi = {
   update: async (id: string, data: any) => {
     const response = await api.put(`/customers/${id}`, data);
     return response.data;
+  },
+  delete: async (id: string) => {
+    const response = await api.delete(`/customers/${id}`);
+    return response.data;
   }
 };

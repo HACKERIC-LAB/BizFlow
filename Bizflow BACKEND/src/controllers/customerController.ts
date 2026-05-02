@@ -33,3 +33,10 @@ export async function updateCustomer(req: Request, res: Response, next: NextFunc
     res.json({ success: true, data });
   } catch (error) { next(error); }
 }
+
+export async function deleteCustomer(req: Request, res: Response, next: NextFunction) {
+  try {
+    await customerService.deleteCustomer((req as any).businessId!, req.params.id);
+    res.json({ success: true, message: 'Customer deleted successfully' });
+  } catch (error) { next(error); }
+}

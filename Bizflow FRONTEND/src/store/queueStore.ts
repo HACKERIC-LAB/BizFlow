@@ -3,6 +3,7 @@ import { queueApi } from '../services/queueApi';
 
 export interface QueueEntry {
   id: string;
+  customerId?: string;
   customerName?: string;
   customerPhone: string;
   serviceName: string;
@@ -10,6 +11,12 @@ export interface QueueEntry {
   position: number;
   checkInTime: string;
   startTime?: string;
+  servedById?: string;
+  servedBy?: {
+    id: string;
+    name: string;
+    phone: string;
+  };
 }
 
 interface QueueState {

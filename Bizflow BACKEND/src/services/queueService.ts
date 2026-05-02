@@ -3,9 +3,12 @@ import { AppError } from '../middlewares/errorHandler';
 import { emitQueueUpdate, emitNowServing } from '../utils/socket';
 
 export async function getActiveQueue(businessId: string) {
-  return prisma.queueentry.findMany({
+  return (prisma.queueentry as any).findMany({
     where: { businessId, status: { in: ['WAITING', 'SERVING'] } },
-    include: { services: { include: { service: true } } },
+    include: { 
+      services: { include: { service: true } },
+      servedBy: { select: { id: true, name: true, phone: true } }
+    },
     orderBy: { position: 'asc' },
   });
 }
@@ -56,14 +59,21 @@ export async function checkIn(
   return entry;
 }
 
-export async function startServing(businessId: string, entryId: string) {
+export async function startServing(businessId: string, entryId: string, userId: string) {
   const entry = await prisma.queueentry.findFirst({ where: { id: entryId, businessId } });
   if (!entry) throw new AppError('Queue entry not found', 404);
 
-  const updated = await prisma.queueentry.update({
+  const updated = await (prisma.queueentry as any).update({
     where: { id: entryId },
-    data: { status: 'SERVING', startedAt: new Date() },
-    include: { services: { include: { service: true } } },
+    data: { 
+      status: 'SERVING', 
+      startedAt: new Date(),
+      servedById: userId
+    },
+    include: { 
+      services: { include: { service: true } },
+      servedBy: { select: { id: true, name: true, phone: true } }
+    },
   });
 
   const queue = await getActiveQueue(businessId);

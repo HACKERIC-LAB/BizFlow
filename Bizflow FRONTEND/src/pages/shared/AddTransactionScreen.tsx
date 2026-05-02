@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Card } from '../../components/common/Card';
 import { Button } from '../../components/common/Button';
@@ -31,10 +31,24 @@ const AddTransactionScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [mpesaPhone, setMpesaPhone] = useState('');
 
+  const location = useLocation();
+  const [hasAutoSelected, setHasAutoSelected] = useState(false);
+
   useEffect(() => {
     customerApi.list().then(res => setCustomers(res.data.customers || []));
     businessApi.getServices().then(res => setServices(res.data));
   }, []);
+
+  useEffect(() => {
+    if (location.state?.customer && !hasAutoSelected) {
+      const cust = location.state.customer;
+      setSelectedCustomer(cust);
+      setMpesaPhone(cust.phone);
+      setStep(2);
+      setHasAutoSelected(true);
+      toast.success(`Transaction for ${cust.name || cust.phone}`);
+    }
+  }, [location.state, hasAutoSelected]);
 
   const handleNext = () => setStep(s => s + 1);
 
@@ -94,7 +108,7 @@ const AddTransactionScreen = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 animate-fade-in">
         <div className="flex items-center gap-4">
           <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-coffee-600">
             <ChevronLeft size={24} />
@@ -105,7 +119,7 @@ const AddTransactionScreen = () => {
         {/* Stepper */}
         <div className="flex gap-1">
           {[1, 2, 3, 4].map(s => (
-            <div key={s} className={`h-1 flex-1 rounded-full ${step >= s ? 'bg-coffee-700' : 'bg-coffee-200'}`} />
+            <div key={s} className={`h-1 flex-1 rounded-full ${step >= s ? 'bg-coffee-900' : 'bg-coffee-200'}`} />
           ))}
         </div>
 
@@ -136,15 +150,15 @@ const AddTransactionScreen = () => {
                   className="flex items-center justify-between group"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-coffee-50 flex items-center justify-center font-bold text-coffee-700">
+                    <div className="w-10 h-10 rounded-full bg-coffee-50 flex items-center justify-center font-bold text-coffee-900">
                       {c.name[0]}
                     </div>
                     <div>
-                      <p className="font-bold text-sm text-coffee-900 group-hover:text-coffee-700 transition-standard">{c.name}</p>
-                      <p className="text-xs text-neutral-500">{c.phone}</p>
+                      <p className="font-bold text-sm text-coffee-900 group-hover:text-coffee-900 transition-standard">{c.name}</p>
+                      <p className="text-xs text-coffee-500">{c.phone}</p>
                     </div>
                   </div>
-                  <ChevronRight size={18} className="text-coffee-200 group-hover:text-coffee-700 transition-standard" />
+                  <ChevronRight size={18} className="text-coffee-200 group-hover:text-coffee-900 transition-standard" />
                 </Card>
               ))}
             </div>
@@ -157,11 +171,11 @@ const AddTransactionScreen = () => {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-lg font-bold">Select Services</h3>
-                  <p className="text-xs text-neutral-500">{selectedServices.length} services selected</p>
+                  <p className="text-xs text-coffee-500">{selectedServices.length} services selected</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold">Total Amount</p>
-                  <p className="text-2xl font-bold text-coffee-700">KSh {totalAmount.toLocaleString()}</p>
+                  <p className="text-[10px] text-coffee-500 uppercase tracking-widest font-bold">Total Amount</p>
+                  <p className="text-2xl font-bold text-coffee-900">KSh {totalAmount.toLocaleString()}</p>
                 </div>
               </div>
               <Button 
@@ -177,7 +191,7 @@ const AddTransactionScreen = () => {
             <div className="space-y-2">
               {services.map((s) => (
                 <Card key={s.id} 
-                  className={`flex items-center justify-between transition-standard ${selectedServices.includes(s.id) ? 'border-coffee-700 bg-coffee-400/30' : ''}`}
+                  className={`flex items-center justify-between transition-standard ${selectedServices.includes(s.id) ? 'border-coffee-900 bg-coffee-400/30' : ''}`}
                   onClick={() => {
                     setSelectedServices(prev => 
                       prev.includes(s.id) ? prev.filter(id => id !== s.id) : [...prev, s.id]
@@ -189,11 +203,11 @@ const AddTransactionScreen = () => {
                       type="checkbox" 
                       checked={selectedServices.includes(s.id)} 
                       onChange={() => {}}
-                      className="w-5 h-5 accent-coffee-700" 
+                      className="w-5 h-5 accent-coffee-900" 
                     />
                     <div>
                       <p className="font-bold text-sm">{s.name}</p>
-                      <p className="text-xs text-neutral-500">KSh {s.price.toLocaleString()}</p>
+                      <p className="text-xs text-coffee-500">KSh {s.price.toLocaleString()}</p>
                     </div>
                   </div>
                 </Card>
@@ -212,17 +226,17 @@ const AddTransactionScreen = () => {
                   paymentMethod === 'MPESA' ? 'border-accent bg-coffee-50/20' : 'border-coffee-200 bg-white'
                 }`}
               >
-                <Smartphone size={32} className={paymentMethod === 'MPESA' ? 'text-accent' : 'text-neutral-500'} />
+                <Smartphone size={32} className={paymentMethod === 'MPESA' ? 'text-accent' : 'text-coffee-500'} />
                 <span className={`mt-2 font-bold ${paymentMethod === 'MPESA' ? 'text-accent' : 'text-coffee-600'}`}>M-PESA</span>
               </button>
               <button 
                 onClick={() => setPaymentMethod('CASH')}
                 className={`flex flex-col items-center justify-center p-6 rounded-card border-2 transition-standard ${
-                  paymentMethod === 'CASH' ? 'border-coffee-700 bg-coffee-400/20' : 'border-coffee-200 bg-white'
+                  paymentMethod === 'CASH' ? 'border-coffee-900 bg-coffee-400/20' : 'border-coffee-200 bg-white'
                 }`}
               >
-                <Banknote size={32} className={paymentMethod === 'CASH' ? 'text-coffee-700' : 'text-neutral-500'} />
-                <span className={`mt-2 font-bold ${paymentMethod === 'CASH' ? 'text-coffee-700' : 'text-coffee-600'}`}>CASH</span>
+                <Banknote size={32} className={paymentMethod === 'CASH' ? 'text-coffee-900' : 'text-coffee-500'} />
+                <span className={`mt-2 font-bold ${paymentMethod === 'CASH' ? 'text-coffee-900' : 'text-coffee-600'}`}>CASH</span>
               </button>
             </div>
 
@@ -243,7 +257,7 @@ const AddTransactionScreen = () => {
                       <div className="absolute inset-0 border-4 border-accent rounded-full border-t-transparent animate-spin" />
                     </div>
                     <p className="text-sm font-medium">Waiting for customer to enter PIN...</p>
-                    <p className="text-[10px] text-neutral-500 uppercase tracking-widest">Do not close this screen</p>
+                    <p className="text-[10px] text-coffee-500 uppercase tracking-widest">Do not close this screen</p>
                   </div>
                 ) : (
                   <Button 
@@ -262,7 +276,7 @@ const AddTransactionScreen = () => {
               <div className="mt-6 p-6 bg-white rounded-card border border-coffee-200 animate-in slide-in-from-bottom-4">
                 <h4 className="font-bold mb-4">Cash Payment</h4>
                 <div className="flex justify-between items-center mb-6">
-                   <span className="text-neutral-500">Total Due</span>
+                   <span className="text-coffee-500">Total Due</span>
                    <span className="text-xl font-bold">KSh {totalAmount.toLocaleString()}</span>
                 </div>
                 <Button className="w-full mt-6" onClick={handleCashPay} isLoading={isProcessing}>Confirm Cash Payment</Button>
@@ -278,20 +292,20 @@ const AddTransactionScreen = () => {
             </div>
             <div>
               <h3 className="text-2xl font-bold">Transaction Complete</h3>
-              <p className="text-neutral-500">The transaction has been recorded successfully.</p>
+              <p className="text-coffee-500">The transaction has been recorded successfully.</p>
             </div>
             
             <Card className="text-left p-6 space-y-3">
               <div className="flex justify-between text-sm">
-                <span className="text-neutral-500">Customer</span>
+                <span className="text-coffee-500">Customer</span>
                 <span className="font-bold">{selectedCustomer?.name}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-neutral-500">Payment Method</span>
+                <span className="text-coffee-500">Payment Method</span>
                 <span className="font-bold">{paymentMethod}</span>
               </div>
               <div className="flex justify-between text-sm border-t border-coffee-200 pt-3">
-                <span className="text-neutral-500">Total Amount</span>
+                <span className="text-coffee-500">Total Amount</span>
                 <span className="font-bold text-lg">KSh {totalAmount.toLocaleString()}</span>
               </div>
             </Card>

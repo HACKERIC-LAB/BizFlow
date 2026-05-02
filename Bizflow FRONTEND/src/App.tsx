@@ -22,11 +22,12 @@ const AddTransactionScreen = lazy(() => import('./pages/shared/AddTransactionScr
 const AddCustomerScreen = lazy(() => import('./pages/shared/AddCustomerScreen.tsx'));
 const CustomerDetailsScreen = lazy(() => import('./pages/shared/CustomerDetailsScreen.tsx'));
 const SettingsScreen = lazy(() => import('./pages/shared/SettingsScreen.tsx'));
+const ServicesManagementScreen = lazy(() => import('./pages/shared/ServicesManagementScreen.tsx'));
 const LegalScreen = lazy(() => import('./pages/shared/LegalScreen.tsx'));
-
+const MonthlyReportScreen = lazy(() => import('./pages/shared/MonthlyReportScreen.tsx'));
 const Loading = () => (
   <div className="flex h-screen w-full items-center justify-center">
-    <div className="h-10 w-10 animate-spin rounded-full border-4 border-coffee-700 border-t-transparent"></div>
+    <div className="h-10 w-10 animate-spin rounded-full border-4 border-coffee-900 border-t-transparent"></div>
   </div>
 );
 
@@ -154,6 +155,14 @@ function App() {
             }
           />
           <Route
+            path="/reports"
+            element={
+              <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
+                <MonthlyReportScreen />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/transactions/new"
             element={
               <ProtectedRoute allowedRoles={['OWNER', 'MANAGER', 'STAFF']}>
@@ -166,6 +175,14 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={['OWNER', 'MANAGER', 'STAFF', 'VIEWER']}>
                 <SettingsScreen />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/services"
+            element={
+              <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
+                <ServicesManagementScreen />
               </ProtectedRoute>
             }
           />

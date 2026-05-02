@@ -20,7 +20,7 @@ export const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) 
     // Redirect to their default dashboard if they don't have access
     const defaultPaths: Record<UserRole, string> = {
       OWNER: '/dashboard',
-      MANAGER: '/dashboard',
+      MANAGER: '/dashboard-manager',
       STAFF: '/queue',
       VIEWER: '/dashboard-viewer',
     };

@@ -1,0 +1,8 @@
+{
+  "Description": "\"Updated tailwind.config.js with the new Blue and Mint palette. Replaced Coffee tokens with the new theme colors.\"",
+  "Instruction": "\"Replace the 'coffee' color palette and semantic aliases with the new Blue and Mint theme. Update shadows to match the new palette.\"",
+  "ReplacementChunks": "[{\"AllowMultiple\":false,\"EndLine\":67,\"ReplacementContent\":\"        navy: {\\n          50:  \\\"#F8FAFC\\\",\\n          100: \\\"#F1F5F9\\\",\\n          200: \\\"#E2E8F0\\\",\\n          300: \\\"#CBD5E1\\\",\\n          400: \\\"#94A3B8\\\",\\n          500: \\\"#64748B\\\",\\n      \n<truncated 4411 bytes>",
+  "TargetFile": "\"c:\\\\Users\\\\hp\\\\Desktop\\\\BizFlow App\\\\app\\\\Bizflow FRONTEND\\\\tailwind.config.js\"",
+  "toolAction": "\"Updating Tailwind config with Blue/Mint theme\"",
+  "toolSummary": "\"Update tailwind.config.js\""
+}

@@ -11,7 +11,9 @@ import {
   FileText, 
   LogOut, 
   ChevronRight, 
-  Camera
+  Camera,
+  Layers,
+  Package
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { userApi } from '../../services/userApi';
@@ -112,7 +114,7 @@ const SettingsScreen = () => {
   if (isLoading) return (
     <MainLayout>
       <div className="flex h-[60vh] items-center justify-center">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-coffee-700 border-t-transparent"></div>
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-coffee-900 border-t-transparent"></div>
       </div>
     </MainLayout>
   );
@@ -122,12 +124,12 @@ const SettingsScreen = () => {
       <div className="max-w-2xl mx-auto space-y-8 pb-20">
         <div className="animate-slide-up">
           <h2 className="text-4xl font-heading font-black text-coffee-900 tracking-tighter">Settings</h2>
-          <p className="text-neutral-500 text-sm font-medium mt-1">Manage your account and preferences</p>
+          <p className="text-coffee-400 text-sm font-medium mt-1">Manage your account and preferences</p>
         </div>
 
         {/* Profile Section */}
         <section className="space-y-4 animate-slide-up" style={{ animationDelay: '0.1s' }}>
-          <div className="flex items-center gap-2 text-coffee-700 font-black uppercase tracking-[0.2em] text-[10px]">
+          <div className="flex items-center gap-2 text-coffee-900 font-black uppercase tracking-[0.2em] text-[10px]">
             <User size={14} className="text-accent" />
             Profile Information
           </div>
@@ -137,7 +139,7 @@ const SettingsScreen = () => {
               <div className="flex flex-col sm:flex-row items-center gap-6">
                 {/* Avatar */}
                 <div className="relative shrink-0">
-                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-coffee-50 flex items-center justify-center text-coffee-700 font-heading font-bold text-3xl sm:text-4xl overflow-hidden border border-coffee-700/10">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-coffee-50 flex items-center justify-center text-coffee-900 font-heading font-bold text-3xl sm:text-4xl overflow-hidden border border-coffee-900/10">
                     {formData.profilePhoto ? (
                       <img 
                         src={formData.profilePhoto.startsWith('http') ? formData.profilePhoto : `http://localhost:3000${formData.profilePhoto}`} 
@@ -153,7 +155,7 @@ const SettingsScreen = () => {
                       </div>
                     )}
                   </div>
-                  <label className="absolute -bottom-2 -right-2 p-2.5 sm:p-3 bg-coffee-700 text-white rounded-2xl shadow-lg hover:bg-coffee-900 transition-all cursor-pointer border-2 border-white">
+                  <label className="absolute -bottom-2 -right-2 p-2.5 sm:p-3 bg-coffee-900 text-white rounded-2xl shadow-lg hover:bg-coffee-900 transition-all cursor-pointer border-2 border-white">
                     <Camera size={16} />
                     <input 
                       type="file" 
@@ -171,7 +173,7 @@ const SettingsScreen = () => {
                     {profile?.name}
                   </h3>
                   <div className="mt-3">
-                    <span className="px-3 py-1 bg-coffee-700/10 text-coffee-700 text-xs font-bold uppercase tracking-wider rounded-lg">
+                    <span className="px-3 py-1 bg-coffee-900/10 text-coffee-900 text-xs font-bold uppercase tracking-wider rounded-lg">
                       {profile?.role}
                     </span>
                   </div>
@@ -182,7 +184,7 @@ const SettingsScreen = () => {
                   <Button 
                     variant="outline" 
                     onClick={() => setIsEditing(true)}
-                    className="w-full sm:w-auto font-heading font-bold border-2 border-coffee-700/20 hover:border-coffee-700 hover:bg-coffee-700/5 transition-all"
+                    className="w-full sm:w-auto font-heading font-bold border-2 border-coffee-900/20 hover:border-coffee-900 hover:bg-coffee-900/5 transition-all"
                   >
                     Edit Profile
                   </Button>
@@ -215,9 +217,29 @@ const SettingsScreen = () => {
           </Card>
         </section>
 
+        {/* Business Settings */}
+        <section className="space-y-4">
+          <div className="flex items-center gap-2 text-coffee-900 font-bold uppercase tracking-wider text-[10px]">
+            <Layers size={14} className="text-accent" />
+            Business Management
+          </div>
+          <Card hover onClick={() => navigate('/services')} className="flex items-center justify-between cursor-pointer group">
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 rounded-2xl bg-coffee-50 flex items-center justify-center text-coffee-400 group-hover:bg-coffee-900 group-hover:text-white transition-all">
+                <Package size={20} />
+              </div>
+              <div>
+                <h4 className="font-bold text-coffee-900">Manage Services</h4>
+                <p className="text-xs text-coffee-400">Add, edit or remove business offerings</p>
+              </div>
+            </div>
+            <ChevronRight size={18} className="text-coffee-200" />
+          </Card>
+        </section>
+
         {/* Security Section */}
         <section className="space-y-4">
-          <div className="flex items-center gap-2 text-coffee-700 font-bold uppercase tracking-wider text-[10px]">
+          <div className="flex items-center gap-2 text-coffee-900 font-bold uppercase tracking-wider text-[10px]">
             <Lock size={14} />
             Security & Authentication
           </div>
@@ -225,12 +247,12 @@ const SettingsScreen = () => {
           {!isChangingPassword ? (
             <Card hover onClick={() => setIsChangingPassword(true)} className="flex items-center justify-between cursor-pointer">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-2xl bg-coffee-100 flex items-center justify-center text-neutral-500">
+                <div className="w-10 h-10 rounded-2xl bg-coffee-50 flex items-center justify-center text-coffee-400">
                   <ShieldCheck size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold">Change Password</h4>
-                  <p className="text-xs text-neutral-500">Last changed 3 months ago</p>
+                  <h4 className="font-bold text-coffee-900">Change Password</h4>
+                  <p className="text-xs text-coffee-400">Last changed 3 months ago</p>
                 </div>
               </div>
               <ChevronRight size={18} className="text-coffee-200" />
@@ -272,17 +294,17 @@ const SettingsScreen = () => {
 
         {/* Legal Section */}
         <section className="space-y-4">
-          <div className="flex items-center gap-2 text-coffee-700 font-bold uppercase tracking-wider text-[10px]">
+          <div className="flex items-center gap-2 text-coffee-900 font-bold uppercase tracking-wider text-[10px]">
             <FileText size={14} />
             Legal & Privacy
           </div>
           <div className="grid grid-cols-1 gap-3">
-            <Card hover onClick={() => navigate('/legal/terms')} className="flex items-center justify-between cursor-pointer py-4 px-6">
-              <span className="font-bold text-sm">Terms and Conditions</span>
+            <Card hover onClick={() => navigate('/legal/terms')} className="flex items-center justify-between cursor-pointer py-4 px-6 border-coffee-100">
+              <span className="font-bold text-sm text-coffee-900">Terms and Conditions</span>
               <ChevronRight size={16} className="text-coffee-200" />
             </Card>
-            <Card hover onClick={() => navigate('/legal/privacy')} className="flex items-center justify-between cursor-pointer py-4 px-6">
-              <span className="font-bold text-sm">Privacy Policy</span>
+            <Card hover onClick={() => navigate('/legal/privacy')} className="flex items-center justify-between cursor-pointer py-4 px-6 border-coffee-100">
+              <span className="font-bold text-sm text-coffee-900">Privacy Policy</span>
               <ChevronRight size={16} className="text-coffee-200" />
             </Card>
           </div>
@@ -308,8 +330,8 @@ const SettingsScreen = () => {
 
         {/* Version info */}
         <div className="text-center pt-4">
-          <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold">BizFlow v1.0.4 Premium</p>
-          <p className="text-[9px] text-neutral-500/60 mt-1">&copy; 2026 HOOD. All rights reserved.</p>
+          <p className="text-[10px] text-coffee-400 uppercase tracking-widest font-bold">BizFlow v1.0.4 Premium</p>
+          <p className="text-[9px] text-coffee-400/60 mt-1">&copy; 2026 HOOD. All rights reserved.</p>
         </div>
       </div>
     </MainLayout>

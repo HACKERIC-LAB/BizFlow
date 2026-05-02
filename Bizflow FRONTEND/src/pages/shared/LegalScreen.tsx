@@ -11,20 +11,20 @@ const LegalScreen = () => {
 
   return (
     <MainLayout>
-      <div className="max-w-3xl mx-auto space-y-8 pb-20">
+      <div className="max-w-3xl mx-auto space-y-8 pb-20 animate-fade-in">
         <div className="flex items-center gap-4">
-          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-coffee-600 hover:text-coffee-700 transition-standard">
+          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-coffee-600 hover:text-coffee-900 transition-standard">
             <ChevronLeft size={24} />
           </button>
           <div>
             <h2 className="text-2xl">{isTerms ? 'Terms and Conditions' : 'Privacy Policy'}</h2>
-            <p className="text-neutral-500 text-xs">Last updated: April 2026</p>
+            <p className="text-coffee-500 text-xs">Last updated: April 2026</p>
           </div>
         </div>
 
         <Card className="prose prose-sm max-w-none p-8 space-y-6">
           <div className="flex justify-center mb-8">
-            <div className="w-16 h-16 rounded-3xl bg-coffee-700/10 flex items-center justify-center text-coffee-700">
+            <div className="w-16 h-16 rounded-3xl bg-coffee-900/10 flex items-center justify-center text-coffee-900">
               {isTerms ? <FileText size={32} /> : <Shield size={32} />}
             </div>
           </div>
@@ -69,7 +69,7 @@ const LegalScreen = () => {
             </div>
           )}
           
-          <div className="pt-10 border-t border-coffee-200 text-center text-xs text-neutral-500">
+          <div className="pt-10 border-t border-coffee-200 text-center text-xs text-coffee-500">
             If you have any questions, please contact our support team at support@bizflow.app
           </div>
         </Card>

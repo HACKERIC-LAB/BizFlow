@@ -48,7 +48,7 @@ const EditStaffScreen = () => {
 
   return (
     <MainLayout hideBottomNav>
-      <div className="space-y-6">
+      <div className="space-y-6 animate-fade-in">
         <div className="flex items-center gap-4">
           <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-coffee-600">
             <ChevronLeft size={24} />
@@ -59,9 +59,9 @@ const EditStaffScreen = () => {
         <div className="bg-white p-6 rounded-card border border-coffee-200 shadow-subtle">
           <form onSubmit={handleSave} className="space-y-5">
             <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-coffee-400 rounded-full flex items-center justify-center text-coffee-700 relative">
+              <div className="w-20 h-20 bg-coffee-400 rounded-full flex items-center justify-center text-coffee-900 relative">
                 <UserCircle size={40} />
-                <div className="absolute bottom-0 right-0 bg-coffee-700 text-white p-1 rounded-full border-2 border-white">
+                <div className="absolute bottom-0 right-0 bg-coffee-900 text-white p-1 rounded-full border-2 border-white">
                   <Save size={12} />
                 </div>
               </div>
@@ -85,7 +85,7 @@ const EditStaffScreen = () => {
             <div className="space-y-1.5">
               <label className="label-text text-coffee-600">Role</label>
               <select
-                className="w-full bg-white border border-coffee-200 rounded-input px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-coffee-700/20 focus:border-coffee-700 transition-standard"
+                className="w-full bg-white border border-coffee-200 rounded-input px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-coffee-900/20 focus:border-coffee-900 transition-standard"
                 value={formData.role}
                 onChange={(e) => setFormData({...formData, role: e.target.value as StaffRole})}
                 required
@@ -110,7 +110,7 @@ const EditStaffScreen = () => {
 
         <Button 
           variant="outline" 
-          className="w-full border-dashed text-neutral-500"
+          className="w-full border-dashed text-coffee-500"
           onClick={() => toast('Security settings coming soon')}
         >
           Reset Security Credentials

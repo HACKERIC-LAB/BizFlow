@@ -67,3 +67,12 @@ export async function updateCustomer(
   if (!customer) throw new AppError('Customer not found', 404);
   return prisma.customer.update({ where: { id: customerId }, data });
 }
+
+export async function deleteCustomer(businessId: string, customerId: string) {
+  const customer = await prisma.customer.findFirst({ where: { id: customerId, businessId } });
+  if (!customer) throw new AppError('Customer not found', 404);
+  
+  // Note: Prisma will handle setting customerId to NULL in related transactions 
+  // as per the optional relation definition (customerId String?)
+  return prisma.customer.delete({ where: { id: customerId } });
+}

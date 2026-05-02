@@ -49,13 +49,13 @@ const StaffDashboard = () => {
 
         {/* Personal Stats */}
         <div className="grid grid-cols-2 gap-4">
-          <Card className="p-4 bg-coffee-700 text-white border-none shadow-medium">
+          <Card className="p-4 bg-coffee-900 text-white border-none shadow-medium">
             <TrendingUp size={20} className="text-white/80 mb-2" />
             <p className="text-[10px] uppercase font-bold text-white/60 tracking-wider">Your Earnings</p>
             <p className="text-xl font-bold text-white">KSh {(stats?.totalRevenue || 0).toLocaleString()}</p>
           </Card>
           <Card className="p-4 bg-white border border-coffee-200 shadow-subtle">
-            <Clock size={20} className="text-coffee-700 mb-2" />
+            <Clock size={20} className="text-coffee-900 mb-2" />
             <p className="text-[10px] uppercase font-bold text-coffee-500 tracking-wider">Next Break</p>
             <p className="text-xl font-bold text-coffee-900">1:00 PM</p>
           </Card>
@@ -68,11 +68,11 @@ const StaffDashboard = () => {
             <Card className="p-6 border-l-4 border-l-primary bg-white shadow-medium">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <p className="text-coffee-700 text-xs font-bold uppercase tracking-widest mb-1">
+                  <p className="text-coffee-900 text-xs font-bold uppercase tracking-widest mb-1">
                     {nextClient.status === 'SERVING' ? 'Current Service' : 'Upcoming Service'}
                   </p>
                   <h4 className="text-xl font-bold text-coffee-900">{nextClient.customerName}</h4>
-                  <p className="text-sm text-neutral-500">{nextClient.serviceName}</p>
+                  <p className="text-sm text-coffee-500">{nextClient.serviceName}</p>
                 </div>
               </div>
               <div className="flex gap-3">

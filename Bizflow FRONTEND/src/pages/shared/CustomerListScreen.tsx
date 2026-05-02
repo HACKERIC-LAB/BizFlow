@@ -38,7 +38,7 @@ const CustomerListScreen = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 animate-fade-in">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl">Customers</h2>
           <Button 
@@ -61,7 +61,7 @@ const CustomerListScreen = () => {
           </div>
           
           <HeadlessMenu as="div" className="relative">
-            <HeadlessMenu.Button className="h-14 px-4 bg-white border border-coffee-200/50 rounded-2xl flex items-center justify-center text-coffee-500 hover:text-coffee-700 transition-standard shadow-subtle">
+            <HeadlessMenu.Button className="h-14 px-4 bg-white border border-coffee-200/50 rounded-2xl flex items-center justify-center text-coffee-500 hover:text-coffee-900 transition-standard shadow-subtle">
               <Filter size={18} />
             </HeadlessMenu.Button>
             <Transition
@@ -78,21 +78,21 @@ const CustomerListScreen = () => {
                 <div className="py-1">
                   <HeadlessMenu.Item>
                     {({ active }) => (
-                      <button className={`${active ? 'bg-coffee-700/10 text-coffee-700' : 'text-coffee-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
+                      <button className={`${active ? 'bg-coffee-900/10 text-coffee-900' : 'text-coffee-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
                         Most Recent
                       </button>
                     )}
                   </HeadlessMenu.Item>
                   <HeadlessMenu.Item>
                     {({ active }) => (
-                      <button className={`${active ? 'bg-coffee-700/10 text-coffee-700' : 'text-coffee-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
+                      <button className={`${active ? 'bg-coffee-900/10 text-coffee-900' : 'text-coffee-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
                         Most Visits
                       </button>
                     )}
                   </HeadlessMenu.Item>
                   <HeadlessMenu.Item>
                     {({ active }) => (
-                      <button className={`${active ? 'bg-coffee-700/10 text-coffee-700' : 'text-coffee-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
+                      <button className={`${active ? 'bg-coffee-900/10 text-coffee-900' : 'text-coffee-600'} group flex w-full items-center px-3 py-2 text-xs font-bold rounded-xl transition-standard`}>
                         Top Spenders
                       </button>
                     )}
@@ -119,12 +119,12 @@ const CustomerListScreen = () => {
                     {customer.name[0]}
                   </div>
                   <div>
-                    <h4 className="font-bold group-hover:text-coffee-700 transition-standard">{customer.name}</h4>
+                    <h4 className="font-bold group-hover:text-coffee-900 transition-standard">{customer.name}</h4>
                     <div className="flex items-center gap-3 mt-0.5">
-                      <p className="flex items-center text-[10px] text-neutral-500 font-medium">
+                      <p className="flex items-center text-[10px] text-coffee-500 font-medium">
                         <Phone size={10} className="mr-1" /> {customer.phone}
                       </p>
-                      <p className="flex items-center text-[10px] text-neutral-500 font-medium">
+                      <p className="flex items-center text-[10px] text-coffee-500 font-medium">
                         <History size={10} className="mr-1" /> {customer._count?.transactions || 0} Visits
                       </p>
                     </div>
@@ -137,12 +137,12 @@ const CustomerListScreen = () => {
                       <Star size={8} className="mr-0.5 fill-gold" /> {customer.loyaltyPoints || 0}
                     </p>
                   </div>
-                  <ChevronRight size={18} className="text-coffee-200 group-hover:text-coffee-700 transition-standard" />
+                  <ChevronRight size={18} className="text-coffee-200 group-hover:text-coffee-900 transition-standard" />
                 </div>
               </Card>
             ))
           ) : (
-            <p className="text-center py-10 text-neutral-500 text-sm italic">No customers found</p>
+            <p className="text-center py-10 text-coffee-500 text-sm italic">No customers found</p>
           )}
         </div>
 

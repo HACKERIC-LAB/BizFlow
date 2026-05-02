@@ -36,7 +36,7 @@ const AddStaffScreen = () => {
 
   return (
     <MainLayout hideBottomNav>
-      <div className="space-y-6">
+      <div className="space-y-6 animate-fade-in">
         <div className="flex items-center gap-4">
           <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-coffee-600">
             <ChevronLeft size={24} />
@@ -47,7 +47,7 @@ const AddStaffScreen = () => {
         <div className="bg-white p-6 rounded-card border border-coffee-200 shadow-subtle">
           <form onSubmit={handleSave} className="space-y-5">
             <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-coffee-400 rounded-full flex items-center justify-center text-coffee-700">
+              <div className="w-20 h-20 bg-coffee-400 rounded-full flex items-center justify-center text-coffee-900">
                 <UserPlus size={40} />
               </div>
             </div>
@@ -72,7 +72,7 @@ const AddStaffScreen = () => {
             <div className="space-y-1.5">
               <label className="label-text text-coffee-600">Role</label>
               <select
-                className="w-full bg-white border border-coffee-200 rounded-input px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-coffee-700/20 focus:border-coffee-700 transition-standard"
+                className="w-full bg-white border border-coffee-200 rounded-input px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-coffee-900/20 focus:border-coffee-900 transition-standard"
                 value={formData.role}
                 onChange={(e) => setFormData({...formData, role: e.target.value as StaffRole})}
                 required
@@ -105,7 +105,7 @@ const AddStaffScreen = () => {
         </div>
 
         <div className="p-4 bg-coffee-50 rounded-card border border-dashed border-coffee-200 text-center">
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-coffee-500">
             Staff can log in using their phone number and the temporary password you set.
           </p>
         </div>

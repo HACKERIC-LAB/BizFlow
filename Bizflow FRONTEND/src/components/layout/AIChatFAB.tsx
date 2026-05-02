@@ -16,11 +16,11 @@ export const AIChatFAB = () => {
   return (
     <button
       onClick={() => navigate('/ai')}
-      className="fixed md:absolute bottom-32 right-6 w-14 h-14 bg-coffee-900 text-white rounded-full shadow-large z-50 flex items-center justify-center hover:scale-110 active:scale-95 transition-standard group"
+      className="fixed md:absolute bottom-32 right-6 w-14 h-14 bg-coffee-900 text-white rounded-full shadow-large z-50 flex items-center justify-center hover:scale-110 active:scale-95 transition-standard group animate-pulse-gold"
       aria-label="AI Assistant"
     >
-      <div className="absolute inset-0 bg-coffee-700/20 rounded-full animate-ping group-hover:animate-none" />
-      <Sparkles size={24} className="relative z-10 text-coffee-700" fill="currentColor" />
+      <div className="absolute inset-0 bg-accent/20 rounded-full animate-ping group-hover:animate-none" />
+      <Sparkles size={24} className="relative z-10 text-accent" fill="currentColor" />
     </button>
   );
 };

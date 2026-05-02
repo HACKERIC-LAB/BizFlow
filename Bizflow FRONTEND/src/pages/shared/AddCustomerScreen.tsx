@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
-import { ChevronLeft, UserPlus, Save } from 'lucide-react';
+import { ChevronLeft, UserPlus, Save, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { customerApi } from '../../services/customerApi';
+import { useQueueStore } from '../../store/queueStore';
 
 const AddCustomerScreen = () => {
   const navigate = useNavigate();
@@ -15,15 +16,28 @@ const AddCustomerScreen = () => {
     phone: '',
     email: ''
   });
+  const { checkIn } = useQueueStore();
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent, shouldAddToQueue = false) => {
     e.preventDefault();
     setIsSaving(true);
     
     try {
-      await customerApi.create(formData);
-      toast.success('Customer added successfully!');
-      navigate(-1);
+      const res = await customerApi.create(formData);
+      const customer = res.data.customer || res.data;
+      
+      if (shouldAddToQueue) {
+        await checkIn({
+          customerId: customer.id,
+          customerName: customer.name,
+          customerPhone: customer.phone
+        });
+        toast.success('Customer registered & added to queue!');
+        navigate('/queue');
+      } else {
+        toast.success('Customer added successfully!');
+        navigate(-1);
+      }
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to add customer');
     } finally {
@@ -33,7 +47,7 @@ const AddCustomerScreen = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 animate-fade-in">
         <div className="flex items-center gap-4">
           <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-coffee-600">
             <ChevronLeft size={24} />
@@ -44,7 +58,7 @@ const AddCustomerScreen = () => {
         <div className="bg-white p-6 rounded-card border border-coffee-200 shadow-subtle">
           <form onSubmit={handleSave} className="space-y-5">
             <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-coffee-400 rounded-full flex items-center justify-center text-coffee-700">
+              <div className="w-20 h-20 bg-coffee-400 rounded-full flex items-center justify-center text-coffee-900">
                 <UserPlus size={40} />
               </div>
             </div>
@@ -74,21 +88,33 @@ const AddCustomerScreen = () => {
               onChange={(e) => setFormData({...formData, email: e.target.value})}
             />
 
-            <div className="pt-4">
+            <div className="pt-4 space-y-3">
               <Button 
-                type="submit" 
+                type="button" 
                 className="w-full" 
+                variant="mpesa"
                 isLoading={isSaving}
+                onClick={(e) => handleSave(e, true)}
+                leftIcon={<Plus size={18} />}
+              >
+                Save & Add to Queue
+              </Button>
+              <Button 
+                type="button" 
+                className="w-full" 
+                variant="outline"
+                isLoading={isSaving}
+                onClick={(e) => handleSave(e, false)}
                 leftIcon={<Save size={18} />}
               >
-                Save Customer
+                Save Only
               </Button>
             </div>
           </form>
         </div>
 
         <div className="p-4 bg-coffee-50 rounded-card border border-dashed border-coffee-200 text-center">
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-coffee-500">
             Adding a customer allows you to track their visit history and reward them with loyalty points.
           </p>
         </div>

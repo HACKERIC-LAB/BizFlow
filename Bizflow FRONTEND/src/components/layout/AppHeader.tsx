@@ -8,7 +8,7 @@ export const AppHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="h-24 flex items-center justify-between px-6 bg-coffee-700 relative z-50 rounded-b-[2rem] shadow-[0_10px_40px_rgba(59,35,27,0.35)] border-b-2 border-coffee-500/30">
+    <header className="h-24 flex items-center justify-between px-6 bg-coffee-900 relative z-50 rounded-b-[2rem] shadow-[0_10px_40px_rgba(59,35,27,0.35)] border-b-2 border-coffee-500/30 animate-fade-in">
       <Link to="/settings" className="flex items-center gap-3 hover:opacity-80 transition-standard group">
         <div className="w-12 h-12 rounded-2xl bg-white/20 overflow-hidden shadow-subtle border-2 border-white/30 backdrop-blur-md group-hover:scale-105 transition-standard">
           <img 

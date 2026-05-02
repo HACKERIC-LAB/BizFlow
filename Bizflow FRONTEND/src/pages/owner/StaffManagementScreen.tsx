@@ -49,7 +49,7 @@ const StaffManagementScreen = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 animate-fade-in">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl">{content.staffLabel} & Team Control</h2>
           <Button size="sm" leftIcon={<Plus size={18} />} onClick={() => navigate('/staff/new')}>
@@ -72,21 +72,21 @@ const StaffManagementScreen = () => {
               <Card key={member.id} variant="default" className="relative group border-l-4 border-l-primary">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-coffee-700/10 rounded-card flex items-center justify-center text-coffee-700">
+                    <div className="w-12 h-12 bg-coffee-900/10 rounded-card flex items-center justify-center text-coffee-900">
                       <UserCircle size={28} />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
                         <h4 className="font-bold text-coffee-900">{member.name}</h4>
                         <span className={`px-2 py-0.5 rounded-badge text-[10px] font-bold uppercase ${
-                          member.role === 'MANAGER' ? 'bg-coffee-700 text-white' : 'bg-coffee-50 text-coffee-600'
+                          member.role === 'MANAGER' ? 'bg-coffee-900 text-white' : 'bg-coffee-50 text-coffee-600'
                         }`}>
                           {member.role}
                         </span>
                       </div>
                       <div className="flex items-center gap-3 mt-1">
                         <p 
-                          className="flex items-center text-xs text-coffee-600 cursor-pointer hover:text-coffee-700 transition-standard"
+                          className="flex items-center text-xs text-coffee-600 cursor-pointer hover:text-coffee-900 transition-standard"
                           onClick={() => window.location.href = `tel:${member.phone}`}
                         >
                           <Phone size={12} className="mr-1" /> {member.phone}
@@ -96,7 +96,7 @@ const StaffManagementScreen = () => {
                   </div>
 
                   <HeadlessMenu as="div" className="relative">
-                    <HeadlessMenu.Button className="p-2 text-neutral-500 hover:bg-coffee-50 rounded-button transition-standard">
+                    <HeadlessMenu.Button className="p-2 text-coffee-500 hover:bg-coffee-50 rounded-button transition-standard">
                       <MoreVertical size={20} />
                     </HeadlessMenu.Button>
                     <Transition
@@ -162,7 +162,7 @@ const StaffManagementScreen = () => {
                   <div className="flex items-center gap-1">
                     <div className={`w-2 h-2 rounded-full ${
                       member.status === 'ACTIVE' ? 'bg-accent' :
-                      member.status === 'OFF DUTY' ? 'bg-amber-400' : 'bg-neutral-500'
+                      member.status === 'OFF DUTY' ? 'bg-amber-400' : 'bg-coffee-500'
                     }`} />
                     <span className="text-[10px] font-bold text-coffee-600 uppercase tracking-widest">
                       {member.status}
@@ -183,7 +183,7 @@ const StaffManagementScreen = () => {
             ))
           ) : (
             <div className="text-center py-12 px-4">
-              <div className="w-20 h-20 bg-coffee-50 rounded-full flex items-center justify-center text-neutral-500 mx-auto mb-4">
+              <div className="w-20 h-20 bg-coffee-50 rounded-full flex items-center justify-center text-coffee-500 mx-auto mb-4">
                 <UserCircle size={40} />
               </div>
               <h3 className="text-lg font-bold text-coffee-900 mb-2">No {content.staffLabel.toLowerCase()} found</h3>
