@@ -10,6 +10,7 @@ export async function listCustomers(
 
   const where = {
     businessId,
+    isActive: true,
     ...(search
       ? {
           OR: [
@@ -35,7 +36,7 @@ export async function listCustomers(
 
 export async function getCustomer(businessId: string, customerId: string) {
   const customer = await prisma.customer.findFirst({
-    where: { id: customerId, businessId },
+    where: { id: customerId, businessId, isActive: true },
     include: {
       transactions: {
         include: { services: { include: { service: true } } },
@@ -52,7 +53,7 @@ export async function createCustomer(
   businessId: string,
   data: { name: string; phone: string; email?: string; notes?: string }
 ) {
-  const existing = await prisma.customer.findFirst({ where: { phone: data.phone, businessId } });
+  const existing = await prisma.customer.findFirst({ where: { phone: data.phone, businessId, isActive: true } });
   if (existing) throw new AppError('Customer with this phone already exists', 409);
 
   return prisma.customer.create({ data: { businessId, ...data } });
@@ -63,16 +64,18 @@ export async function updateCustomer(
   customerId: string,
   data: { name?: string; phone?: string; email?: string; notes?: string }
 ) {
-  const customer = await prisma.customer.findFirst({ where: { id: customerId, businessId } });
+  const customer = await prisma.customer.findFirst({ where: { id: customerId, businessId, isActive: true } });
   if (!customer) throw new AppError('Customer not found', 404);
   return prisma.customer.update({ where: { id: customerId }, data });
 }
 
 export async function deleteCustomer(businessId: string, customerId: string) {
-  const customer = await prisma.customer.findFirst({ where: { id: customerId, businessId } });
+  const customer = await prisma.customer.findFirst({ where: { id: customerId, businessId, isActive: true } });
   if (!customer) throw new AppError('Customer not found', 404);
   
-  // Note: Prisma will handle setting customerId to NULL in related transactions 
-  // as per the optional relation definition (customerId String?)
-  return prisma.customer.delete({ where: { id: customerId } });
+  // Perform soft delete
+  return prisma.customer.update({ 
+    where: { id: customerId },
+    data: { isActive: false }
+  });
 }

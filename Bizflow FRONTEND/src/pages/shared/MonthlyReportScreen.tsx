@@ -1,23 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { Card } from '../../components/common/Card';
 import { Button } from '../../components/common/Button';
-import { Download, BarChart3, TrendingUp, DollarSign, Calendar as CalendarIcon, ArrowRight } from 'lucide-react';
+import { Download, DollarSign } from 'lucide-react';
 import { reportsApi } from '../../services/reportsApi';
 import toast from 'react-hot-toast';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  Legend
-} from 'recharts';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
@@ -109,14 +97,7 @@ export default function MonthlyReportScreen() {
     }
   };
 
-  // Format data for Recharts
-  const chartData = data.map(d => ({
-    name: MONTHS[d.month - 1].substring(0, 3) + ' ' + d.year,
-    Revenue: d.totalRevenue,
-    Transactions: d.transactionCount,
-    Cash: d.cashRevenue,
-    Mpesa: d.mpesaRevenue
-  }));
+
 
   return (
     <MainLayout>

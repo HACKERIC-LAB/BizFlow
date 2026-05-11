@@ -18,7 +18,9 @@ const AddCustomerScreen = () => {
   });
   const { checkIn } = useQueueStore();
 
-  const handleSave = async (e: React.FormEvent, shouldAddToQueue = false) => {
+  const [shouldQueue, setShouldQueue] = useState(false);
+
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
     
@@ -26,7 +28,7 @@ const AddCustomerScreen = () => {
       const res = await customerApi.create(formData);
       const customer = res.data.customer || res.data;
       
-      if (shouldAddToQueue) {
+      if (shouldQueue) {
         await checkIn({
           customerId: customer.id,
           customerName: customer.name,
@@ -49,7 +51,7 @@ const AddCustomerScreen = () => {
     <MainLayout>
       <div className="space-y-6 animate-fade-in">
         <div className="flex items-center gap-4">
-          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-coffee-600">
+          <button type="button" onClick={() => navigate(-1)} className="p-2 -ml-2 text-coffee-600">
             <ChevronLeft size={24} />
           </button>
           <h2 className="text-xl">Add New Customer</h2>
@@ -90,21 +92,21 @@ const AddCustomerScreen = () => {
 
             <div className="pt-4 space-y-3">
               <Button 
-                type="button" 
+                type="submit" 
                 className="w-full" 
                 variant="mpesa"
                 isLoading={isSaving}
-                onClick={(e) => handleSave(e, true)}
+                onClick={() => setShouldQueue(true)}
                 leftIcon={<Plus size={18} />}
               >
                 Save & Add to Queue
               </Button>
               <Button 
-                type="button" 
+                type="submit" 
                 className="w-full" 
                 variant="outline"
                 isLoading={isSaving}
-                onClick={(e) => handleSave(e, false)}
+                onClick={() => setShouldQueue(false)}
                 leftIcon={<Save size={18} />}
               >
                 Save Only

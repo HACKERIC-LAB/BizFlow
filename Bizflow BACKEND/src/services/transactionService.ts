@@ -128,7 +128,7 @@ export async function listTransactions(
   const { from, to, page = 1, limit = 50 } = params;
   const skip = (page - 1) * limit;
 
-  const where: any = { businessId };
+  const where: any = { businessId, isActive: true };
   if (from || to) {
     where.createdAt = {};
     if (from) where.createdAt.gte = new Date(from);
@@ -163,6 +163,7 @@ export async function getDailySummary(businessId: string) {
       businessId,
       status: 'COMPLETED',
       createdAt: { gte: today, lt: tomorrow },
+      isActive: true,
     },
     include: { services: { include: { service: true } } },
   });
@@ -214,7 +215,7 @@ export async function getDailySummary(businessId: string) {
   const lastWeek = new Date();
   lastWeek.setDate(lastWeek.getDate() - 7);
   const weeklyTransactions = await prisma.transaction.findMany({
-    where: { businessId, status: 'COMPLETED', createdAt: { gte: lastWeek } },
+    where: { businessId, status: 'COMPLETED', createdAt: { gte: lastWeek }, isActive: true },
   });
   const weeklyRevenue = weeklyTransactions.reduce((sum, t) => sum + t.totalAmount, 0);
 
@@ -240,9 +241,9 @@ export async function getDailySummary(businessId: string) {
 
   // Returning Customers % (Total)
   const recurringCustomersCount = await prisma.customer.count({
-    where: { businessId, totalVisits: { gt: 1 } }
+    where: { businessId, totalVisits: { gt: 1 }, isActive: true }
   });
-  const totalCustomers = await prisma.customer.count({ where: { businessId } });
+  const totalCustomers = await prisma.customer.count({ where: { businessId, isActive: true } });
   const returningRate = totalCustomers > 0 ? (recurringCustomersCount / totalCustomers) * 100 : 0;
 
   return {

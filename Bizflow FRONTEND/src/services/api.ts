@@ -1,13 +1,23 @@
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
 import { useAuthStore } from '../store/authStore';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/v1';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://192.168.0.105:3001/v1';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+});
+
+axiosRetry(api, {
+  retries: 3,
+  retryDelay: axiosRetry.exponentialDelay,
+  retryCondition: (error) => {
+    // Retry on network errors or 5xx server errors
+    return axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response?.status! >= 500;
+  }
 });
 
 api.interceptors.request.use(

@@ -14,18 +14,30 @@ import v1Router from './routes/v1';
 
 const app = express();
 
+// 1. ABSOLUTE CORS (Must be before everything)
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+  res.header('Access-Control-Allow-Headers', '*');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
+// 2. Debug logger
+app.use((req, _res, next) => {
+  console.log(`[DEBUG] ${new Date().toISOString()} - ${req.method} ${req.url} from ${req.ip}`);
+  next();
+});
+
 // ─── Security & Parsing ───────────────────────────────────────────────────────
 app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  contentSecurityPolicy: false // Disable CSP for easier dev
 }));
-app.use(cors({ 
-  origin: config.NODE_ENV === 'development' ? true : (config.FRONTEND_URL || 'http://localhost:5173'),
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-business-id', 'x-refresh-token']
-}));
-// Handle preflight for all routes
-app.options('*', cors());
 app.use(compression());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
@@ -62,6 +74,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ─── API Routes ───────────────────────────────────────────────────────────────
 app.use('/v1', v1Router);
+app.use('/api', v1Router);
 
 // ─── 404 ──────────────────────────────────────────────────────────────────────
 app.use((_req, res) => {

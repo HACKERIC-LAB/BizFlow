@@ -5,6 +5,7 @@ const router = Router();
 
 router.get('/', ctrl.listAppointments);
 router.get('/available-slots', ctrl.getAvailableSlots);
+router.get('/availability/:staffId', ctrl.getAvailableSlots);
 router.post('/', ctrl.createAppointment);
 router.put('/:id', ctrl.updateAppointment);
 router.delete('/:id', ctrl.cancelAppointment);

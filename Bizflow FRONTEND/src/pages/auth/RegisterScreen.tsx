@@ -42,6 +42,7 @@ const schema = z.object({
   businessType: z.enum(['BARBERSHOP', 'SALON', 'GYM', 'SPA', 'OTHER']),
   businessPhone: z.string().min(9, 'Valid phone number is required'),
   fullName: z.string().min(2, 'Full name is required'),
+  ownerPhone: z.string().min(9, 'Valid login phone number is required'),
   email: z.string().email().optional().or(z.literal('')),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   confirmPassword: z.string().min(6),
@@ -67,7 +68,8 @@ const RegisterScreen = () => {
     defaultValues: {
       businessType: 'BARBERSHOP',
       services: SERVICE_PREFILL.BARBERSHOP,
-    }
+    },
+    shouldUnregister: false,
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -94,8 +96,7 @@ const RegisterScreen = () => {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      const payload = { ...data, ownerPhone: data.businessPhone };
-      const response = await authApi.register(payload);
+      const response = await authApi.register(data);
       const { user, accessToken } = response.data;
 
       useAuthStore.getState().login(user, accessToken);
@@ -191,6 +192,13 @@ const RegisterScreen = () => {
                   placeholder="John Doe"
                   {...register('fullName')}
                   error={errors.fullName?.message}
+                />
+                <Input
+                  label="Login Phone Number"
+                  prefix="+254"
+                  placeholder="712345678"
+                  {...register('ownerPhone')}
+                  error={errors.ownerPhone?.message}
                 />
                 <Input
                   label="Email (optional)"

@@ -45,15 +45,15 @@ async function getBusinessContext(businessId: string) {
 
   const [monthTransactions, todayTransactions, customers, staff, appointments] = await Promise.all([
     prisma.transaction.findMany({
-      where: { businessId, status: 'COMPLETED', createdAt: { gte: startOfMonth } },
+      where: { businessId, status: 'COMPLETED', createdAt: { gte: startOfMonth }, isActive: true },
     }),
     prisma.transaction.findMany({
-      where: { businessId, status: 'COMPLETED', createdAt: { gte: startOfToday } },
+      where: { businessId, status: 'COMPLETED', createdAt: { gte: startOfToday }, isActive: true },
     }),
-    prisma.customer.count({ where: { businessId } }),
+    prisma.customer.count({ where: { businessId, isActive: true } }),
     prisma.user.findMany({ where: { businessId, role: { not: 'OWNER' } }, select: { name: true, role: true } }),
     prisma.appointment.findMany({
-      where: { businessId, scheduledAt: { gte: startOfToday }, status: 'SCHEDULED' },
+      where: { businessId, scheduledAt: { gte: startOfToday }, status: 'SCHEDULED', isActive: true },
       include: { staff: { select: { name: true } } }
     })
   ]);
@@ -104,12 +104,12 @@ export async function getWeeklySummary(businessId: string): Promise<string> {
 
   const [transactions, customers, appointments] = await Promise.all([
     prisma.transaction.findMany({
-      where: { businessId, status: 'COMPLETED', createdAt: { gte: weekAgo } },
+      where: { businessId, status: 'COMPLETED', createdAt: { gte: weekAgo }, isActive: true },
       include: { services: { include: { service: true } } },
     }),
-    prisma.customer.count({ where: { businessId, createdAt: { gte: weekAgo } } }),
+    prisma.customer.count({ where: { businessId, createdAt: { gte: weekAgo }, isActive: true } }),
     prisma.appointment.count({
-      where: { businessId, scheduledAt: { gte: weekAgo }, status: 'COMPLETED' },
+      where: { businessId, scheduledAt: { gte: weekAgo }, status: 'COMPLETED', isActive: true },
     }),
   ]);
 
@@ -159,7 +159,7 @@ export async function getRevenueInsights(businessId: string) {
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
   const transactions = await prisma.transaction.findMany({
-    where: { businessId, status: 'COMPLETED', createdAt: { gte: thirtyDaysAgo } },
+    where: { businessId, status: 'COMPLETED', createdAt: { gte: thirtyDaysAgo }, isActive: true },
     include: { services: { include: { service: true } } },
   });
 

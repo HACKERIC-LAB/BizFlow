@@ -2,5 +2,6 @@
   "css.lint.unknownAtRules": "ignore",
   "tailwindCSS.includeLanguages": {
     "plaintext": "css"
-  }
+  },
+  "java.configuration.updateBuildConfiguration": "interactive"
 }

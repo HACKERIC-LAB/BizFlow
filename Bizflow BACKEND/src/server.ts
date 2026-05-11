@@ -25,10 +25,9 @@ async function main() {
   startDataRetentionJob();
 
   // Start server
-  httpServer.listen(PORT, () => {
-    logger.info(`🚀 BizFlow API running at http://localhost:${PORT}`);
-    logger.info(`📚 API Docs: http://localhost:${PORT}/api-docs`);
-    logger.info(`🏥 Health: http://localhost:${PORT}/health`);
+  httpServer.listen(PORT, '0.0.0.0', () => {
+    logger.info(`🚀 BizFlow API running on all interfaces at port ${PORT}`);
+    logger.info(`🏥 Health: http://192.168.0.105:${PORT}/health`);
   });
 
   // Graceful shutdown

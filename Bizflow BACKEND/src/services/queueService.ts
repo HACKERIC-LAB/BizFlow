@@ -23,36 +23,39 @@ export async function checkIn(
     notes?: string;
   }
 ) {
-  // Get next position
-  const maxPos = await prisma.queueentry.aggregate({
-    where: { businessId, status: { in: ['WAITING', 'SERVING'] } },
-    _max: { position: true },
-  });
-  const position = (maxPos._max.position ?? 0) + 1;
-
-  const entry = await prisma.queueentry.create({
-    data: {
-      id: `qe_${Math.random().toString(36).slice(2, 11)}`,
-      updatedAt: new Date(),
-      businessId,
-      customerId: data.customerId,
-      customerName: data.customerName,
-      customerPhone: data.customerPhone,
-      position,
-      notes: data.notes,
-    },
-    include: { services: { include: { service: true } } },
-  });
-
-  if (data.serviceIds && data.serviceIds.length > 0) {
-    await prisma.queueservice.createMany({
-      data: data.serviceIds.map((sid) => ({
-        id: `qs_${Math.random().toString(36).slice(2, 11)}`,
-        queueEntryId: entry.id,
-        serviceId: sid,
-      })),
+  const entry = await prisma.$transaction(async (tx) => {
+    const maxPos = await tx.queueentry.aggregate({
+      where: { businessId, status: { in: ['WAITING', 'SERVING'] } },
+      _max: { position: true },
     });
-  }
+    const position = (maxPos._max.position ?? 0) + 1;
+
+    const createdEntry = await tx.queueentry.create({
+      data: {
+        id: `qe_${Math.random().toString(36).slice(2, 11)}`,
+        updatedAt: new Date(),
+        businessId,
+        customerId: data.customerId,
+        customerName: data.customerName,
+        customerPhone: data.customerPhone,
+        position,
+        notes: data.notes,
+      },
+      include: { services: { include: { service: true } } },
+    });
+
+    if (data.serviceIds && data.serviceIds.length > 0) {
+      await tx.queueservice.createMany({
+        data: data.serviceIds.map((sid) => ({
+          id: `qs_${Math.random().toString(36).slice(2, 11)}`,
+          queueEntryId: createdEntry.id,
+          serviceId: sid,
+        })),
+      });
+    }
+    
+    return createdEntry;
+  });
 
   const queue = await getActiveQueue(businessId);
   emitQueueUpdate(businessId, queue);
@@ -123,15 +126,18 @@ export async function getPositionByPhone(businessId: string, phone: string) {
 }
 
 async function reorderQueue(businessId: string) {
-  const waiting = await prisma.queueentry.findMany({
-    where: { businessId, status: 'WAITING' },
-    orderBy: { position: 'asc' },
-  });
+  await prisma.$transaction(async (tx) => {
+    const waiting = await tx.queueentry.findMany({
+      where: { businessId, status: 'WAITING' },
+      orderBy: { position: 'asc' },
+    });
 
-  await Promise.all(
-    waiting.map((entry: any, idx: number) =>
-      prisma.queueentry.update({ where: { id: entry.id }, data: { position: idx + 1 } })
-    )
-  );
+    for (let idx = 0; idx < waiting.length; idx++) {
+      await tx.queueentry.update({
+        where: { id: waiting[idx].id },
+        data: { position: idx + 1 }
+      });
+    }
+  });
 }
 

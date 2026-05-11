@@ -6,6 +6,7 @@ import { authenticate } from '../../middlewares/auth';
 const router = Router();
 
 router.post('/register-owner', authLimiter, ctrl.registerOwner);
+router.post('/register', authLimiter, ctrl.registerOwner);
 router.post('/login', authLimiter, ctrl.login);
 router.post('/refresh', ctrl.refresh);
 router.post('/logout', authenticate, ctrl.logout);

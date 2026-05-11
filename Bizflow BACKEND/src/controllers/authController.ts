@@ -19,6 +19,7 @@ const registerSchema = z.object({
 
 export async function registerOwner(req: Request, res: Response, next: NextFunction) {
   try {
+    console.log('Registration Payload:', JSON.stringify(req.body, null, 2));
     const data = registerSchema.parse(req.body);
     const result = await authService.registerOwner(data);
     res.status(201).json({ success: true, data: result });

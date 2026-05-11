@@ -7,7 +7,7 @@ export async function listAppointments(
   businessId: string,
   params: { from?: string; to?: string; staffId?: string }
 ) {
-  const where: any = { businessId };
+  const where: any = { businessId, isActive: true };
   if (params.from || params.to) {
     where.scheduledAt = {};
     if (params.from) where.scheduledAt.gte = new Date(params.from);
@@ -74,7 +74,7 @@ export async function updateAppointment(
   appointmentId: string,
   data: { status?: string; scheduledAt?: string; notes?: string; staffId?: string }
 ) {
-  const appt = await prisma.appointment.findFirst({ where: { id: appointmentId, businessId } });
+  const appt = await prisma.appointment.findFirst({ where: { id: appointmentId, businessId, isActive: true } });
   if (!appt) throw new AppError('Appointment not found', 404);
 
   return prisma.appointment.update({
@@ -88,7 +88,7 @@ export async function updateAppointment(
 }
 
 export async function cancelAppointment(businessId: string, appointmentId: string) {
-  const appt = await prisma.appointment.findFirst({ where: { id: appointmentId, businessId } });
+  const appt = await prisma.appointment.findFirst({ where: { id: appointmentId, businessId, isActive: true } });
   if (!appt) throw new AppError('Appointment not found', 404);
 
   const updated = await prisma.appointment.update({
@@ -106,7 +106,7 @@ export async function cancelAppointment(businessId: string, appointmentId: strin
 
 export async function sendReminder(businessId: string, appointmentId: string) {
   const appt = await prisma.appointment.findFirst({
-    where: { id: appointmentId, businessId },
+    where: { id: appointmentId, businessId, isActive: true },
     include: { appointmentservice: { include: { service: true } } },
   });
   if (!appt) throw new AppError('Appointment not found', 404);
@@ -142,6 +142,7 @@ export async function getAvailableSlots(
       staffId,
       scheduledAt: { gte: dateStart, lte: dateEnd },
       status: { in: ['SCHEDULED', 'CONFIRMED'] },
+      isActive: true,
     },
     select: { scheduledAt: true, duration: true },
   });
